@@ -326,7 +326,7 @@ Objective: Create a JSON Customer object and populate with values returned from 
 
 2. Add the following JSON representation to the MapperCustomers' Input Settings. This will form the response object we reply back with. Click Save.
 
-```json
+```
 {
   "id":1,
   "name": "John Doe",
