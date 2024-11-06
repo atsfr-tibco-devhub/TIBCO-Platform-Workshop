@@ -142,7 +142,7 @@ wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/ma
 
 In this section, we will perform the following:
 
-- Create a Flogo Application?
+- Create a Flogo Application
 
 1. Hover over the 'FLOGO-CUSTOMER-API' in the Explorer view. Click the 'Create New Flogo App' action
 
@@ -194,9 +194,8 @@ In this section, we will perform the following:
 
 In this section, we will perform the following:
 
-2. Create a Trigger to receive a HTTP Message
-
-3. Use the API specification to configure the trigger
+- Create a Trigger to receive a HTTP Message
+- Use the API specification to configure the trigger
 
 1. Hover over the 'No trigger', a context pop-up will appear showing '+ Add trigger'. Click to add a trigger to the Flogo Application
 
@@ -258,7 +257,7 @@ In this section, we will perform the following:
 | LogMessageWarnNotFound | Log | Log a warning message if the record is not found in the database |
 | Return404 | Return | Return a 404 HTTP response code and an empty response body when no customer record exists in the database |
 
-###### LogMessage Activity
+**LogMessage Activity**
 
 Objective: Log a message containing the customer identifier passed into the operation.
 
@@ -278,7 +277,7 @@ The LogMessage activity Input should look like this:
 
 ![](/images/e1B_Image_28.png)
 
-###### FetchCustomerRow Activity
+**FetchCustomerRow Activity**
 
 Objective: Retrieve a row from the customer table that matches its primary key.
 
@@ -316,7 +315,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 ![](/images/h6w_Image_35.png)
 
-###### MapperCustomer Activity
+**MapperCustomer Activity**
 
 Objective: Create a JSON Customer object and populate with values returned from the database.
 
@@ -352,7 +351,7 @@ Objective: Create a JSON Customer object and populate with values returned from 
 
 ![](/images/01m_Image_38.gif)
 
-###### Return200 Activity
+**Return200 Activity**
 
 Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
@@ -370,7 +369,7 @@ Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
 ![](/images/eor_Image_40.gif)
 
-###### LogMessageWarnNotFound Activity
+**LogMessageWarnNotFound Activity**
 
 Objective: Log a warning message if the record is not found in the database.
 
@@ -389,7 +388,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](/images/z2Y_Image_42.gif)
 
-###### Return404 Activity
+**Return404 Activity**
 
 Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
 
@@ -406,7 +405,7 @@ Objective: Return a 404 HTTP response code and an empty response body when no cu
 
 ![](/images/JZD_Image_44.gif)
 
-###### FetchCustomerRow to MapperCustomer Branch
+**FetchCustomerRow to MapperCustomer Branch**
 
 Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
 
@@ -420,7 +419,7 @@ Objective: Conditional branch logic is required from FetchCustomerRow and Mapper
 
 ![](/images/4Eq_Image_46.gif)
 
-###### FetchCustomerRow to LogMessageWarnNotFound Branch
+**FetchCustomerRow to LogMessageWarnNotFound Branch**
 
 Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
 
@@ -428,7 +427,7 @@ Objective: Conditional branch logic is required from FetchCustomerRow to LogMess
 
 ![](/images/QVt_Image_47.gif)
 
-###### Rename the Flow to getCustomerById
+##### Step 7 - Rename the Flow to getCustomerById
 
 Finally, now we have finished implementing the flow, let's give it a proper name to match the API specification operationID.
 
@@ -451,7 +450,7 @@ Objective: The createCustomer operation should insert a row in the customer tabl
 
 In this section, we will perform the following:
 
-4. Add a new Flow to the Customer.
+- Add a new Flow to the Customer.
 
 1. To add the createCustomer Flow to the existing Trigger, use the top-left hand navigation link to the customer-api.
 
@@ -475,9 +474,9 @@ In this section, we will perform the following:
 
 In this section, we will perform the following:
 
-5. Implement logic to insert a row into the PostgreSQL database and return the Customer JSON reply with a 201 response code.
+- Implement logic to insert a row into the PostgreSQL database and return the Customer JSON reply with a 201 response code.
 
-6. The complete flow will look like this:
+The complete flow will look like this:
 
 ![](/images/OPq_Image_52.png)
 
@@ -560,7 +559,7 @@ Objective: Log a debug message containing the customer identity information..
 
 2. On the activity settings panel change the Log Level to Debug.
 
-4. On the activity Input panel set Activity input -> message to the following expression:
+3. On the activity Input panel set Activity input -> message to the following expression:
 
 | Field | Expression |
 |---|---|
@@ -608,7 +607,6 @@ Objective: Return a 201 HTTP response code with a Customer JSON response body.
 | responseBody/body | $activity[MapperCustomer].output |
 
 
-### 
 ### Task 3 - Build the Application Locally
 
 Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
@@ -671,9 +669,13 @@ Objective: Flogo supports the ability to create unit tests that can be used to v
 
 6. Click 'MapperCustomer'. Select 'Assert on Outputs' from the dropdown menu. Select '+' to add a new assertion. Name the assertion 'CheckMapperOutput'. Select 'Outputs/output/id' from the Available Data pane and drag-and-drop onto the assertion expression.
 
-Set the assertion logic to '$activity[MapperCustomer].output.id==1'. Append the expression with a Boolean-And '&&'. Similarly do with 'name' field but add equality '==' to the term and check that the name field equals 'John Doe'.    \
- \
-The complete expression should be '$activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=="John Doe".'
+Set the assertion logic to '$activity[MapperCustomer].output.id==1'.  Append the expression with a Boolean-And '&&'.  Similarly do with 'name' field but add equality '==' to the term and check that the name field equals 'John Doe'.
+
+The complete expression should be: 
+
+```
+$activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=="John Doe"
+```
 
 Click Save and Close.
 
@@ -754,12 +756,12 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ![](/images/Em6_Image_83.png)
 
-```
+
 ### Task 3 - Observability
 
 Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides 'at-a-glance' information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
 
-### Task 3 - View Application Logs
+### Task 4 - View Application Logs
 
 Objective: The TIBCO Platform integrates log forwarding to internal logging services provided to the TIBCO Platform via Elastic Stack. The TIBCO Platforms Control Plane allows you to quickly access your TIBCO Application logs to quickly find any log records written by any Log Activities added to your application logic.
 
@@ -767,9 +769,7 @@ Objective: The TIBCO Platform integrates log forwarding to internal logging serv
 
 ![](/images/lOn_Image_84.png)
 
-2. The default is provide historical log view, let's stream logs in Realtime by selecting 'Realtime option'.  \
- \
-You will observe that the last log entry shows our log message 'Retrieving customer object for id: 1'.
+2. The default is provide historical log view, let's stream logs in Realtime by selecting 'Realtime option'. You will observe that the last log entry shows our log message 'Retrieving customer object for id: 1'.
 
 ![](/images/K1o_Image_85.png)
 
@@ -777,7 +777,7 @@ You will observe that the last log entry shows our log message 'Retrieving custo
 
 ![](/images/ph7_Image_87.png)
 
-Task 4 - View Application Traces \
+### Task 5 - View Application Traces 
 Objective: To observe application telemetry information for distributed traces in order to identify performance issues.
 
 1. TIBCO Platform uses Open Telemetry tooling built in to provide observability of any TIBCO applications deployed to your TIBCO Dataplanes. By default this is disabled on newly deployed applications so we will need to enable it using the Environmental Controls settings.
@@ -808,7 +808,7 @@ Objective: To observe application telemetry information for distributed traces i
 
 ![](/images/oTn_Image_93.png)
 
-### Task 4 - Scaling Applications
+### Task 6 - Scaling Applications
 
 Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
 
@@ -845,6 +845,7 @@ kubectl get pods --watch
 
 4. Now scale your app to zero.
 
+--- 
 # Scenario 2
 
 ## Build a Change Data Capture Integration App using BWCE and deploy to TIBCO Platform
