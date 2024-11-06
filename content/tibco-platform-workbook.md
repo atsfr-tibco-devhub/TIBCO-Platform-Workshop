@@ -210,31 +210,31 @@ The following dialog will be shown:
 
 ![](/images/IGa_Image_19.png)
 
-3. Change the ?Configure Using API Specs? from False to True.
+3. Change the 'Configure Using API Specs' from False to True.
 
-4. Click the ?Browse?? button now highlighted
+4. Click the 'Browse?' button now highlighted
 
 ![](/images/fMZ_Image_20.png)
 
-5. An Open dialog box will appear, now navigate to your API specification file saved earlier under the ?spec? folder. Select the file ?openapi3_0.json? and click ?Open?
+5. An Open dialog box will appear, now navigate to your API specification file saved earlier under the 'spec' folder. Select the file 'openapi3_0.json' and click 'Open'
 
 ![](/images/san_Image_21.png)
 
-6. Configure ?Path? by selecting the drop-down menu, select the ?/customer/{id}? option:
+6. Configure 'Path' by selecting the drop-down menu, select the '/customer/{id}' option:
 
 ![](/images/hKN_Image_22.png)
 
-7. Configure ?Method? by selecting the drop-down menu, select ?GET? option:
+7. Configure 'Method' by selecting the drop-down menu, select 'GET' option:
 
 ![](/images/Vpm_Image_23.png)
 
-8. Click ?Continue?.
+8. Click 'Continue'.
 
-9. A dialog box will appear asking ?Do you want to copy this trigger?s Output Schema into the Flow?s Inputs??. Click the ?Copy schema? button.
+9. A dialog box will appear asking 'Do you want to copy this triggers Output Schema into the Flows Inputs?'. Click the 'Copy schema' button.
 
 ![](/images/xMh_Image_24.png)
 
-11. Nice work so far, you?re well on your way to finishing your first API in Flogo. The Trigger has now been configured for the ?GET /customer/{id}? operation ready for you to implement the API logic.
+11. Nice work so far, you?re well on your way to finishing your first API in Flogo. The Trigger has now been configured for the 'GET /customer/{id}' operation ready for you to implement the API logic.
 
 ##### Step 6 - Develop the getCustomerById Flow
 
@@ -262,7 +262,7 @@ In this section, we will perform the following:
 
 Objective: Log a message containing the customer identifier passed into the operation.
 
-1. Drag a ?Log Message? from the Activity Bar -> General onto the canvas.
+1. Drag a 'Log Message' from the Activity Bar -> General onto the canvas.
 
 ![](/images/3SJ_Image_26.gif)
 
@@ -355,11 +355,11 @@ Objective: Create a JSON Customer object and populate with values returned from 
 
 Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
-1. Drag a ?Return?? activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to ?Return200?.
+1. Drag a 'Return' activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to 'Return200'.
 
 ![](/images/IAb_Image_39.gif)
 
-2. Map the Outputs of the Return200 activity. Set the ?code? field to 200 and responseBody->body to the MapperCustomer->output. Click Save.
+2. Map the Outputs of the Return200 activity. Set the 'code' field to 200 and responseBody->body to the MapperCustomer->output. Click Save.
 
 | Field | Expression |
 |---|---|
@@ -373,7 +373,7 @@ Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
 Objective: Log a warning message if the record is not found in the database.
 
-1. Drag a ?Log? activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to ?LogMessageWarnNotFound?..
+1. Drag a ?Log? activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to 'LogMessageWarnNotFound'.
 
 ![](/images/1Kb_Image_41.gif)
 
@@ -396,12 +396,12 @@ Objective: Return a 404 HTTP response code and an empty response body when no cu
 
 ![](/images/VT7_Image_43.gif)
 
-3. Map the Outputs of the Return404 activity. Set the ?code? field to 404. Set the responseBody->body to ??. Click Save.
+3. Map the Outputs of the Return404 activity. Set the 'code' field to 404. Set the responseBody->body to ''. Click Save.
 
 | Field | Expression |
 |---|---|
 | code | 200 |
-| responseBody/body | ?? |
+| responseBody/body | '' |
 
 ![](/images/JZD_Image_44.gif)
 
@@ -429,13 +429,13 @@ Objective: Conditional branch logic is required from FetchCustomerRow to LogMess
 
 ###### Rename the Flow to getCustomerById
 
-Finally, now we have finished implementing the flow, let?s give it a proper name to match the API specification operationID.
+Finally, now we have finished implementing the flow, let's give it a proper name to match the API specification operationID.
 
-1. Click the ?New_flow? label and change it to ?getCustomerById?.
+1. Click the 'New_flow' label and change it to 'getCustomerById'.
 
 ![](/images/kG1_Image_48.gif)
 
-2. Click the description label and change it to ?Returns a customer object by Id?.
+2. Click the description label and change it to 'Returns a customer object by Id'.
 
 3. Now, Use File -> Save to make sure all your changes are saved to disk.
 
@@ -456,11 +456,11 @@ In this section, we will perform the following:
 
 ![](/images/7Op_Image_49.png)
 
-2. Hover on the Customer Trigger until you see the ?+ New flow? pop-up dialog appear. Click on it.
+2. Hover on the Customer Trigger until you see the '+ New flow' pop-up dialog appear. Click on it.
 
-3. On the Path drop-down choose the ?/customer? path option.
+3. On the Path drop-down choose the '/customer' path option.
 
-4. On the Method drop-down choose the ?POST? option. Click Continue.
+4. On the Method drop-down choose the 'POST' option. Click Continue.
 
 5. Click ?Copy schema? on the ?Do you want to copy this trigger?s Output Schema into the Flow?s Inputs?? prompt window.
 
