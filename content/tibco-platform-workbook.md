@@ -144,15 +144,15 @@ In this section, we will perform the following:
 
 - Create a Flogo Application?
 
-1. Hover over the ?FLOGO-CUSTOMER-API? in the Explorer view. Click the ?Create New Flogo App? action
+1. Hover over the 'FLOGO-CUSTOMER-API' in the Explorer view. Click the 'Create New Flogo App' action
 
 ![](/images/VOK_Image_10.png)
 
-2. A dialog box will be displayed for you to enter the name of the new Flogo application. Enter ?customer-api? and hit return.
+2. A dialog box will be displayed for you to enter the name of the new Flogo application. Enter 'customer-api' and hit return.
 
 ![](/images/s2h_Image_11.png)
 
-3. We will skip creating Unit Tests for this application, go ahead and select ?Create App Only.?
+3. We will skip creating Unit Tests for this application, go ahead and select 'Create App Only.'
 
 ![](/images/guD_Image_12.png)
 
@@ -166,11 +166,11 @@ In this section, we will perform the following:
 
 - create a connection to the PostgreSQL database. The connection will be used by the Flogo Flows in order to interact with the database.
 
-1. Click ?CONNECTIONS? option on the screen to create a new connection, then click ?Create connection?
+1. Click 'CONNECTIONS' option on the screen to create a new connection, then click 'Create connection'
 
 ![](/images/Ph8_Image_14.png)
 
-2. Select a Connection Type of ?PostgreSQL Connector?
+2. Select a Connection Type of 'PostgreSQL Connector'
 
 ![](/images/K4s_Image_15.png)
 
@@ -198,11 +198,11 @@ In this section, we will perform the following:
 
 3. Use the API specification to configure the trigger
 
-1. Hover over the ?No trigger?, a context pop-up will appear showing ?+ Add trigger?. Click to add a trigger to the Flogo Application
+1. Hover over the 'No trigger', a context pop-up will appear showing '+ Add trigger'. Click to add a trigger to the Flogo Application
 
 ![](/images/7S0_Image_17.png)
 
-2. From the Triggers bar, locate the ?Receive HTTP Message? Trigger and drag it over to the Triggers section.
+2. From the Triggers bar, locate the 'Receive HTTP Message' Trigger and drag it over to the Triggers section.
 
 ![](/images/orX_Image_18.gif)
 
@@ -234,7 +234,7 @@ The following dialog will be shown:
 
 ![](/images/xMh_Image_24.png)
 
-11. Nice work so far, you?re well on your way to finishing your first API in Flogo. The Trigger has now been configured for the 'GET /customer/{id}' operation ready for you to implement the API logic.
+11. Nice work so far, you're well on your way to finishing your first API in Flogo. The Trigger has now been configured for the 'GET /customer/{id}' operation ready for you to implement the API logic.
 
 ##### Step 6 - Develop the getCustomerById Flow
 
@@ -320,11 +320,11 @@ The PostgreSQLQuery activity Input should look like this:
 
 Objective: Create a JSON Customer object and populate with values returned from the database.
 
-1. Drag a ?Mapper?? activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to ?FetchCustomerRow?.
+1. Drag a 'Mapper' activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to 'FetchCustomerRow'.
 
 ![](/images/ggg_Image_36.gif)
 
-2. Add the following JSON representation to the MapperCustomers? Input Settings. This will form the response object we reply back with. Click Save.
+2. Add the following JSON representation to the MapperCustomers' Input Settings. This will form the response object we reply back with. Click Save.
 
 ```json
 {
@@ -373,7 +373,7 @@ Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
 Objective: Log a warning message if the record is not found in the database.
 
-1. Drag a ?Log? activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to 'LogMessageWarnNotFound'.
+1. Drag a 'Log' activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to 'LogMessageWarnNotFound'.
 
 ![](/images/1Kb_Image_41.gif)
 
@@ -392,7 +392,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
 
-1. Drag a ?Return?? activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to ?Return404?.
+1. Drag a 'Return' activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to 'Return404'.
 
 ![](/images/VT7_Image_43.gif)
 
@@ -411,7 +411,7 @@ Objective: Conditional branch logic is required from FetchCustomerRow and Mapper
 
 ![](/images/70z_Image_45.png)
 
-1. Click the ?Green? condition between FetchCustomerRow and MapperCustomer to open the dialog box for Branch Mapping Settings. Change the branch type to ?Success with condition?. Set the conditional expression. Click Save.
+1. Click the 'Green' condition between FetchCustomerRow and MapperCustomer to open the dialog box for Branch Mapping Settings. Change the branch type to 'Success with condition'. Set the conditional expression. Click Save.
 
 | Expression |
 |---|
@@ -423,7 +423,7 @@ Objective: Conditional branch logic is required from FetchCustomerRow and Mapper
 
 Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
 
-1. Click the ?Green? condition between FetchCustomerRow and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to ?Success with no matching Condition. Click Save.
+1. Click the 'Green' condition between FetchCustomerRow and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to 'Success with no matching Condition. Click Save.
 
 ![](/images/QVt_Image_47.gif)
 
@@ -462,11 +462,11 @@ In this section, we will perform the following:
 
 4. On the Method drop-down choose the 'POST' option. Click Continue.
 
-5. Click ?Copy schema? on the ?Do you want to copy this trigger?s Output Schema into the Flow?s Inputs?? prompt window.
+5. Click 'Copy schema' on the 'Do you want to copy this triggers Output Schema into the Flows Inputs' prompt window.
 
 ![](/images/ztW_Image_50.gif)
 
-6. Rename the flow ?createCustomer? and the description to ?Create a customer object?.
+6. Rename the flow 'createCustomer' and the description to 'Create a customer object'.
 
 ![](/images/XtU_Image_51.gif)
 
@@ -484,7 +484,7 @@ In this section, we will perform the following:
 |---|---|---|
 |  |  |  |
 | LogDebugRequestBodyMessage | Log | Log a message containing the request Post Body passed into the operation |
-| GetNextSeqId | PostgreSQL Query | Retrieve the next value identity sequence from ?customer_id_seq? |
+| GetNextSeqId | PostgreSQL Query | Retrieve the next value identity sequence from 'customer_id_seq' |
 | InsertCustomer | PostgreSQL Insert | Insert a row into the customer table with identity value. |
 | LogDebugInsertMessage |  | Log a debug message containing the new record identity used. |
 | MapperCustomer | Mapper | Create a JSON Customer object and populate with identity value and post body values. |
@@ -494,11 +494,11 @@ In this section, we will perform the following:
 
 Objective: Log a message containing the HTTP request body passed into the operation..
 
-1. Drag a ?Log Message? from the Activity Bar -> General onto the canvas.
+1. Drag a 'Log Message' from the Activity Bar -> General onto the canvas.
 
-2. Rename the activity to ?LogDebugRequestBodyMessage?.
+2. Rename the activity to 'LogDebugRequestBodyMessage'.
 
-3. Configure the LogMessage activity, set the Log Level to ?DEBUG?. Set the Activity inputs->message field to the following expression:
+3. Configure the LogMessage activity, set the Log Level to 'DEBUG'. Set the Activity inputs->message field to the following expression:
 
 | Field | Expression |
 |---|---|
@@ -508,29 +508,30 @@ Objective: Log a message containing the HTTP request body passed into the operat
 
 Objective: Retrieve the next value from the customer_id_seq sequence that will be used for the customer id.
 
-1. Drag a ?PostgreSQL Query? from the Activity Bar -> PostgreSQL and connect to LogDebugRequestBodyMessage activity. Rename the activity to ?GetNextSeqId?.
+1. Drag a 'PostgreSQL Query' from the Activity Bar -> PostgreSQL and connect to LogDebugRequestBodyMessage activity. Rename the activity to 'GetNextSeqId'.
 
-2. Configure the PostgreSQLQuery activity Settings to use the connector ?postgres? and the schema ?public?:
+2. Configure the PostgreSQLQuery activity Settings to use the connector 'postgres' and the schema 'public':
 
 3. Configure the Input Settings. Set the Query Statement to:
 
-3. `SELECT`` ``nextval('customer_id_seq');`
-
-4. Verify that the Fields Table has been automatically populated with the field ?nextval?.
+```
+SELECT nextval('customer_id_seq');
+```
+4. Verify that the Fields Table has been automatically populated with the field 'nextval'.
 
 ###### InsertCustomer
 
-Objective: To insert a new row into the customer table with fields mapped from the POST request body and the ?nextval? fields.
+Objective: To insert a new row into the customer table with fields mapped from the POST request body and the 'nextval' fields.
 
-1. Drag a ?PostgreSQL Insert? from the Activity Bar -> PostgreSQL and connect to GetNextValue activity. Rename the activity to ?InsertCustomer?.
+1. Drag a 'PostgreSQL Insert' from the Activity Bar -> PostgreSQL and connect to GetNextValue activity. Rename the activity to 'InsertCustomer'.
 
-2. Configure the PostgreSQLQuery activity Settings to use the connector ?postgres? and the schema ?public?:
+2. Configure the PostgreSQLQuery activity Settings to use the connector 'postgres' and the schema 'public':
 
 3. Configure the Input Settings. Set the Insert Statement to:
 
-`INSERT`` ``INTO`` ``public.customer(`
-`	``id,`` ``name,`` ``email,`` ``age,`` ``city)`
-`	``VALUES`` ``(?id,`` ``?name,`` ``?email,`` ``?age,`` ``?city);`
+```
+INSERT INTO public.customer(id, name, email, age, city) VALUES (?id, ?name, ?email, ?age, ?city);
+```
 
 4. Verify that the Fields Table has been automatically populated. It should look like this:
 
@@ -554,7 +555,7 @@ The mapping should look like this:
 
 Objective: Log a debug message containing the customer identity information..
 
-1. Drag a ?Log? activity from the Activity Bar -> General-> Log onto the canvas and connect to InsertCustomer activity. Rename the activity to ?LogDebugInsertMessage?.
+1. Drag a 'Log' activity from the Activity Bar -> General-> Log onto the canvas and connect to InsertCustomer activity. Rename the activity to 'LogDebugInsertMessage'.
 
 2. On the activity settings panel change the Log Level to Debug.
 
@@ -569,9 +570,9 @@ Objective: Log a debug message containing the customer identity information..
 
 Objective: Create a JSON Customer object and populate with values to be returned.
 
-1. Drag a ?Mapper?? activity from the Activity Bar -> General -> Mapper onto the canvas and connect to LogDebugInsertMessage activity. Rename the activity to ?MapperCustomer?.
+1. Drag a 'Mapper? activity from the Activity Bar -> General -> Mapper onto the canvas and connect to LogDebugInsertMessage activity. Rename the activity to 'MapperCustomer'.
 
-2. Add the following JSON representation to the MapperCustomers? Input Settings. This will form the response object we reply back with. Click Save.
+2. Add the following JSON representation to the MapperCustomers' Input Settings. This will form the response object we reply back with. Click Save.
 
 ```
 {`  ``"id":`` ``1,`
@@ -596,9 +597,9 @@ Objective: Create a JSON Customer object and populate with values to be returned
 
 Objective: Return a 201 HTTP response code with a Customer JSON response body.
 
-1. Drag a ?Return?? activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to ?Return201?.
+1. Drag a 'Return' activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to 'Return201'.
 
-2. Map the Outputs of the Return201 activity. Set the ?code? field to 201 and responseBody->body to the MapperCustomer->output. Click Save.
+2. Map the Outputs of the Return201 activity. Set the 'code' field to 201 and responseBody->body to the MapperCustomer->output. Click Save.
 
 | Field | Expression |
 |---|---|
@@ -609,7 +610,7 @@ Objective: Return a 201 HTTP response code with a Customer JSON response body.
 ### 
 ### Task 3 - Build the Application Locally
 
-Objective: Now you have implemented your Customer API let?s go ahead and build an executable that we can then use to test it locally through curl.
+Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
 
 1. At the bottom-left of Visual Studio Code, you will see the Flogo App panel. Click the expand arrow
 
@@ -625,7 +626,7 @@ The Flogo plugin for Visual Studio Code can target builds for either Local or TI
 
 ![](/images/wAm_Image_57.gif)
 
-4. After a few minutes you will see a pop-up dialog message declaring ?File built successfully?.
+4. After a few minutes you will see a pop-up dialog message declaring 'File built successfully'.
 
 ![](/images/UOg_Image_58.png)
 
@@ -657,23 +658,23 @@ Objective: Flogo supports the ability to create unit tests that can be used to v
 
 ![](/images/A1K_Image_65.png)
 
-4. Click ?Flow Input? and assign Flow Inputs Path Parameter Id to 1. Click Save and Close.
+4. Click 'Flow Input' and assign Flow Inputs Path Parameter Id to 1. Click Save and Close.
 
 ![](/images/ltr_Image_66.gif)
 
-5. Click ?Flow Output?. Select ?Assert On Outputs? from the dropdown menu. Select ?+? to add a new assertion. Name the assertion ?Return 200 success?.  Select ?Outputs/output/code? from the Available Data pane and drag-and-drop onto the assertion expression. Set the assertion logic to ?$flow.code == 200?. Click Save and Close?
+5. Click 'Flow Output'. Select 'Assert On Outputs' from the dropdown menu. Select '+' to add a new assertion. Name the assertion 'Return 200 success'.  Select 'Outputs/output/code' from the Available Data pane and drag-and-drop onto the assertion expression. Set the assertion logic to '$flow.code == 200'. Click Save and Close.
 
 ![](/images/Ths_Image_67.gif)
 
 ![](/images/42g_Image_68.png)
 
-6. Click ?MapperCustomer?. Select ?Assert on Outputs? from the dropdown menu. Select ?+? to add a new assertion. Name the assertion ?CheckMapperOutput?. Select ?Outputs/output/id? from the Available Data pane and drag-and-drop onto the assertion expression.
+6. Click 'MapperCustomer'. Select 'Assert on Outputs' from the dropdown menu. Select '+' to add a new assertion. Name the assertion 'CheckMapperOutput'. Select 'Outputs/output/id' from the Available Data pane and drag-and-drop onto the assertion expression.
 
-Set the assertion logic to ?$activity[MapperCustomer].output.id==1?. Append the expression with a Boolean-And ?&&?. Similarly do with ?name? field but add equality ?==? to the term and check that the name field equals ?John Doe?.    \
+Set the assertion logic to '$activity[MapperCustomer].output.id==1'. Append the expression with a Boolean-And '&&'. Similarly do with 'name' field but add equality '==' to the term and check that the name field equals 'John Doe'.    \
  \
-The complete expression should be ?$activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=="John Doe".?
+The complete expression should be '$activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=="John Doe".'
 
-Click Save and Close?
+Click Save and Close.
 
 ![](/images/DPf_Image_69.gif)
 
@@ -694,11 +695,11 @@ Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from 
 
 ![](/images/aC5_Image_74.png)
 
-2. A dialog box will appear at the top of Visual Studio Code to select runtime. Choose ?platform?.
+2. A dialog box will appear at the top of Visual Studio Code to select runtime. Choose 'platform'.
 
 ![](/images/dIJ_Image_75.png)
 
-3. The Flogo Actions will now show a further option ?Deploy? to allow you to deploy your Flogo Application to TIBCO Platform. Click the triangle next to the ?Deploy Action? to run the action
+3. The Flogo Actions will now show a further option 'Deploy' to allow you to deploy your Flogo Application to TIBCO Platform. Click the triangle next to the 'Deploy Action' to run the action
 
 ![](/images/utI_Image_76.png)
 
@@ -706,7 +707,7 @@ A pop-up box will be shown during the deployment run action.
 
 ![](/images/jnK_Image_77.png)
 
-Once the pop-up disappears your Customer API will be deployed to your TIBCO Platform Dataplane. Let?s now login to TIBCO Control Plane to see your newly deployed Customer API.
+Once the pop-up disappears your Customer API will be deployed to your TIBCO Platform Dataplane. Let's now login to TIBCO Control Plane to see your newly deployed Customer API.
 
 ## Managing your Applications using TIBCO Platform
 
@@ -714,11 +715,11 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 
 Objective: To familiarise users of the TIBCO Control Plane
 
-1. Login to TIBCO Control Plane via the desktop shortcut provided ?Control Plane?.
+1. Login to TIBCO Control Plane via the desktop shortcut provided 'Control Plane'.
 
 ![](/images/tfc_Image_78.png)
 
-2. On the Home landing page you can see your newly deployed application ?customer-api? has been deployed to a Kubernetes-based Data Plane ?atspa-dp-ec2mk? and that it?s Status is ?Running?.
+2. On the Home landing page you can see your newly deployed application 'customer-api' has been deployed to a Kubernetes-based Data Plane 'atspa-dp-ec2mk' and that its Status is 'Running'.
 
 ![](/images/yOn_Image_79.png)
 
@@ -731,11 +732,11 @@ Objective: Any newly deployed application is configured with a private endpoint 
 
 ![](/images/3no_Image_80.png)
 
-2. Click ?Set Endpoint Visibility?
+2. Click 'Set Endpoint Visibility'
 
 ![](/images/9W5_Image_81.png)
 
-3. Update Endpoint visibility to Public by selecting the ?Flogo Ingress? and setting the Service Path Prefix to /customer-api/v1. Click ?Update Endpoint visibility to Public?.
+3. Update Endpoint visibility to Public by selecting the 'Flogo Ingress' and setting the Service Path Prefix to /customer-api/v1. Click 'Update Endpoint visibility to Public'.
 
 ![](/images/LIT_Image_82.png)
 
@@ -756,7 +757,7 @@ Objective: Any newly deployed application is configured with a private endpoint 
 ```
 ### Task 3 - Observability
 
-Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides ?at-a-glance? information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
+Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides 'at-a-glance' information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
 
 ### Task 3 - View Application Logs
 
@@ -766,9 +767,9 @@ Objective: The TIBCO Platform integrates log forwarding to internal logging serv
 
 ![](/images/lOn_Image_84.png)
 
-2. The default is provide historical log view, let?s stream logs in Realtime by selecting ?Realtime option?.  \
+2. The default is provide historical log view, let's stream logs in Realtime by selecting 'Realtime option'.  \
  \
-You will observe that the last log entry shows our log message ?Retrieving customer object for id: 1?.
+You will observe that the last log entry shows our log message 'Retrieving customer object for id: 1'.
 
 ![](/images/K1o_Image_85.png)
 
@@ -781,7 +782,7 @@ Objective: To observe application telemetry information for distributed traces i
 
 1. TIBCO Platform uses Open Telemetry tooling built in to provide observability of any TIBCO applications deployed to your TIBCO Dataplanes. By default this is disabled on newly deployed applications so we will need to enable it using the Environmental Controls settings.
 
-2. Open the Environmental Controls page. Click Engine Variables. Set the ?FLOGO_OTEL_TRACE? value to ?true?. Click ?Push Updates?
+2. Open the Environmental Controls page. Click Engine Variables. Set the 'FLOGO_OTEL_TRACE' value to 'true'. Click 'Push Updates'
 
 ![](/images/H46_Image_88.gif)
 
@@ -801,7 +802,7 @@ Objective: To observe application telemetry information for distributed traces i
 
 ![](/images/O6b_Image_91.png)
 
-8. Expand the top-level Span ?Tags? section to reveal the attributes captured. The attribute value for ?flogo.flow.id? can be used to find log entries relating to this particular flow.
+8. Expand the top-level Span 'Tags' section to reveal the attributes captured. The attribute value for 'flogo.flow.id' can be used to find log entries relating to this particular flow.
 
 ![](/images/GOg_Image_92.gif)
 
@@ -811,51 +812,53 @@ Objective: To observe application telemetry information for distributed traces i
 
 Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
 
-1. Run ?kubectl get pods? and observe pods beginning with ?flogo?. You will see there are 2 containers per pod; your flogo application and a sidecar.
+1. Run 'kubectl get pods' and observe pods beginning with 'flogo'. You will see there are 2 containers per pod; your flogo application and a sidecar.
 
 `kubectl`` ``get`` ``pods`
 
 
 ![](/images/8iG_Image_94.png)
 
-2. Scaling the Customer application to 2 by toggling the up-arrow above the [1]. Click the ?Scale? button.
+2. Scaling the Customer application to 2 by toggling the up-arrow above the [1]. Click the 'Scale' button.
 
 ![](/images/2ED_Image_95.png)
 
 ![](/images/9XP_Image_96.png)
 
-3. Observe using ?kubectl get pods? command to see a further pod deployed and running alongside your first pod..
+3. Observe using 'kubectl get pods' command to see a further pod deployed and running alongside your first pod.
 
-`kubectl`` ``get`` ``pods`
+```
+kubectl get pods
+```
 
 ![](/images/b1J_Image_97.png)
 
-Try running ?kubectl get pods ?watch? command and observe as you scale up to three (3) pods:
+Try running 'kubectl get pods --watch' command and observe as you scale up to three (3) pods:
 
 ```
 kubectl get pods --watch
-
+```
 
 ![](/images/obe_Image_98.gif)
 
-```
+
 4. Now scale your app to zero.
 
 # Scenario 2
 
 ## Build a Change Data Capture Integration App using BWCE and deploy to TIBCO Platform
 
-Pleased with Dave?s work, Steve has another task for him.
+Pleased with Dave's work, Steve has another task for him.
 
-Steve bursts into Dave?s office and excitedly says ?Dave, our Chief Data Officer, wants to capture sign-ups events and have the Data Scientists work on some new AI models. Is there something we can quickly do??
+Steve bursts into Dave's office and excitedly says "Dave, our Chief Data Officer, wants to capture sign-ups events and have the Data Scientists work on some new AI models. Is there something we can quickly do?"
 
-Dave: ?Hmmm?? he replies.
+Dave: "Hmmm..." he replies.
 
-Steve: ?Dave, we can?t afford to make changes to the existing API, our CMO is worried about any changes impacting live, is there any other way??
+Steve: "Dave, we can't afford to make changes to the existing API, our CMO is worried about any changes impacting live, is there any other way?"
 
-Dave: ?Sure is! I have just the right tools for the job. BusinessWorks has a Change Data Capture that we can use to stream changes into our messaging layer. The Data Scientists team has already integrated into it in order to  feed their Data Lake??
+Dave: "Sure is! I have just the right tools for the job. BusinessWorks has a Change Data Capture that we can use to stream changes into our messaging layer. The Data Scientists team has already integrated into it in order to  feed their Data Lake?"
 
-Dave has an existing BusinessWorks Container Edition project he?s previously built that will do the job. A quick win he thinks, and looks forward to finishing work early for change and hitting the pub.
+Dave has an existing BusinessWorks Container Edition project he's previously built that will do the job. A quick win he thinks, and looks forward to finishing work early for change and hitting the pub.
 
 What you need to do?
 
@@ -874,9 +877,11 @@ cd src
 ```
 2. Clone the git repository
 
-`gh`` ``repo`` ``clone`` ``mmussett/CustomerChangeDataCapture`
+```
+gh repo clone mmussett/CustomerChangeDataCapture
+```
 
-3. Inside the repository there?s a directory called ?prj? containing the BusinessWorks project.
+3. Inside the repository there's a directory called 'prj' containing the BusinessWorks project.
 
 ### Task 2 - Open TIBCOBusinessWorks Studio and import project
 
@@ -888,7 +893,7 @@ Objective: Launch TIBCO BusinessWorks Studio from the desktop shortcut, open the
 
 ![](/images/UPB_Image_100.png)
 
-3. From the File Menu, select ?Import??. Choose ?Existing Studio Projects into Workspace?. Click Next.
+3. From the File Menu, select 'Import'. Choose 'Existing Studio Projects into Workspace'. Click Next.
 
 ![](/images/FY0_Image_101.png)
 
@@ -917,39 +922,39 @@ Objective: Create an EAR file ready for deployment to TIBCO Platform
 
 Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to the TIBCO Platform.
 
-1. Click the ?Go to Data Plane? link on the ?atspa-dp-ec2mk? data plane card.
+1. Click the 'Go to Data Plane' link on the 'atspa-dp-ec2mk' data plane card.
 
 ![](/images/mpW_Image_106.png)
 
-2. Click the ?BWCE? capability
+2. Click the 'BWCE' capability
 
 ![](/images/OQE_Image_107.png)
 
-3. Click ?Create New App Build & Deploy?
+3. Click 'Create New App Build & Deploy'
 
 ![](/images/t59_Image_108.png)
 
-4. On the ?Upload Files?, click ?browse to upload?
+4. On the 'Upload Files', click 'browse to upload'
 
 ![](/images/ngE_Image_109.png)
 
-5. Navigate to EAR, select ?CustomerchangeDataCapture_1.0.0.ear?. Click ?Open?
+5. Navigate to EAR, select 'CustomerchangeDataCapture_1.0.0.ear'. Click 'Open'
 
 ![](/images/RGw_Image_110.png)
 
-6. Click ?Upload selected file?. Click ?Next?
+6. Click 'Upload selected file'. Click 'Next'
 
 ![](/images/XRL_Image_111.png)
 
-7. Select the ?platform.substvar? BW Profile. Click Next.
+7. Select the 'platform.substvar' BW Profile. Click Next.
 
 ![](/images/4gj_Image_112.png)
 
-8. Select ?I have read and accepted the TIBCO EUA. Click ?Deploy App? button.
+8. Select 'I have read and accepted the TIBCO EUA. Click 'Deploy App' button.
 
 ![](/images/MtN_Image_113.png)
 
-9. Click ?View App Details?.
+9. Click 'View App Details'.
 
 ![](/images/fZm_Image_114.png)
 
