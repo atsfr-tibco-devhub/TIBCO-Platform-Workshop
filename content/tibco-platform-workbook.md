@@ -965,3 +965,11 @@ Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to th
 ### Task 7 - Enable Open Telemetry Tracing
 
 Objective: Enable Open Telemetry Tracing so the application emits OTel tracing spans to the platform.
+
+1. Navigate to the ‘Environmental Controls’ section of the ‘CustomerChangeDataCapture’ application.
+
+![](/images/fZm_Image_116.png)
+
+2. Select ‘Engine Variables’ and toggle BW_OTEL_TRACES_ENABLED from ‘false’ to ‘true’. Click the Push updates button.
+ 
+![](/images/fZm_Image_117.png)
