@@ -20,13 +20,13 @@ Dave works for a small telecommunications company as the TIBCO expert. You take 
 
 His manager Steve bursts into his office one morning?
 
-?Dave, look we?re up against the clock; the Spring development team is struggling to get the new Customer API built in time for the launch of the new DXP platform. The front-end development squad are blocked waiting for a working API to call and have asked me if you can build something quickly using TIBCO??
+"Dave, look we're up against the clock; the Spring development team is struggling to get the new Customer API built in time for the launch of the new DXP platform. The front-end development squad are blocked waiting for a working API to call and have asked me if you can build something quickly using TIBCO?"
 
-?Sure you reply, I have just the right tools for the job. Exactly what do I need to build? Has the API Product Owner got the specification??
+"Sure you reply, I have just the right tools for the job. Exactly what do I need to build? Has the API Product Owner got the specification?"
 
-?Yes, and the DBA has created the database too!? Steve replied anxiously.
+"Yes, and the DBA has created the database too!" Steve replied anxiously.
 
-What you need to do?
+What you need to do...
 
 Your first task is to create the new Customer API using TIBCO Flogo and get it deployed to the TIBCO Platform Integration environment.
 
@@ -54,7 +54,9 @@ Objective: A containerised PostgreSQL database has been provided and must be sta
 
 2. SSH into the server machine using the following command
 
-2. `ssh`` ``-i`` ``.\.ssh\UK_IRL_Shared.pem`` ``ubuntu@uk-tp-server`
+```
+ssh -i .\.ssh\UK_IRL_Shared.pem ubuntu@uk-tp-server
+```
 
 3. Change directory to postgres-on-docker
 
@@ -64,11 +66,13 @@ Objective: A containerised PostgreSQL database has been provided and must be sta
 
 5. The Postgres Database connection details are:
 
-`Host:`` ``postgres-on-docker`
-`Port:`` ``5432`
-`Database`` ``Name:`` ``demo`
-`Username:`` ``postgres`
-`Password:`` ``postgres`
+```
+Host: postgres-on-docker
+Port: 5432
+Database Name: demo
+Username: postgres
+Password: postgres
+```
 
 6. pgAdmin has been provided and can be accessed via the developer desktop:
 
@@ -94,7 +98,11 @@ In this section, we will perform the following:
 1. Open a Command Prompt, and run the following commands:
 
 ```
-mkdir srccd srcmkdir flogo-customer-apicd flogo-customer-apicode .
+mkdir src
+cd src
+mkdir flogo-customer-api
+cd flogo-customer-api
+code .
 ```
 
 
@@ -124,7 +132,9 @@ In this section, we will perform the following:
 
 - From your Command Window change directory into the spec folder and run the following command to retrieve the OAS resource from the remote GIT server:
 
-`wget`` ``https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/main/spec/openapi3_0.json`
+```
+wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/main/spec/openapi3_0.json
+```
 
 - In Visual Studio Code Explorer, use the Explorer Refresh action to refresh.
 
@@ -176,7 +186,7 @@ In this section, we will perform the following:
 | User | postgres |
 | Password | postgres |
 
-4. Click ?Connect?
+4. Click 'Connect'
 
 ![](/images/A83_Image_16.png)
 
@@ -272,11 +282,11 @@ The LogMessage activity Input should look like this:
 
 Objective: Retrieve a row from the customer table that matches its primary key.
 
-1. Drag a ?PostgreSQL Query? activity from the Activity Bar -> PostgreSQL onto the canvas and connect to LogMessage activity. Rename the activity to ?FetchCustomerRow?.
+1. Drag a 'PostgreSQL Query' activity from the Activity Bar -> PostgreSQL onto the canvas and connect to LogMessage activity. Rename the activity to 'FetchCustomerRow'.
 
 ![](/images/JaP_Image_29.gif)
 
-2. Configure the PostgreSQLQuery activity Settings to use the connector ?postgres? and the schema ?public?:
+2. Configure the PostgreSQLQuery activity Settings to use the connector 'postgres' and the schema 'public':
 
 ![](/images/VCO_Image_30.gif)
 
@@ -316,17 +326,18 @@ Objective: Create a JSON Customer object and populate with values returned from 
 
 2. Add the following JSON representation to the MapperCustomers? Input Settings. This will form the response object we reply back with. Click Save.
 
-```
-{`  ``"id":`` ``1,`
-`  ``"name":`` ``"John`` ``Doe",`
-`  ``"email":`` ``"john.doe@example.com",`
-`  ``"age":`` ``30,`
-`  ``"city":`` ``"New`` ``York"`
-}
+```json
+{
+  "id":1,
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "age": 30,
+  "city": "New York"
+}```
 
 ![](/images/gqg_Image_37.gif)
 
-```
+
 3. Map the Input of the MapperCustomer activity from the Output of the FetchCustomerRow activity.
 
 | Field | Expression |
