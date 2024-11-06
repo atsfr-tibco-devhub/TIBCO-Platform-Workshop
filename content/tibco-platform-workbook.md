@@ -909,18 +909,17 @@ Objective: Launch TIBCO BusinessWorks Studio from the desktop shortcut, open the
 
 ![](/images/z1F_Image_104.gif)
 
-Task 4 - Review the Project
+### Task 3 - Review the Project
 
 Objective: Familiarise yourself with how Change Data Capture works.
 
-### Task 5 - Build EAR
+### Task 4 - Build EAR
 
 Objective: Create an EAR file ready for deployment to TIBCO Platform
 
 ![](/images/zPx_Image_105.gif)
 
-
-### Task 6 - Deploy EAR to TIBCO Platform
+### Task 5 - Deploy EAR to TIBCO Platform
 
 Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to the TIBCO Platform.
 
@@ -962,7 +961,7 @@ Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to th
 
 ![](/images/jKc_Image_115.gif)
 
-### Task 7 - Enable Open Telemetry Tracing
+### Task 6 - Enable Open Telemetry Tracing
 
 Objective: Enable Open Telemetry Tracing so the application emits OTel tracing spans to the platform.
 
@@ -973,3 +972,4 @@ Objective: Enable Open Telemetry Tracing so the application emits OTel tracing s
 2. Select ‘Engine Variables’ and toggle BW_OTEL_TRACES_ENABLED from ‘false’ to ‘true’. Click the Push updates button.
  
 ![](/images/fZm_Image_117.png)
+
