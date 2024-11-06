@@ -333,7 +333,8 @@ Objective: Create a JSON Customer object and populate with values returned from 
   "email": "john.doe@example.com",
   "age": 30,
   "city": "New York"
-}```
+}
+```
 
 ![](/images/gqg_Image_37.gif)
 
