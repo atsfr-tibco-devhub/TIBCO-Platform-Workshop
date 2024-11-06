@@ -744,14 +744,13 @@ Objective: Any newly deployed application is configured with a private endpoint 
 4. Your API will now be exposed publicly at the following endpoint of:
 
 ```
-[https://flogoapps.localhost.dataplanes.pro/customer-api/](null)
-
+https://flogoapps.localhost.dataplanes.pro/customer-api/
 ```
 5. Paste the following URL into a browser window to check your API is running correctly. This will invoke the Get Customer By ID operation you have just implemented.
 
 ```
-[https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1](null)
-
+https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
+```
 
 ![](/images/Em6_Image_83.png)
 
@@ -815,8 +814,9 @@ Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your appli
 
 1. Run 'kubectl get pods' and observe pods beginning with 'flogo'. You will see there are 2 containers per pod; your flogo application and a sidecar.
 
-`kubectl`` ``get`` ``pods`
-
+```
+kubectl get pods
+```
 
 ![](/images/8iG_Image_94.png)
 
