@@ -939,7 +939,7 @@ Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to th
 
 ![](/images/ngE_Image_109.png)
 
-5. Navigate to EAR, select 'CustomerchangeDataCapture_1.0.0.ear'. Click 'Open'
+5. Navigate to the location where the EAR file is, select 'CustomerChangeDataCapture_1.0.0.ear'. Click 'Open'
 
 ![](/images/RGw_Image_110.png)
 
