@@ -12,11 +12,9 @@ This workbook provides a use-case for customers to follow using the provided lab
 
 - Linux Server running a TIBCO Control Plane and two Data Planes (K8S and Bare Metal)
 
-## Scenario 1
+## Section 1 - Build an API using Flogo and deploy to TIBCO Platform
 
-### Build an API using Flogo and deploy to TIBCO Platform
-
-> Dave works for a small telecommunications company as the TIBCO expert. You take the place of Dave who has years of experience in TIBCO and is ?itching? to use the new TIBCO Platform his company has available. He has years of BusinessWorks 5 experience, but is fairly new to TIBCO Flogo.
+> Dave works for a small telecommunications company as the TIBCO expert. You take the place of Dave who has years of experience in TIBCO and is 'itching' to use the new TIBCO Platform his company has available. He has years of BusinessWorks 5 experience, but is fairly new to TIBCO Flogo.
 >
 >His manager Steve bursts into his office one morning?
 >
@@ -30,14 +28,12 @@ This workbook provides a use-case for customers to follow using the provided lab
 >
 >Your first task is to create the new Customer API using TIBCO Flogo and get it deployed to the TIBCO Platform Integration environment.
 >
->The database has been created for you and there?s some test rows in the customer table ready for you to use.
+>The database has been created for you and there's some test rows in the customer table ready for you to use.
 
 
-### Postgres Database Details
+### Task 1 - Starting the Postgres Database
 
-### Starting the Postgres Database
-
-Objective: A containerised PostgreSQL database has been provided and must be started on the server machine before starting the workshop development activity.
+> Objective: A containerised PostgreSQL database has been provided and must be started on the server machine before starting the workshop development activity.
 
 ![](/images/Image_3.gif)
 
@@ -79,10 +75,9 @@ Password|postgres
 ![](/images/Image_4.png)
 
 
-### Task 1 - Implement the getCustomerById operation
+### Task 2 - Implement the getCustomerById operation
 
-Objective: The getCustomerById operation should retrieve a row from the Customer Table using the {id} path parameter and return a Customer JSON object.
-
+> Objective: The getCustomerById operation should retrieve a row from the Customer Table using the {id} path parameter and return a Customer JSON object.
 
 #### Step 1 - Create project repository folder and launch Visual Studio Code
 
@@ -115,9 +110,9 @@ code .
 
 In this section, we will perform the following:
 
-- Create a Folder called ?spec?
+- Create a Folder called **spec**
 - Import API Specification files from Github
-- From the Explorer View, select ?New Folder??
+- From the Explorer View, select **New Folder**
 
 ![](/images/Image_8.png)
 
@@ -136,7 +131,7 @@ wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/ma
 
 #### Step 3 - Review the Open API Specification
 
-1. Open the newly imported openapi3_0.json specification from the Explorer View.  From within the editor window, press the **SHIFT+ALT+P** key combination to bring up Swagger Preview window
+1. Open the newly imported openapi3_0.json specification from the Explorer View. From within the editor window, press the **SHIFT+ALT+P** key combination to bring up Swagger Preview window.
 
 ![](/images/Image_1.png)
 
@@ -252,10 +247,9 @@ The following dialog will be shown:
 In this section, we will perform the following:
 
 - Implement logic to retrieve a row from the PostgreSQL database and return the Customer JSON reply with a 200 response code.
-
 - Handle logic if no row is returned from the PostgreSQL database and return a 404 response code.
-
-- The complete flow will look like this:
+  
+The complete flow will look like this:
 
 ![](/images/Image_25.png)
 
@@ -271,7 +265,7 @@ In this section, we will perform the following:
 
 **LogMessage Activity**
 
-Objective: Log a message containing the customer identifier passed into the operation.
+> Objective: Log a message containing the customer identifier passed into the operation.
 
 1. Drag a **Log Message** from the Activity Bar -> General onto the canvas.
 
@@ -291,7 +285,7 @@ The LogMessage activity Input should look like this:
 
 **FetchCustomerRow Activity**
 
-Objective: Retrieve a row from the customer table that matches its primary key.
+> Objective: Retrieve a row from the customer table that matches its primary key.
 
 1. Drag a **PostgreSQL Query** activity from the Activity Bar -> PostgreSQL onto the canvas and connect to LogMessage activity. Rename the activity to **FetchCustomerRow**.
 
@@ -329,7 +323,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 **MapperCustomer Activity**
 
-Objective: Create a JSON Customer object and populate with values returned from the database.
+> Objective: Create a JSON Customer object and populate with values returned from the database.
 
 1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **FetchCustomerRow**.
 
@@ -365,7 +359,7 @@ Objective: Create a JSON Customer object and populate with values returned from 
 
 **Return200 Activity**
 
-Objective: Return a 200 HTTP response code with a Customer JSON response body.
+> Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to **Return200**.
 
@@ -402,7 +396,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 **Return404 Activity**
 
-Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
+> Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return404**.
 
@@ -419,7 +413,7 @@ Objective: Return a 404 HTTP response code and an empty response body when no cu
 
 **FetchCustomerRow to MapperCustomer Branch**
 
-Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
+> Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
 
 ![](/images/Image_45.png)
 
@@ -433,7 +427,7 @@ Objective: Conditional branch logic is required from FetchCustomerRow and Mapper
 
 **FetchCustomerRow to LogMessageWarnNotFound Branch**
 
-Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
+> Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
 
 1. Click the **Green** condition between FetchCustomerRow and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with no matching Condition**. Click **Save**.
 
@@ -452,12 +446,12 @@ Finally, now we have finished implementing the flow, let's give it a proper name
 3. Now, Use File -> Save to make sure all your changes are saved to disk.
 
 
-### Task 2 - Implement the createCustomer operation
+### Task 3 - Implement the createCustomer operation
 
-Objective: The createCustomer operation should insert a row in the customer table using the JSON request body provided. The response should contain the newly created customer identifier for the customer record.
+> Objective: The createCustomer operation should insert a row in the customer table using the JSON request body provided. The response should contain the newly created customer identifier for the customer record.
 
 
-**Step 1 - Add the createCustomer flow to the Trigger**
+#### Step 1 - Add the createCustomer flow to the Trigger
 
 In this section, we will perform the following:
 
@@ -481,7 +475,7 @@ In this section, we will perform the following:
 
 ![](/images/Image_51.gif)
 
-**Step 2 - Develop the createCustomer Flow**
+#### Step 2 - Develop the createCustomer Flow
 
 In this section, we will perform the following:
 
@@ -501,9 +495,9 @@ The complete flow will look like this:
 | MapperCustomer | Mapper | Create a JSON Customer object and populate with identity value and post body values. |
 | Return201 | Return | Return a 201 HTTP response code with a Customer JSON response body |
 
-###### LogDebugRequestBodyMessage Activity
+**LogDebugRequestBodyMessage Activity**
 
-Objective: Log a message containing the HTTP request body passed into the operation..
+> Objective: Log a message containing the HTTP request body passed into the operation..
 
 1. Drag a **Log Message** from the Activity Bar -> General onto the canvas.
 
@@ -515,9 +509,9 @@ Objective: Log a message containing the HTTP request body passed into the operat
 |---|---|
 | message | utility.renderJSON($flow.body,boolean.true()) |
 
-###### GetNextSeqId
+**GetNextSeqId Activity**
 
-Objective: Retrieve the next value from the customer_id_seq sequence that will be used for the customer id.
+> Objective: Retrieve the next value from the customer_id_seq sequence that will be used for the customer id.
 
 1. Drag a **PostgreSQL Query** from the Activity Bar -> PostgreSQL and connect to LogDebugRequestBodyMessage activity. Rename the activity to **GetNextSeqId**.
 
@@ -530,9 +524,9 @@ SELECT nextval('customer_id_seq');
 ```
 4. Verify that the Fields Table has been automatically populated with the field **nextval**.
 
-###### InsertCustomer
+**InsertCustomer Activity**
 
-Objective: To insert a new row into the customer table with fields mapped from the POST request body and the **nextval** fields.
+> Objective: To insert a new row into the customer table with fields mapped from the POST request body and the **nextval** fields.
 
 1. Drag a **PostgreSQL Insert** from the Activity Bar -> PostgreSQL and connect to GetNextValue activity. Rename the activity to **InsertCustomer**.
 
@@ -562,9 +556,9 @@ The mapping should look like this:
 
 ![](/images/Image_54.png)
 
-###### LogDebugInsertMessage Activity
+**LogDebugInsertMessage Activity**
 
-Objective: Log a debug message containing the customer identity information..
+> Objective: Log a debug message containing the customer identity information..
 
 1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to InsertCustomer activity. Rename the activity to **LogDebugInsertMessage**.
 
@@ -577,9 +571,9 @@ Objective: Log a debug message containing the customer identity information..
 | message | string.concat("Inserted customer into table with Id: ",coerce.toString($activity[GetNextSeqId].Output.records[0].nextval))
  |
 
-###### MapperCustomer Activity
+**MapperCustomer Activity**
 
-Objective: Create a JSON Customer object and populate with values to be returned.
+> Objective: Create a JSON Customer object and populate with values to be returned.
 
 1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to LogDebugInsertMessage activity. Rename the activity to **MapperCustomer**.
 
@@ -604,9 +598,9 @@ Objective: Create a JSON Customer object and populate with values to be returned
 | city | $flow.body.city |
 
 
-###### Return201 Activity
+**Return201 Activity**
 
-Objective: Return a 201 HTTP response code with a Customer JSON response body.
+> Objective: Return a 201 HTTP response code with a Customer JSON response body.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to **Return201**.
 
@@ -618,9 +612,9 @@ Objective: Return a 201 HTTP response code with a Customer JSON response body.
 | responseBody/body | $activity[MapperCustomer].output |
 
 
-### Task 3 - Build the Application Locally
+### Task 4 - Build the Application Locally
 
-Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
+> Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
 
 1. At the bottom-left of Visual Studio Code, you will see the Flogo App panel. Click the expand arrow
 
@@ -658,9 +652,9 @@ The Flogo plugin for Visual Studio Code can target builds for either Local or TI
 
 ![](/images/Image_62.png)
 
-### Task 4 - Create Unit Tests
+### Task 5 - Create Unit Tests
 
-Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
+> Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
 
 ![](/images/Image_63.png)
 
@@ -709,9 +703,9 @@ The Flogo Application will be compiled and the unit test will be executed. The t
 
 ![](/images/Image_73.gif)
 
-### Task 5 - Build & Deploy to TIBCO Platform
+### Task 6 - Build & Deploy to TIBCO Platform
 
-Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from Visual Studio Code.
+> Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from Visual Studio Code.
 
 1. Configure Flogo to use Platform Runtime Profile by clicking on the configuration icon:
 
@@ -731,11 +725,11 @@ A pop-up box will be shown during the deployment run action.
 
 Once the pop-up disappears your Customer API will be deployed to your TIBCO Platform Dataplane. Let's now login to TIBCO Control Plane to see your newly deployed Customer API.
 
-## Managing your Applications using TIBCO Platform
+## Section 2 - Managing your Applications using TIBCO Platform
 
-### Task 1 - Login to TIBCO Control Plane
+### Task 7 - Login to TIBCO Control Plane
 
-Objective: To familiarise users of the TIBCO Control Plane
+> Objective: To familiarise users of the TIBCO Control Plane
 
 1. Login to TIBCO Control Plane via the desktop shortcut provided **Control Plane**.
 
@@ -747,9 +741,9 @@ Objective: To familiarise users of the TIBCO Control Plane
 
 4. By default your application has been deployed with a private endpoint, so in order for the API to be consumed externally it must have its endpoint visibility set to public.
 
-### Task 2 - Expose Customer API endpoint to public traffic
+### Task 8 - Expose Customer API endpoint to public traffic
 
-Objective: Any newly deployed application is configured with a private endpoint on a designated TIBCO Data Plane. To expose the Customer API endpoint we must make it public.
+> Objective: Any newly deployed application is configured with a private endpoint on a designated TIBCO Data Plane. To expose the Customer API endpoint we must make it public.
 
 
 ![](/images/Image_80.png)
@@ -776,13 +770,14 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 ![](/images/Image_83.png)
 
 
-### Task 3 - Observability
+### Task 9 - Observability
 
-Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides 'at-a-glance' information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
+> Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides 'at-a-glance' information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
 
-### Task 4 - View Application Logs
+### Task 10 - View Application Logs
 
-Objective: The TIBCO Platform integrates log forwarding to internal logging services provided to the TIBCO Platform via Elastic Stack. The TIBCO Platforms Control Plane allows you to quickly access your TIBCO Application logs to quickly find any log records written by any Log Activities added to your application logic.
+> Objective: The TIBCO Platform integrates log forwarding to internal logging services provided to the TIBCO Platform via Elastic Stack. 
+> The TIBCO Platforms Control Plane allows you to quickly access your TIBCO Application logs to quickly find any log records written by any Log Activities added to your application logic.
 
 1. Open the Logs view for the customer-api application
 
@@ -796,8 +791,9 @@ Objective: The TIBCO Platform integrates log forwarding to internal logging serv
 
 ![](/images/Image_87.png)
 
-### Task 5 - View Application Traces 
-Objective: To observe application telemetry information for distributed traces in order to identify performance issues.
+### Task 11 - View Application Traces 
+
+> Objective: To observe application telemetry information for distributed traces in order to identify performance issues.
 
 1. TIBCO Platform uses Open Telemetry tooling built in to provide observability of any TIBCO applications deployed to your TIBCO Dataplanes. By default this is disabled on newly deployed applications so we will need to enable it using the Environmental Controls settings.
 
@@ -827,9 +823,9 @@ Objective: To observe application telemetry information for distributed traces i
 
 ![](/images/Image_93.png)
 
-### Task 6 - Scaling Applications
+### Task 12 - Scaling Applications
 
-Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
+> Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
 
 1. Run **kubectl get pods** and observe pods beginning with **flogo**. You will see there are 2 containers per pod; your flogo application and a sidecar.
 
@@ -866,9 +862,7 @@ kubectl get pods --watch
 ---
 
 
-## Scenario 2
-
-### Build a Change Data Capture Integration App using BWCE and deploy to TIBCO Platform
+## Section 3 - Build a Change Data Capture Integration App using BWCE and deploy to TIBCO Platform
 
 >Pleased with Dave's work, Steve has another task for him.
 >
@@ -886,7 +880,7 @@ kubectl get pods --watch
 >
 >Your task is to retrieve the BusinessWorks project from your git repository. Build the EAR and deploy it to the TIBCO Platform Integration environment and test its working before leaving for a pint after work.
 
-#### Task 1 - Clone the Github repository
+### Task 13 - Clone the Github repository
 
 Objective: Clone the following Github repository
 
@@ -905,9 +899,9 @@ gh repo clone mmussett/CustomerChangeDataCapture
 
 3. Inside the repository there's a directory called **prj** containing the BusinessWorks project.
 
-#### Task 2 - Open TIBCOBusinessWorks Studio and import project
+### Task 14 - Open TIBCOBusinessWorks Studio and import project
 
-Objective: Launch TIBCO BusinessWorks Studio from the desktop shortcut, open the default workspace, and import the Businessworks Project into the workspace.
+> Objective: Launch TIBCO BusinessWorks Studio from the desktop shortcut, open the default workspace, and import the Businessworks Project into the workspace.
 
 1. Launch BusinessWorks Studio from the desktop shortcut.
 
@@ -929,13 +923,13 @@ Objective: Launch TIBCO BusinessWorks Studio from the desktop shortcut, open the
 
 ![](/images/Image_104.gif)
 
-#### Task 3 - Review the Project
+### Task 15 - Review the Project
 
-Objective: Familiarise yourself with how Change Data Capture works.
+> Objective: Familiarise yourself with how Change Data Capture works.
 
-#### Task 4 - Build EAR
+### Task 16 - Build EAR
 
-Objective: Create an Enterprise Archive (EAR) file ready for deployment to TIBCO Platform
+> Objective: Create an Enterprise Archive (EAR) file ready for deployment to TIBCO Platform
 
 ![](/images/Image_105.gif)
 
@@ -950,9 +944,9 @@ Objective: Create an Enterprise Archive (EAR) file ready for deployment to TIBCO
 3. TIBCO BusinessStudio will build the EAR file and export to to the C:\Users\Administrator\Downloads folder
 
 
-#### Task 5 - Deploy EAR to TIBCO Platform
+### Task 17 - Deploy EAR to TIBCO Platform
 
-Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to the TIBCO Platform.
+> Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to the TIBCO Platform.
 
 1. Click the **Go to Data Plane** link on the **atspa-dp-ec2mk** data plane card.
 
@@ -992,9 +986,9 @@ Objective: Using TIBCO Dataplane, deploy the CustomerChangeDataCapture EAR to th
 
 ![](/images/Image_115.gif)
 
-#### Task 6 - Enable Open Telemetry Tracing
+### Task 18 - Enable Open Telemetry Tracing
 
-Objective: Enable Open Telemetry Tracing so the application emits OTel tracing spans to the platform.
+> Objective: Enable Open Telemetry Tracing so the application emits OTel tracing spans to the platform.
 
 1. Navigate to the **Environmental Controls** section of the **CustomerChangeDataCapture** application.
 
@@ -1007,9 +1001,11 @@ Objective: Enable Open Telemetry Tracing so the application emits OTel tracing s
 3. Start the application. The platform will automatically scale the BWCE application to 1. 
 
 
-#### Task 7 - Call the Customer API CreateCustomer operation
+### Task 19 - Call the Customer API CreateCustomer operation
 
-Objective: Invoke the Customer API CreateCustomer operation to create a customer record in the database. This in turn will cause the CustomerChangeDataCapture application to be triggered by the insert statement being executed on the PostgreSQL database customer table. The BusinessWorks process will log the change event which you will observe in the realtime log stream.
+> Objective: Invoke the Customer API CreateCustomer operation to create a customer record in the database. 
+> This in turn will cause the CustomerChangeDataCapture application to be triggered by the insert statement being executed on the PostgreSQL database customer table. 
+> The BusinessWorks process will log the change event which you will observe in the realtime log stream.
 
 
 1. Using the Postman Add-on within Visual Studio Code, send a **POST https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer** request with the following body as JSON payload to the Customer API 
@@ -1035,9 +1031,9 @@ Objective: Invoke the Customer API CreateCustomer operation to create a customer
 ![](/images/Image_122.png)
 
 
-#### Task 8 - Observe TIBCO EMS Dashboard Information
+### Task 20 - Observe TIBCO EMS Dashboard Information
 
-Objective: Familiarisation of the built in dashboards provided by TIBCO Platform for EMS
+> Objective: Familiarisation of the built in dashboards provided by TIBCO Platform for EMS
 
 1. Navigate to the **atspa-dp-ec2mk** datapane. Click on the TIBCO EMS capability **atspa-demo-dev** to navigate to the EMS Dashboard.
 
@@ -1062,9 +1058,9 @@ Drill down into the **Customer topic** for further insights
 As there are no active subscriptions on **customer topic** the pending messages will be 0.
 
 
-#### Task 9 - Use TIBCO EMS Admin CLI to create a topic to queue bridge from the customer Topic
+### Task 21 - Use TIBCO EMS Admin CLI to create a topic to queue bridge from the customer Topic
 
-Objective: Access the TIBCO EMS Admin CLI within the Dataplane to administer TIBCO EMS
+> Objective: Access the TIBCO EMS Admin CLI within the Dataplane to administer TIBCO EMS
 
 ![](/images/Image_130.gif)
 
@@ -1098,9 +1094,9 @@ create bridge source=topic:customer target=queue:customer.queue
 }
 ```
 
-#### Task 9 - Use the Message Browser facility to view pending messages
+### Task 22 - Use the Message Browser facility to view pending messages
 
-Objective: View pending messages using the Message Browser facility built into TIBCO Platform.
+> Objective: View pending messages using the Message Browser facility built into TIBCO Platform.
 
 ![](/images/Image_132.gif)
 
