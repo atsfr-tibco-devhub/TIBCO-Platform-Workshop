@@ -580,13 +580,15 @@ The mapping should look like this:
 2. Add the following JSON representation to the MapperCustomers' Input Settings. This will form the response object we reply back with. Click Save.
 
 ```
-{`  ``"id":`` ``1,`
-`  ``"name":`` ``"John`` ``Doe",`
-`  ``"email":`` ``"john.doe@example.com",`
-`  ``"age":`` ``30,`
-`  ``"city":`` ``"New`` ``York"`
+{
+  "id":1,
+  "name":"John Doe",
+  "email":"john.doe@example.com",
+  "age": 30,
+  "city":"New York"
 }
 ```
+
 3. Map the Input of the MapperCustomer activity from the Output of the FetchCustomerRow activity.
 
 | Field | Expression |
