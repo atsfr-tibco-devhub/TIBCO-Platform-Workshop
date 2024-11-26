@@ -325,7 +325,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 > Objective: Create a JSON Customer object and populate with values returned from the database.
 
-1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **FetchCustomerRow**.
+1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **MapperCustomer**.
 
 ![](/images/Image_36.gif)
 
