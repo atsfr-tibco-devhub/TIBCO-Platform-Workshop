@@ -406,7 +406,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 | Field | Expression |
 |---|---|
-| code | 200 |
+| code | 404 |
 | responseBody/body | '' |
 
 ![](/images/Image_44.gif)
