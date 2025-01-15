@@ -237,7 +237,7 @@ The following dialog will be shown:
 8. Click **Continue**.
 
 9. A dialog box will appear asking **Do you want to copy this triggers Output Schema into the Flows Inputs?**. Click the **Copy schema** button.
-![](/images/Image_101.png)
+![](/images/Image_136.png)
 ![](/images/Image_24.png)
 
 11. Nice work so far, you're well on your way to finishing your first API in Flogo. The Trigger has now been configured for the **GET /customer/{id}** operation ready for you to implement the API logic.
