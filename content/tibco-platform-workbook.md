@@ -116,7 +116,7 @@ In this section, we will perform the following:
 
 ![](/images/Image_8.png)
 
-- Name the new folder ?spec?. This is where we will place our OAS resources needed for the API implementation.
+- Name the new folder **spec**. This is where we will place our OAS resources needed for the API implementation.
 
 ![](/images/Image_9.png)
 
