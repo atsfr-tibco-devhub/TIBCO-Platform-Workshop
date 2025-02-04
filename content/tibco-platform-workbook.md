@@ -56,8 +56,13 @@ cd postgres-on-docker
 ```sh
 ./start.sh
 ```
+5. When the Postgres database has started, you can exit from the ssh connection on the machine.
 
-5. The Postgres Database connection details are:
+```
+exit
+```
+
+6. The Postgres Database connection details are:
 
 Name | Value
 --|--   
@@ -69,7 +74,7 @@ Password|postgres
 
 > NOTE : 
 > 
-> pgAdmin has been provided and can be accessed via the developer desktop. The customer table can be found in the public schema of the database.
+> pgAdmin has been provided and can be accessed via the developer desktop. The customer table can be found in the public schema of the database. On the remote desktop, pgAdmin sometimes loads "off screen", so you may need to Maximise the window to bring it into focus. You may also find that the connection that is already set up is using an IP address that can change. If this is the case, update the connection properties in pgAdmin to use the hostname "postgres-on-docker" as above.
 
 
 ![](/images/Image_4.png)
@@ -124,6 +129,10 @@ In this section, we will perform the following:
 
 ```
 wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/main/spec/openapi3_0.json
+```
+- If you are using PowerShell - the command to retrieve the OAS resource is slightly different:
+```
+wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/main/spec/openapi3_0.json -OutFile openapi3_0.json
 ```
 
 - In Visual Studio Code Explorer, use the Explorer Refresh action to refresh.
@@ -552,6 +561,13 @@ INSERT INTO public.customer(id, name, email, age, city) VALUES (?id, ?name, ?ema
 | age | $flow.body.age |
 | city | $flow.body.city |
 
+6. The Activity Inputs for the InsertCustomer activity is expecting an Array. The icon to the left of the field denotes its type. In this case "Arr" for Array:
+![](/images/Image_53.1.png)
+
+7. As this is an array field, we need to either "Iterate" through a set of inputs, or create at least 1 entry in the array so that we can map our values. To insert 1 entry, click on the 3 dots next to the "values" field and choose "Add-Item". You will then be able to map the values from the GetNextSeqId activity (remembering to change the Index value to 0 from the placeholder), and the Flow data for the rest of the objects:
+
+![](/images/Image_53.2.gif)
+
 The mapping should look like this:
 
 ![](/images/Image_54.png)
@@ -646,13 +662,17 @@ The Flogo plugin for Visual Studio Code can target builds for either Local or TI
 
 7. Launch a new command prompt and run the following command:
 
-`curl`` ``http://localhost:9999/customer/1`
+```
+curl -i http://localhost:9999/customer/1
+```
 
 ![](/images/Image_61.png)
 
 8. Now try and use an Id value that does not exist in the database (e.g. 9), the Customer API should return a 404 response.
 
 ![](/images/Image_62.png)
+
+9. As we have now tested our application, you can go back to running application and press "ctrl-c" to exit the application, before we move onto creating Unit Tests below.
 
 ### Task 5 - Create Unit Tests
 
@@ -699,11 +719,14 @@ Click Save and Close.
 ![](/images/Image_70.png)
 
 ![](/images/Image_71.png)
+
 The Flogo Application will be compiled and the unit test will be executed. The terminal window will show the results of running the unit test suite:
 
 ![](/images/Image_72.png)
 
 ![](/images/Image_73.gif)
+
+> Please Note: If the test suite above did not start - please make sure that the application is not already running, if it is running - just exit the application using "ctrl-c" and try re-running the unit test.
 
 ### Task 6 - Build & Deploy to TIBCO Platform
 
