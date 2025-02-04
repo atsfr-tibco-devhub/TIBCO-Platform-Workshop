@@ -728,9 +728,34 @@ The Flogo Application will be compiled and the unit test will be executed. The t
 
 > Please Note: If the test suite above did not start - please make sure that the application is not already running, if it is running - just exit the application using "ctrl-c" and try re-running the unit test.
 
-### Task 6 - Build & Deploy to TIBCO Platform
+## Task 6 - Build & Deploy to TIBCO Platform
 
 > Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from Visual Studio Code.
+
+Before we start deploying to the TIBCO Platform, we first need to make sure that Visual Studio Code and the Flogo plugin is authenticated against the platform, otherwise our deploy steps will fail.
+
+#### Re-Authenticate against the TIBCO Control Plane
+
+1. Find the Flogo icon in the project explorer on the left hand side of Visual Studio Code and click on it:
+
+![](/images/Image_73.1.png)
+
+2. If you expand the "Platform" tree followed by "Apps", you will see an error similar to the following:
+
+![](/images/Image_73.2.png)
+
+3. This tells us that we are not logged into the platform and we will need to re-authenticate. To do that, if you hover over the "Platform" tree, you can choose the "Pencil" icon to edit the connection:
+
+![](/images/Image_73.3.png)
+
+4. Follow the steps to re-authenticate against the TIBCO Platform. Use all the defaults. DO NOT FORGET TO PRESS SAVE!
+
+![](/images/Image_73.4.gif)
+
+5. We can now go back to our Flogo Application to continue the steps below to deploy it to the Data Plane. To return to our application - click on the Folder button in the left hand toolbar:
+
+
+#### Task 6 - Build & Deploy to TIBCO Platform
 
 1. Configure Flogo to use Platform Runtime Profile by clicking on the configuration icon:
 
