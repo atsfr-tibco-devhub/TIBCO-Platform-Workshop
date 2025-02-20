@@ -1,0 +1,8 @@
+site_name: TIBCO Platform Workshop
+site_description: Documentation for TIBCO Platform Workshop
+
+nav:
+  - Introduction: README.md
+
+plugins:
+  - techdocs-core
