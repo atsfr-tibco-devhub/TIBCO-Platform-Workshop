@@ -14,3 +14,17 @@ spec:
     displayName: TIBCO Platform Workshop
     email: info@tibco.com
   children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: tibco-platform-workshop
+  tags: 
+    - platform
+  annotations:
+    github.com/project-slug: atsfr-tibco-devhub/TIBCOPlatformDocs
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: documentation
+  owner: tibco-platform-workshop
+---
