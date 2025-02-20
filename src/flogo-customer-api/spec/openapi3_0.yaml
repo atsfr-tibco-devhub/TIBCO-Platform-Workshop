@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+  title: Customer API - OpenAPI 3.0
+  description: Customer API
+  contact:
+    email: mark.mussett@cloud.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Customer API
+  url: https://www.tibco.com
+tags:
+  - name: customer
+    description: Customer API
+    externalDocs:
+      description: Find out more
+      url: https://www.tibco.com
+paths:  
+  /customer:
+    post:
+      tags:
+        - customer
+      summary: Create a customer object
+      description: Create a customer object
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+    get:
+      tags:
+        - customer
+      summary: Search for a customer by name
+      description: Search for a customer by name
+      operationId: queryCustomerByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 'John Doe'
+      responses:  
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '204':
+          description: not found
+
+          
+                
+              
+  /customer/{id}:
+    get:
+      tags:
+        - customer
+      summary: Retrieve a customer object
+      description: Returns a customer object
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        '404':
+          description: customer not found
+
+    put:
+      tags:
+        - customer
+      summary: Update an existing customer object
+      description: Update an existing customer object
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer'
+      responses:
+        '200':
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+    delete:
+      tags:
+        - customer
+      summary: Delete a customer object
+      description: Delete a customer object
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        '410':
+          description: customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        type:
+          type: string
+          example: 'rest'
+        messageId:
+          type: string
+          example: '12356-1235-23123'
+        explanation:
+          type: string
+          example: 'Customer not found'
+        action:
+          type: string
+          example: 'Resubmit the request with the correct customer identifier'
+
+    customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: identifier
+          example: 1
+        name:
+          type: string
+          description: name
+          example: 'John Doe'
+        email:
+          type: string
+          description: email
+          example: 'john.doe@example.com'
+        age:
+          type: integer
+          description: age
+          example: 30
+        city:
+          type: string
+          description: city
+          example: 'New York'
