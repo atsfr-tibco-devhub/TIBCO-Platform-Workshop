@@ -530,6 +530,11 @@ The Flogo Application will be compiled and the unit test will be executed. The t
 
 ### Task 5 - OPTIONAL - Implement the createCustomer operation
 
+> [!WARNING]
+> If you have enough time, you can implement another operation to create additional customers. Otherwise, please continue to 
+[Build and Deploy to TIBCO Platform](#task-6---build--deploy-to-tibco-platform)
+
+
 > Objective: The createCustomer operation should insert a row in the customer table using the JSON request body provided. The response should contain the newly created customer identifier for the customer record.
 
 
