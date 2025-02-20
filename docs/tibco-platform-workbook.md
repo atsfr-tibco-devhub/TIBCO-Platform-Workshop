@@ -35,7 +35,7 @@ This workbook provides a use-case for customers to follow using the provided lab
 
 > Objective: A containerised PostgreSQL database has been provided and must be started on the server machine before starting the workshop development activity.
 
-![](/images/Image_3.gif)
+![](./images/Image_3.gif)
 
 1. Open a Windows command prompt.
 
@@ -77,7 +77,7 @@ Password|postgres
 > pgAdmin has been provided and can be accessed via the developer desktop. The customer table can be found in the public schema of the database. On the remote desktop, pgAdmin sometimes loads "off screen", so you may need to Maximise the window to bring it into focus. You may also find that the connection that is already set up is using an IP address that can change. If this is the case, update the connection properties in pgAdmin to use the hostname "postgres-on-docker" as above.
 
 
-![](/images/Image_4.png)
+![](./images/Image_4.png)
 
 
 ### Task 2 - Implement the getCustomerById operation
@@ -105,11 +105,11 @@ code .
 
 *Leave the window open, we will come back to this shortly.*
 
-![](/images/Image_6.png)
+![](./images/Image_6.png)
 
 3. Your VSC workspace should look something like this:
 
-![](/images/Image_7.png)
+![](./images/Image_7.png)
 
 #### Step 2- Import the Open API Specifications (OAS) Files from Github Repository
 
@@ -119,11 +119,11 @@ In this section, we will perform the following:
 - Import API Specification files from Github
 - From the Explorer View, select **New Folder**
 
-![](/images/Image_8.png)
+![](./images/Image_8.png)
 
 - Name the new folder **spec**. This is where we will place our OAS resources needed for the API implementation.
 
-![](/images/Image_9.png)
+![](./images/Image_9.png)
 
 - From your Command Window change directory into the spec folder and run the following command to retrieve the OAS resource from the remote GIT server:
 
@@ -142,7 +142,7 @@ wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/ma
 
 1. Open the newly imported openapi3_0.json specification from the Explorer View. From within the editor window, press the **SHIFT+ALT+P** key combination to bring up Swagger Preview window.
 
-![](/images/Image_1.png)
+![](./images/Image_1.png)
 
 2. Review the ‘Retrieve a customer object’ API. 
    
@@ -150,7 +150,7 @@ wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/ma
 * A response code 200 should return a JSON object of the customer that matches the id parameter. 
 * If no customer object exists then the API must return a 404 response code.
    
-![](/images/Image_2.png)
+![](./images/Image_2.png)
 
 1. Once you have familiarised yourself with the specification then go ahead and close the Swagger Preview and the Editor windows.
 
@@ -162,19 +162,19 @@ In this section, we will perform the following:
 
 1. Hover over the **FLOGO-CUSTOMER-API** in the Explorer view. Click the **Create New Flogo App** action
 
-![](/images/Image_10.png)
+![](./images/Image_10.png)
 
 2. A dialog box will be displayed for you to enter the name of the new Flogo application. Enter **customer-api** and hit return.
 
-![](/images/Image_11.png)
+![](./images/Image_11.png)
 
 3. We will skip creating Unit Tests for this application, go ahead and select **Create App Only.**
 
-![](/images/Image_12.png)
+![](./images/Image_12.png)
 
 4. The Flogo Plugin will launch to show the following viewport.
 
-![](/images/Image_13.png)
+![](./images/Image_13.png)
 
 #### Step 5 - Create the Postgres Database Connection
 
@@ -184,11 +184,11 @@ In this section, we will perform the following:
 
 1. Click **CONNECTIONS** option on the screen to create a new connection, then click **Create connection**
 
-![](/images/Image_14.png)
+![](./images/Image_14.png)
 
 2. Select a Connection Type of **PostgreSQL Connector**
 
-![](/images/Image_15.png)
+![](./images/Image_15.png)
 
 3. Configure the PostgreSQL connector with the following:
 
@@ -204,7 +204,7 @@ In this section, we will perform the following:
 
 4. Click **Connect**
 
-![](/images/Image_16.png)
+![](./images/Image_16.png)
 
 #### Step 6 - Create Flogo App Trigger
 
@@ -215,39 +215,39 @@ In this section, we will perform the following:
 
 1. Hover over the **No trigger**, a context pop-up will appear showing **+ Add trigger**. Click to add a trigger to the Flogo Application
 
-![](/images/Image_17.png)
+![](./images/Image_17.png)
 
 2. From the Triggers bar, locate the **Receive HTTP Message** Trigger and drag it over to the Triggers section.
 
-![](/images/Image_18.gif)
+![](./images/Image_18.gif)
 
 The following dialog will be shown:
 
-![](/images/Image_19.png)
+![](./images/Image_19.png)
 
 3. Change the **Configure Using API Specs** from False to True.
 
 4. Click the **Browse...** button now highlighted
 
-![](/images/Image_20.png)
+![](./images/Image_20.png)
 
 5. An Open dialog box will appear, now navigate to your API specification file saved earlier under the **spec** folder. Select the file **openapi3_0.json** and click **Open**
 
-![](/images/Image_21.png)
+![](./images/Image_21.png)
 
 6. Configure **Path** by selecting the drop-down menu, select the **/customer/{id}** option:
 
-![](/images/Image_22.png)
+![](./images/Image_22.png)
 
 7. Configure **Method** by selecting the drop-down menu, select **GET** option:
 
-![](/images/Image_23.png)
+![](./images/Image_23.png)
 
 8. Click **Continue**.
 
 9. A dialog box will appear asking **Do you want to copy this triggers Output Schema into the Flows Inputs?**. Click the **Copy schema** button.
-![](/images/Image_136.png)
-![](/images/Image_24.png)
+![](./images/Image_136.png)
+![](./images/Image_24.png)
 
 11. Nice work so far, you're well on your way to finishing your first API in Flogo. The Trigger has now been configured for the **GET /customer/{id}** operation ready for you to implement the API logic.
 
@@ -260,7 +260,7 @@ In this section, we will perform the following:
   
 The complete flow will look like this:
 
-![](/images/Image_25.png)
+![](./images/Image_25.png)
 
 | Activity Name | Type | Purpose |
 |---|---|---|
@@ -278,7 +278,7 @@ The complete flow will look like this:
 
 1. Drag a **Log Message** from the Activity Bar -> General onto the canvas.
 
-![](/images/Image_26.gif)
+![](./images/Image_26.gif)
 
 2. Configure the LogMessage activity, set the Activity inputs->message field to the following expression:
 
@@ -286,11 +286,11 @@ The complete flow will look like this:
 |---|---|
 | message | string.concat('Retrieving customer object for id: ',coerce.toString($flow.pathParams.id)) |
 
-![](/images/Image_27.gif)
+![](./images/Image_27.gif)
 
 The LogMessage activity Input should look like this:
 
-![](/images/Image_28.png)
+![](./images/Image_28.png)
 
 **FetchCustomerRow Activity**
 
@@ -298,15 +298,15 @@ The LogMessage activity Input should look like this:
 
 1. Drag a **PostgreSQL Query** activity from the Activity Bar -> PostgreSQL onto the canvas and connect to LogMessage activity. Rename the activity to **FetchCustomerRow**.
 
-![](/images/Image_29.gif)
+![](./images/Image_29.gif)
 
 2. Configure the PostgreSQLQuery activity Settings to use the connector **postgres** and the schema **public**:
 
-![](/images/Image_30.gif)
+![](./images/Image_30.gif)
 
 The PostgreSQLQuery activity Settings should look like this:
 
-![](/images/Image_31.png)
+![](./images/Image_31.png)
 
 3. Configure the PostgreSQLQuery activity Input Settings. Set the Query Statement to retrieve a row from the customer table where the id attribute equals the bounded parameter value of ?id:
 
@@ -314,21 +314,21 @@ The PostgreSQLQuery activity Settings should look like this:
 |---|
 | SELECT * FROM customer WHERE id=?id; |
 
-![](/images/Image_32.gif)
+![](./images/Image_32.gif)
 
 The PostgreSQLQuery activity Input Settings should look like this:
 
-![](/images/Image_33.png)
+![](./images/Image_33.png)
 
 4. Configure the PostgreSQLQuery activity Input. Map the flow path parameter value (passed from the Trigger URL Path /customer/{id} to the Flow) to the bounded parameter ?id:
 
-![](/images/Image_34.gif)
+![](./images/Image_34.gif)
 
 5. Modify the expression to coerce the id field from a String to an Integer using the coerce.toInt() function
 
 The PostgreSQLQuery activity Input should look like this:
 
-![](/images/Image_35.png)
+![](./images/Image_35.png)
 
 **MapperCustomer Activity**
 
@@ -336,7 +336,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **MapperCustomer**.
 
-![](/images/Image_36.gif)
+![](./images/Image_36.gif)
 
 2. Add the following JSON representation to the **MapperCustomers** Input Settings. This will form the response object we reply back with. Click Save.
 
@@ -350,7 +350,7 @@ The PostgreSQLQuery activity Input should look like this:
 }
 ```
 
-![](/images/Image_37.gif)
+![](./images/Image_37.gif)
 
 
 3. Map the Input of the MapperCustomer activity from the Output of the FetchCustomerRow activity.
@@ -364,7 +364,7 @@ The PostgreSQLQuery activity Input should look like this:
 | city | $activity[FetchCustomerRow].Output.records[0].city |
 
 
-![](/images/Image_38.gif)
+![](./images/Image_38.gif)
 
 **Return200 Activity**
 
@@ -372,7 +372,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to **Return200**.
 
-![](/images/Image_39.gif)
+![](./images/Image_39.gif)
 
 2. Map the Outputs of the Return200 activity. Set the **code** field to 200 and responseBody->body to the MapperCustomer->output. Click Save.
 
@@ -382,7 +382,7 @@ The PostgreSQLQuery activity Input should look like this:
 | responseBody/body | $activity[MapperCustomer].output |
 
 
-![](/images/Image_40.gif)
+![](./images/Image_40.gif)
 
 **LogMessageWarnNotFound Activity**
 
@@ -390,7 +390,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **LogMessageWarnNotFound**.
 
-![](/images/Image_41.gif)
+![](./images/Image_41.gif)
 
 2. On the activity settings panel change the Log Level to Warn.
 
@@ -401,7 +401,7 @@ Objective: Log a warning message if the record is not found in the database.
 | message | string.concat('No records returned for customer id: ',coerce.toString($flow.pathParams.id))
  |
 
-![](/images/Image_42.gif)
+![](./images/Image_42.gif)
 
 **Return404 Activity**
 
@@ -409,7 +409,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return404**.
 
-![](/images/Image_43.gif)
+![](./images/Image_43.gif)
 
 3. Map the Outputs of the Return404 activity. Set the **code** field to 404. Set the responseBody->body to **''**. Click Save.
 
@@ -418,13 +418,13 @@ Objective: Log a warning message if the record is not found in the database.
 | code | 404 |
 | responseBody/body | '' |
 
-![](/images/Image_44.gif)
+![](./images/Image_44.gif)
 
 **FetchCustomerRow to MapperCustomer Branch**
 
 > Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
 
-![](/images/Image_45.png)
+![](./images/Image_45.png)
 
 1. Click the **Green** condition between FetchCustomerRow and MapperCustomer to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with condition**. Set the conditional expression. Click Save.
 
@@ -432,7 +432,7 @@ Objective: Log a warning message if the record is not found in the database.
 |---|
 | array.count($activity[FetchCustomerRow].Output.records) > 0 |
 
-![](/images/Image_46.gif)
+![](./images/Image_46.gif)
 
 **FetchCustomerRow to LogMessageWarnNotFound Branch**
 
@@ -440,7 +440,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 1. Click the **Green** condition between FetchCustomerRow and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with no matching Condition**. Click **Save**.
 
-![](/images/Image_47.gif)
+![](./images/Image_47.gif)
 
 ##### Step 7 - Rename the Flow to getCustomerById
 
@@ -448,7 +448,7 @@ Finally, now we have finished implementing the flow, let's give it a proper name
 
 1. Click the **New_flow** label and change it to **getCustomerById**.
 
-![](/images/Image_48.gif)
+![](./images/Image_48.gif)
 
 2. Click the description label and change it to **Returns a customer object by Id**.
 
@@ -468,7 +468,7 @@ In this section, we will perform the following:
 
 1. To add the createCustomer Flow to the existing Trigger, use the top-left hand navigation link to the customer-api.
 
-![](/images/Image_49.png)
+![](./images/Image_49.png)
 
 2. Hover on the Customer Trigger until you see the '+ New flow** pop-up dialog appear. Click on it.
 
@@ -478,11 +478,11 @@ In this section, we will perform the following:
 
 5. Click **Copy schema** on the **Do you want to copy this triggers Output Schema into the Flows Inputs** prompt window.
 
-![](/images/Image_50.gif)
+![](./images/Image_50.gif)
 
 6. Rename the flow **createCustomer** and the description to **Create a customer object**.
 
-![](/images/Image_51.gif)
+![](./images/Image_51.gif)
 
 #### Step 2 - Develop the createCustomer Flow
 
@@ -492,7 +492,7 @@ In this section, we will perform the following:
 
 The complete flow will look like this:
 
-![](/images/Image_52.png)
+![](./images/Image_52.png)
 
 | Activity Name | Type | Purpose |
 |---|---|---|
@@ -549,7 +549,7 @@ INSERT INTO public.customer(id, name, email, age, city) VALUES (?id, ?name, ?ema
 
 4. Verify that the Fields Table has been automatically populated. It should look like this:
 
-![](/images/Image_53.png)
+![](./images/Image_53.png)
 
 5. Map the Input of the activity from the $flow/body and GetNextSeqId output .
 
@@ -562,15 +562,15 @@ INSERT INTO public.customer(id, name, email, age, city) VALUES (?id, ?name, ?ema
 | city | $flow.body.city |
 
 6. The Activity Inputs for the InsertCustomer activity is expecting an Array. The icon to the left of the field denotes its type. In this case "Arr" for Array:
-![](/images/Image_53.1.png)
+![](./images/Image_53.1.png)
 
 7. As this is an array field, we need to either "Iterate" through a set of inputs, or create at least 1 entry in the array so that we can map our values. To insert 1 entry, click on the 3 dots next to the "values" field and choose "Add-Item". You will then be able to map the values from the GetNextSeqId activity (remembering to change the Index value to 0 from the placeholder), and the Flow data for the rest of the objects:
 
-![](/images/Image_53.2.gif)
+![](./images/Image_53.2.gif)
 
 The mapping should look like this:
 
-![](/images/Image_54.png)
+![](./images/Image_54.png)
 
 **LogDebugInsertMessage Activity**
 
@@ -636,29 +636,29 @@ The mapping should look like this:
 
 1. At the bottom-left of Visual Studio Code, you will see the Flogo App panel. Click the expand arrow
 
-![](/images/Image_55.png)
+![](./images/Image_55.png)
 
 The Flogo plugin for Visual Studio Code can target builds for either Local or TIBCO Platform. With local build it is no longer necessary to compile your flogo application via TIBCO Cloud Integration platform, everything is done on the developer machine.
 
 2. Select a runtime
 
-![](/images/Image_56.png)
+![](./images/Image_56.png)
 
 3. Select local runtime and click build
 
-![](/images/Image_57.gif)
+![](./images/Image_57.gif)
 
 4. After a few minutes you will see a pop-up dialog message declaring **File built successfully**.
 
-![](/images/Image_58.png)
+![](./images/Image_58.png)
 
 5. Expand the bin folder in your explorer panel to reveal the generated executable for your customer api.
 
-![](/images/Image_59.png)
+![](./images/Image_59.png)
 
 6. Right click on the customer-api.exe, select Reveal in File Explorer. Launch the customer-api.exe
 
-![](/images/Image_60.png)
+![](./images/Image_60.png)
 
 7. Launch a new command prompt and run the following command:
 
@@ -666,11 +666,11 @@ The Flogo plugin for Visual Studio Code can target builds for either Local or TI
 curl -i http://localhost:9999/customer/1
 ```
 
-![](/images/Image_61.png)
+![](./images/Image_61.png)
 
 8. Now try and use an Id value that does not exist in the database (e.g. 9), the Customer API should return a 404 response.
 
-![](/images/Image_62.png)
+![](./images/Image_62.png)
 
 9. As we have now tested our application, you can go back to running application and press "ctrl-c" to exit the application, before we move onto creating Unit Tests below.
 
@@ -678,15 +678,15 @@ curl -i http://localhost:9999/customer/1
 
 > Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
 
-![](/images/Image_63.png)
+![](./images/Image_63.png)
 
-![](/images/Image_64.png)
+![](./images/Image_64.png)
 
-![](/images/Image_65.png)
+![](./images/Image_65.png)
 
 4. Click **Flow Input** and assign Flow Inputs Path Parameter Id to 1. Click Save and Close.
 
-![](/images/Image_66.gif)
+![](./images/Image_66.gif)
 
 5. Click **Flow Output**. Select **Assert On Outputs** from the dropdown menu. Select **+** to add a new assertion. Name the assertion **Return 200 success**.  
 
@@ -694,9 +694,9 @@ curl -i http://localhost:9999/customer/1
 
 7. Set the assertion logic to **$flow.code == 200**. Click Save and Close.
 
-![](/images/Image_67.gif)
+![](./images/Image_67.gif)
 
-![](/images/Image_68.png)
+![](./images/Image_68.png)
 
 8. Click **MapperCustomer**. Select **Assert on Outputs** from the dropdown menu. Select **+** to add a new assertion. Name the assertion **CheckMapperOutput**. 
 
@@ -714,17 +714,17 @@ $activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=
 
 Click Save and Close.
 
-![](/images/Image_69.gif)
+![](./images/Image_69.gif)
 
-![](/images/Image_70.png)
+![](./images/Image_70.png)
 
-![](/images/Image_71.png)
+![](./images/Image_71.png)
 
 The Flogo Application will be compiled and the unit test will be executed. The terminal window will show the results of running the unit test suite:
 
-![](/images/Image_72.png)
+![](./images/Image_72.png)
 
-![](/images/Image_73.gif)
+![](./images/Image_73.gif)
 
 > Please Note: If the test suite above did not start - please make sure that the application is not already running, if it is running - just exit the application using "ctrl-c" and try re-running the unit test.
 
@@ -738,19 +738,19 @@ Before we start deploying to the TIBCO Platform, we first need to make sure that
 
 1. Find the Flogo icon in the project explorer on the left hand side of Visual Studio Code and click on it:
 
-![](/images/Image_73.1.png)
+![](./images/Image_73.1.png)
 
 2. If you expand the "Platform" tree followed by "Apps", you will see an error similar to the following:
 
-![](/images/Image_73.2.png)
+![](./images/Image_73.2.png)
 
 3. This tells us that we are not logged into the platform and we will need to re-authenticate. To do that, if you hover over the "Platform" tree, you can choose the "Pencil" icon to edit the connection:
 
-![](/images/Image_73.3.png)
+![](./images/Image_73.3.png)
 
 4. Follow the steps to re-authenticate against the TIBCO Platform. Use all the defaults. DO NOT FORGET TO PRESS SAVE!
 
-![](/images/Image_73.4.gif)
+![](./images/Image_73.4.gif)
 
 5. We can now go back to our Flogo Application to continue the steps below to deploy it to the Data Plane. To return to our application - click on the Folder button in the left hand toolbar:
 
@@ -759,19 +759,19 @@ Before we start deploying to the TIBCO Platform, we first need to make sure that
 
 1. Configure Flogo to use Platform Runtime Profile by clicking on the configuration icon:
 
-![](/images/Image_74.png)
+![](./images/Image_74.png)
 
 2. A dialog box will appear at the top of Visual Studio Code to select runtime. Choose **platform**.
 
-![](/images/Image_75.png)
+![](./images/Image_75.png)
 
 3. The Flogo Actions will now show a further option **Deploy** to allow you to deploy your Flogo Application to TIBCO Platform. Click the triangle next to the **Deploy Action** to run the action
 
-![](/images/Image_76.png)
+![](./images/Image_76.png)
 
 A pop-up box will be shown during the deployment run action.
 
-![](/images/Image_77.png)
+![](./images/Image_77.png)
 
 Once the pop-up disappears your Customer API will be deployed to your TIBCO Platform Dataplane. Let's now login to TIBCO Control Plane to see your newly deployed Customer API.
 
@@ -783,11 +783,11 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 
 1. Login to TIBCO Control Plane via the desktop shortcut provided **Control Plane**.
 
-![](/images/Image_78.png)
+![](./images/Image_78.png)
 
 2. On the Home landing page you can see your newly deployed application **customer-api** has been deployed to a Kubernetes-based Data Plane **atspa-dp-ec2mk** and that its Status is **Running**.
 
-![](/images/Image_79.png)
+![](./images/Image_79.png)
 
 4. By default your application has been deployed with a private endpoint, so in order for the API to be consumed externally it must have its endpoint visibility set to public.
 
@@ -796,15 +796,15 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 > Objective: Any newly deployed application is configured with a private endpoint on a designated TIBCO Data Plane. To expose the Customer API endpoint we must make it public.
 
 
-![](/images/Image_80.png)
+![](./images/Image_80.png)
 
 2. Click **Set Endpoint Visibility**
 
-![](/images/Image_81.png)
+![](./images/Image_81.png)
 
 3. Update Endpoint visibility to Public by selecting the **Flogo Ingress** and setting the Service Path Prefix to /customer-api/v1. Click **Update Endpoint visibility to Public**.
 
-![](/images/Image_82.png)
+![](./images/Image_82.png)
 
 4. Your API will now be exposed publicly at the following endpoint of:
 
@@ -817,7 +817,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/
 https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 ```
 
-![](/images/Image_83.png)
+![](./images/Image_83.png)
 
 
 ### Task 9 - Observability
@@ -831,15 +831,15 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 1. Open the Logs view for the customer-api application
 
-![](/images/Image_84.png)
+![](./images/Image_84.png)
 
 2. The default is provide historical log view, let's stream logs in Realtime by selecting **Realtime option**. You will observe that the last log entry shows our log message **Retrieving customer object for id: 1**.
 
-![](/images/Image_85.png)
+![](./images/Image_85.png)
 
-![](/images/Image_86.png)
+![](./images/Image_86.png)
 
-![](/images/Image_87.png)
+![](./images/Image_87.png)
 
 ### Task 11 - View Application Traces 
 
@@ -849,7 +849,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 2. Open the Environmental Controls page. Click Engine Variables. Set the **FLOGO_OTEL_TRACE** value to **true**. Click 'Push Updates'
 
-![](/images/Image_88.gif)
+![](./images/Image_88.gif)
 
 3. The TIBCO Platform will re-configure the deployed application and now Open Telemetry Tracing for this application will be configured.
 
@@ -857,21 +857,21 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 5. Click Traces page to view the captured Open Telemetry Span Metrics:
 
-![](/images/Image_89.png)
+![](./images/Image_89.png)
 
 6. Click one of the spans to drill down into.
 
-![](/images/Image_90.gif)
+![](./images/Image_90.gif)
 
 7. In this trace we can see that the FetchCustomerRow activity took a proportionally long time of 3.16ms to execute compared to the overall execution time of 3.26ms for the entire API call.
 
-![](/images/Image_91.png)
+![](./images/Image_91.png)
 
 8. Expand the top-level Span **Tags** section to reveal the attributes captured. The attribute value for **flogo.flow.id** can be used to find log entries relating to this particular flow.
 
-![](/images/Image_92.gif)
+![](./images/Image_92.gif)
 
-![](/images/Image_93.png)
+![](./images/Image_93.png)
 
 ### Task 12 - Scaling Applications
 
@@ -883,13 +883,13 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 kubectl get pods
 ```
 
-![](/images/Image_94.png)
+![](./images/Image_94.png)
 
 2. Scaling the Customer application to 2 by toggling the up-arrow above the [1]. Click the **Scale** button.
 
-![](/images/Image_95.png)
+![](./images/Image_95.png)
 
-![](/images/Image_96.png)
+![](./images/Image_96.png)
 
 3. Observe using **kubectl get pods** command to see a further pod deployed and running alongside your first pod.
 
@@ -897,7 +897,7 @@ kubectl get pods
 kubectl get pods
 ```
 
-![](/images/Image_97.png)
+![](./images/Image_97.png)
 
 Try running **kubectl get pods --watch** command and observe as you scale up to three (3) pods:
 
@@ -905,7 +905,7 @@ Try running **kubectl get pods --watch** command and observe as you scale up to 
 kubectl get pods --watch
 ```
 
-![](/images/Image_98.gif)
+![](./images/Image_98.gif)
 
 4. Now scale your app to zero.
 
@@ -955,23 +955,23 @@ gh repo clone mmussett/CustomerChangeDataCapture
 
 1. Launch BusinessWorks Studio from the desktop shortcut.
 
-![](/images/Image_99.png)
+![](./images/Image_99.png)
 
-![](/images/Image_100.png)
+![](./images/Image_100.png)
 
 3. From the File Menu, select **Import**. Choose **Existing Studio Projects into Workspace**. Click **Next**.
 
-![](/images/Image_101.png)
+![](./images/Image_101.png)
 
 4. Navigate to the repository directory downloaded from Github. Select the prj project folder, Click **Select Folder**.
 
-![](/images/Image_102.png)
+![](./images/Image_102.png)
 
 5. Import project files.
 
-![](/images/Image_103.png)
+![](./images/Image_103.png)
 
-![](/images/Image_104.gif)
+![](./images/Image_104.gif)
 
 ### Task 15 - Review the Project
 
@@ -981,15 +981,15 @@ gh repo clone mmussett/CustomerChangeDataCapture
 
 > Objective: Create an Enterprise Archive (EAR) file ready for deployment to TIBCO Platform
 
-![](/images/Image_105.gif)
+![](./images/Image_105.gif)
 
 1. In the Project Explorer pane, right click on the ‘CustomerChangeDataCapture’ application. Click on **Create Enterprise Archive (EAR)** menu option.
    
-![](/images/Image_118.png)
+![](./images/Image_118.png)
 
 2. Make sure the EAR Location is set to **C:\Users\Administrator\Downloads** and the **Export EAR without profiles** is not enabled. Click **Finish**
 
-![](/images/Image_119.png)
+![](./images/Image_119.png)
 
 3. TIBCO BusinessStudio will build the EAR file and export to to the C:\Users\Administrator\Downloads folder
 
@@ -1000,41 +1000,41 @@ gh repo clone mmussett/CustomerChangeDataCapture
 
 1. Click the **Go to Data Plane** link on the **atspa-dp-ec2mk** data plane card.
 
-![](/images/Image_106.png)
+![](./images/Image_106.png)
 
 2. Click the **BWCE** capability
 
-![](/images/Image_107.png)
+![](./images/Image_107.png)
 
 3. Click **Create New App Build & Deploy**
 
-![](/images/Image_108.png)
+![](./images/Image_108.png)
 
 4. On the **Upload Files**, click **browse to upload**
 
-![](/images/Image_109.png)
+![](./images/Image_109.png)
 
 5. Navigate to the location where the EAR file is, select **CustomerChangeDataCapture_1.0.0.ear**. Click **Open**
 
-![](/images/Image_110.png)
+![](./images/Image_110.png)
 
 6. Click **Upload selected file**. Click **Next**
 
-![](/images/Image_111.png)
+![](./images/Image_111.png)
 
 7. Select the **platform.substvar** BW Profile. Click Next.
 
-![](/images/Image_112.png)
+![](./images/Image_112.png)
 
 8. Select **I have read and accepted the TIBCO EUA**. Click **Deploy App** button.
 
-![](/images/Image_113.png)
+![](./images/Image_113.png)
 
 9. Click **View App Details**.
 
-![](/images/Image_114.png)
+![](./images/Image_114.png)
 
-![](/images/Image_115.gif)
+![](./images/Image_115.gif)
 
 ### Task 18 - Enable Open Telemetry Tracing
 
@@ -1042,11 +1042,11 @@ gh repo clone mmussett/CustomerChangeDataCapture
 
 1. Navigate to the **Environmental Controls** section of the **CustomerChangeDataCapture** application.
 
-![](/images/Image_116.png)
+![](./images/Image_116.png)
 
 2. Select **Engine Variables** and toggle BW_OTEL_TRACES_ENABLED from **false** to **true**. Click the Push updates button.
  
-![](/images/Image_117.png)
+![](./images/Image_117.png)
 
 3. Start the application. The platform will automatically scale the BWCE application to 1. 
 
@@ -1069,16 +1069,16 @@ gh repo clone mmussett/CustomerChangeDataCapture
 }
 ```
 
-![](/images/Image_120.png)
+![](./images/Image_120.png)
 
 
 2. Observe the log stream of the BusinessWorks CustomerChangeDataCapture application. See the log entry of the capture event. 
 
-![](/images/Image_121.png)
+![](./images/Image_121.png)
 
 3. Observe the Tracing of the invocation of the Process. 
 
-![](/images/Image_122.png)
+![](./images/Image_122.png)
 
 
 ### Task 20 - Observe TIBCO EMS Dashboard Information
@@ -1087,23 +1087,23 @@ gh repo clone mmussett/CustomerChangeDataCapture
 
 1. Navigate to the **atspa-dp-ec2mk** datapane. Click on the TIBCO EMS capability **atspa-demo-dev** to navigate to the EMS Dashboard.
 
-![](/images/Image_123.png)
+![](./images/Image_123.png)
 
 2. Observe that the dashboard graphs.
 
-![](/images/Image_124.png)
+![](./images/Image_124.png)
 
 You will observe that there is measured activity for a destination called **customer**. This message was published by the **CustomerChangeDataCapture** application.
 
-![](/images/Image_125.png)
+![](./images/Image_125.png)
 
 3. Navigate to the **Topics** dashboard. You will observe that the dashboard record pertinent information for every destination on the EMS Broker. 
 
-![](/images/Image_126.png)
+![](./images/Image_126.png)
 
 Drill down into the **Customer topic** for further insights
 
-![](/images/Image_127.png)
+![](./images/Image_127.png)
 
 As there are no active subscriptions on **customer topic** the pending messages will be 0.
 
@@ -1112,16 +1112,16 @@ As there are no active subscriptions on **customer topic** the pending messages 
 
 > Objective: Access the TIBCO EMS Admin CLI within the Dataplane to administer TIBCO EMS
 
-![](/images/Image_130.gif)
+![](./images/Image_130.gif)
 
 
 1. Launch the TIBCO EMS Admin CLI by clicking on the **Admin CLI** button
    
-![](/images/Image_128.png)
+![](./images/Image_128.png)
 
 The TIBCO EMS Admin CLI will launch into **tibemsadmin** running witihn a browser window that you can now use to interact with TIBCO EMS deployed on your dataplane.
 
-![](/images/Image_129.png)
+![](./images/Image_129.png)
 
 
 2. Create a durable subscription to the customer Topic
@@ -1148,25 +1148,25 @@ create bridge source=topic:customer target=queue:customer.queue
 
 > Objective: View pending messages using the Message Browser facility built into TIBCO Platform.
 
-![](/images/Image_132.gif)
+![](./images/Image_132.gif)
 
 1. Navigate to the **Queues dashboard** and observe the **customer.queue** now has 1 pending message.
 
-![](/images/Image_131.png)
+![](./images/Image_131.png)
 
 2. Drill into the **customer.queue** 
 
 3. Click the **Start Browsing** button in the **Pending Message Browser**
 
-![](/images/Image_133.png)
+![](./images/Image_133.png)
 
 4. Observe the Message Headers and Properties are shown
 
-![](/images/Image_134.png)
+![](./images/Image_134.png)
 
 5. Click the *Body* link to observe the message body
 
-![](/images/Image_135.png)
+![](./images/Image_135.png)
 
 
 
