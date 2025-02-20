@@ -3,9 +3,24 @@ kind: Group
 metadata:
   name: tibco-platform-workshop
   description: TIBCO Platform Workshop
+  tags: 
+    - platform
+  annotations:
+    github.com/project-slug: atsfr-tibco-devhub/TIBCO-Platform-Workshop
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: organization
   profile:
     displayName: TIBCO Platform Workshop
     email: info@tibco.com
   children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: tibco-platform-workshop
+  description: TIBCO Platform Workshop
+spec:
+  type: database
+  owner: tibco-platform-workshop
+  system: tibco-platform-workshop
