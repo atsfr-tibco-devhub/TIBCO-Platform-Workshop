@@ -426,7 +426,109 @@ Finally, now we have finished implementing the flow, let's give it a proper name
 3. Now, Use File -> Save to make sure all your changes are saved to disk.
 
 
-### Task 3 - Implement the createCustomer operation
+
+
+
+### Task 3 - Build the Application Locally
+
+> Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
+
+1. At the bottom-left of Visual Studio Code, you will see the Flogo App panel. Click the expand arrow
+
+![](./images/Image_55.png)
+
+The Flogo plugin for Visual Studio Code can target builds for either Local or TIBCO Platform. With local build it is no longer necessary to compile your flogo application via TIBCO Cloud Integration platform, everything is done on the developer machine.
+
+2. Select a runtime
+
+![](./images/Image_56.png)
+
+3. Select local runtime and click build
+
+![](./images/Image_57.gif)
+
+4. After a few minutes you will see a pop-up dialog message declaring **File built successfully**.
+
+![](./images/Image_58.png)
+
+5. Expand the bin folder in your explorer panel to reveal the generated executable for your customer api.
+
+![](./images/Image_59.png)
+
+6. Right click on the customer-api.exe, select Reveal in File Explorer. Launch the customer-api.exe
+
+![](./images/Image_60.png)
+
+7. Launch a new command prompt and run the following command:
+
+```
+curl -i http://localhost:9999/customer/1
+```
+
+![](./images/Image_61.png)
+
+8. Now try and use an Id value that does not exist in the database (e.g. 9), the Customer API should return a 404 response.
+
+![](./images/Image_62.png)
+
+9. As we have now tested our application, you can go back to running application and press "ctrl-c" to exit the application, before we move onto creating Unit Tests below.
+
+### Task 4 - Create Unit Tests
+
+> Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
+
+![](./images/Image_63.png)
+
+![](./images/Image_64.png)
+
+![](./images/Image_65.png)
+
+4. Click **Flow Input** and assign Flow Inputs Path Parameter Id to 1. Click Save and Close.
+
+![](./images/Image_66.gif)
+
+5. Click **Flow Output**. Select **Assert On Outputs** from the dropdown menu. Select **+** to add a new assertion. Name the assertion **Return 200 success**.  
+
+6. Select **Outputs/output/code** from the Available Data pane and drag-and-drop onto the assertion expression. 
+
+7. Set the assertion logic to **$flow.code == 200**. Click Save and Close.
+
+![](./images/Image_67.gif)
+
+![](./images/Image_68.png)
+
+8. Click **MapperCustomer**. Select **Assert on Outputs** from the dropdown menu. Select **+** to add a new assertion. Name the assertion **CheckMapperOutput**. 
+
+9. Select **Outputs/output/id** from the Available Data pane and drag-and-drop onto the assertion expression.
+
+10. Set the assertion logic to **$activity[MapperCustomer].output.id==1**.  
+
+11. Append the expression with a Boolean-And **&&**.  Similarly the same with **name** field but add equality **==** to the term and check that the name field equals **John Doe**.
+
+The complete expression should be: 
+
+```
+$activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=="John Doe"
+```
+
+Click Save and Close.
+
+![](./images/Image_69.gif)
+
+![](./images/Image_70.png)
+
+![](./images/Image_71.png)
+
+The Flogo Application will be compiled and the unit test will be executed. The terminal window will show the results of running the unit test suite:
+
+![](./images/Image_72.png)
+
+![](./images/Image_73.gif)
+
+> Please Note: If the test suite above did not start - please make sure that the application is not already running, if it is running - just exit the application using "ctrl-c" and try re-running the unit test.
+
+
+### Task 5 - OPTIONAL - Implement the createCustomer operation
 
 > Objective: The createCustomer operation should insert a row in the customer table using the JSON request body provided. The response should contain the newly created customer identifier for the customer record.
 
@@ -601,104 +703,6 @@ The mapping should look like this:
 | responseBody/body | $activity[MapperCustomer].output |
 
 
-### Task 4 - Build the Application Locally
-
-> Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
-
-1. At the bottom-left of Visual Studio Code, you will see the Flogo App panel. Click the expand arrow
-
-![](./images/Image_55.png)
-
-The Flogo plugin for Visual Studio Code can target builds for either Local or TIBCO Platform. With local build it is no longer necessary to compile your flogo application via TIBCO Cloud Integration platform, everything is done on the developer machine.
-
-2. Select a runtime
-
-![](./images/Image_56.png)
-
-3. Select local runtime and click build
-
-![](./images/Image_57.gif)
-
-4. After a few minutes you will see a pop-up dialog message declaring **File built successfully**.
-
-![](./images/Image_58.png)
-
-5. Expand the bin folder in your explorer panel to reveal the generated executable for your customer api.
-
-![](./images/Image_59.png)
-
-6. Right click on the customer-api.exe, select Reveal in File Explorer. Launch the customer-api.exe
-
-![](./images/Image_60.png)
-
-7. Launch a new command prompt and run the following command:
-
-```
-curl -i http://localhost:9999/customer/1
-```
-
-![](./images/Image_61.png)
-
-8. Now try and use an Id value that does not exist in the database (e.g. 9), the Customer API should return a 404 response.
-
-![](./images/Image_62.png)
-
-9. As we have now tested our application, you can go back to running application and press "ctrl-c" to exit the application, before we move onto creating Unit Tests below.
-
-### Task 5 - Create Unit Tests
-
-> Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
-
-![](./images/Image_63.png)
-
-![](./images/Image_64.png)
-
-![](./images/Image_65.png)
-
-4. Click **Flow Input** and assign Flow Inputs Path Parameter Id to 1. Click Save and Close.
-
-![](./images/Image_66.gif)
-
-5. Click **Flow Output**. Select **Assert On Outputs** from the dropdown menu. Select **+** to add a new assertion. Name the assertion **Return 200 success**.  
-
-6. Select **Outputs/output/code** from the Available Data pane and drag-and-drop onto the assertion expression. 
-
-7. Set the assertion logic to **$flow.code == 200**. Click Save and Close.
-
-![](./images/Image_67.gif)
-
-![](./images/Image_68.png)
-
-8. Click **MapperCustomer**. Select **Assert on Outputs** from the dropdown menu. Select **+** to add a new assertion. Name the assertion **CheckMapperOutput**. 
-
-9. Select **Outputs/output/id** from the Available Data pane and drag-and-drop onto the assertion expression.
-
-10. Set the assertion logic to **$activity[MapperCustomer].output.id==1**.  
-
-11. Append the expression with a Boolean-And **&&**.  Similarly the same with **name** field but add equality **==** to the term and check that the name field equals **John Doe**.
-
-The complete expression should be: 
-
-```
-$activity[MapperCustomer].output.id==1 && $activity[MapperCustomer].output.name=="John Doe"
-```
-
-Click Save and Close.
-
-![](./images/Image_69.gif)
-
-![](./images/Image_70.png)
-
-![](./images/Image_71.png)
-
-The Flogo Application will be compiled and the unit test will be executed. The terminal window will show the results of running the unit test suite:
-
-![](./images/Image_72.png)
-
-![](./images/Image_73.gif)
-
-> Please Note: If the test suite above did not start - please make sure that the application is not already running, if it is running - just exit the application using "ctrl-c" and try re-running the unit test.
-
 ## Task 6 - Build & Deploy to TIBCO Platform
 
 > Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from Visual Studio Code.
@@ -848,37 +852,13 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 > Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
 
-1. Run **kubectl get pods** and observe pods beginning with **flogo**. You will see there are 2 containers per pod; your flogo application and a sidecar.
-
-```
-kubectl get pods
-```
-
-![](./images/Image_94.png)
-
-2. Scaling the Customer application to 2 by toggling the up-arrow above the [1]. Click the **Scale** button.
+1. Scaling the Customer application to 2 by toggling the up-arrow above the [1]. Click the **Scale** button.
 
 ![](./images/Image_95.png)
 
 ![](./images/Image_96.png)
 
-3. Observe using **kubectl get pods** command to see a further pod deployed and running alongside your first pod.
-
-```
-kubectl get pods
-```
-
-![](./images/Image_97.png)
-
-Try running **kubectl get pods --watch** command and observe as you scale up to three (3) pods:
-
-```
-kubectl get pods --watch
-```
-
-![](./images/Image_98.gif)
-
-4. Now scale your app to zero.
+2. Now scale your app to zero. Your application is stopped.
 
 ---
 
