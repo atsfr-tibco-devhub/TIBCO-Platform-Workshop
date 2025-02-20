@@ -33,7 +33,7 @@ This workbook provides a use-case for customers to follow using the provided lab
 
 ### Task 1 - Connect the Postgres Database
 
-> Objective: A containerised PostgreSQL database has been provided and must be started on the server machine before starting the workshop development activity.
+> Objective: A PostgreSQL database publicly available is used during this workshop.
 
 1. The Postgres Database connection details are:
 ```
@@ -50,6 +50,7 @@ Password|**********
 
 ### Task 2 - Implement the getCustomerById operation
 
+> [!NOTE]  
 > Objective: The getCustomerById operation should retrieve a row from the Customer Table using the {id} path parameter and return a Customer JSON object.
 
 #### Step 1 - Create project repository folder and launch Visual Studio Code
@@ -245,6 +246,7 @@ The complete flow will look like this:
 
 **LogMessage Activity**
 
+> [!NOTE]  
 > Objective: Log a message containing the customer identifier passed into the operation.
 
 1. Drag a **Log Message** from the Activity Bar -> General onto the canvas.
@@ -265,6 +267,7 @@ The LogMessage activity Input should look like this:
 
 **FetchCustomerRow Activity**
 
+> [!NOTE]  
 > Objective: Retrieve a row from the customer table that matches its primary key.
 
 1. Drag a **PostgreSQL Query** activity from the Activity Bar -> PostgreSQL onto the canvas and connect to LogMessage activity. Rename the activity to **FetchCustomerRow**.
@@ -303,6 +306,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 **MapperCustomer Activity**
 
+> [!NOTE]  
 > Objective: Create a JSON Customer object and populate with values returned from the database.
 
 1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **MapperCustomer**.
@@ -339,6 +343,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 **Return200 Activity**
 
+> [!NOTE]  
 > Objective: Return a 200 HTTP response code with a Customer JSON response body.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to **Return200**.
@@ -357,6 +362,7 @@ The PostgreSQLQuery activity Input should look like this:
 
 **LogMessageWarnNotFound Activity**
 
+> [!NOTE]  
 Objective: Log a warning message if the record is not found in the database.
 
 1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **LogMessageWarnNotFound**.
@@ -376,6 +382,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 **Return404 Activity**
 
+> [!NOTE]  
 > Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return404**.
@@ -393,6 +400,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 **FetchCustomerRow to MapperCustomer Branch**
 
+> [!NOTE]  
 > Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
 
 ![](./images/Image_45.png)
@@ -407,6 +415,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 **FetchCustomerRow to LogMessageWarnNotFound Branch**
 
+> [!NOTE]  
 > Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
 
 1. Click the **Green** condition between FetchCustomerRow and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with no matching Condition**. Click **Save**.
@@ -431,6 +440,7 @@ Finally, now we have finished implementing the flow, let's give it a proper name
 
 ### Task 3 - Build the Application Locally
 
+> [!NOTE]  
 > Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
 
 1. At the bottom-left of Visual Studio Code, you will see the Flogo App panel. Click the expand arrow
@@ -475,6 +485,7 @@ curl -i http://localhost:9999/customer/1
 
 ### Task 4 - Create Unit Tests
 
+> [!NOTE]  
 > Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
 
 ![](./images/Image_63.png)
@@ -535,6 +546,7 @@ The Flogo Application will be compiled and the unit test will be executed. The t
 [Build and Deploy to TIBCO Platform](#task-6---build--deploy-to-tibco-platform)
 
 
+> [!NOTE]  
 > Objective: The createCustomer operation should insert a row in the customer table using the JSON request body provided. The response should contain the newly created customer identifier for the customer record.
 
 
@@ -584,6 +596,7 @@ The complete flow will look like this:
 
 **LogDebugRequestBodyMessage Activity**
 
+> [!NOTE]  
 > Objective: Log a message containing the HTTP request body passed into the operation..
 
 1. Drag a **Log Message** from the Activity Bar -> General onto the canvas.
@@ -598,6 +611,7 @@ The complete flow will look like this:
 
 **GetNextSeqId Activity**
 
+> [!NOTE]  
 > Objective: Retrieve the next value from the customer_id_seq sequence that will be used for the customer id.
 
 1. Drag a **PostgreSQL Query** from the Activity Bar -> PostgreSQL and connect to LogDebugRequestBodyMessage activity. Rename the activity to **GetNextSeqId**.
@@ -613,6 +627,7 @@ SELECT nextval('customer_id_seq');
 
 **InsertCustomer Activity**
 
+> [!NOTE]  
 > Objective: To insert a new row into the customer table with fields mapped from the POST request body and the **nextval** fields.
 
 1. Drag a **PostgreSQL Insert** from the Activity Bar -> PostgreSQL and connect to GetNextValue activity. Rename the activity to **InsertCustomer**.
@@ -652,6 +667,7 @@ The mapping should look like this:
 
 **LogDebugInsertMessage Activity**
 
+> [!NOTE]  
 > Objective: Log a debug message containing the customer identity information..
 
 1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to InsertCustomer activity. Rename the activity to **LogDebugInsertMessage**.
@@ -667,6 +683,7 @@ The mapping should look like this:
 
 **MapperCustomer Activity**
 
+> [!NOTE]  
 > Objective: Create a JSON Customer object and populate with values to be returned.
 
 1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to LogDebugInsertMessage activity. Rename the activity to **MapperCustomer**.
@@ -696,6 +713,7 @@ The mapping should look like this:
 
 **Return201 Activity**
 
+> [!NOTE]  
 > Objective: Return a 201 HTTP response code with a Customer JSON response body.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to **Return201**.
@@ -710,6 +728,7 @@ The mapping should look like this:
 
 ## Task 6 - Build & Deploy to TIBCO Platform
 
+> [!NOTE]  
 > Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from Visual Studio Code.
 
 Before we start deploying to the TIBCO Platform, we first need to make sure that Visual Studio Code and the Flogo plugin is authenticated against the platform, otherwise our deploy steps will fail.
@@ -759,6 +778,7 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 
 ### Task 7 - Login to TIBCO Control Plane
 
+> [!NOTE]  
 > Objective: To familiarise users of the TIBCO Control Plane
 
 1. Login to TIBCO Control Plane via the desktop shortcut provided **Control Plane**.
@@ -773,6 +793,7 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 
 ### Task 8 - Expose Customer API endpoint to public traffic
 
+> [!NOTE]  
 > Objective: Any newly deployed application is configured with a private endpoint on a designated TIBCO Data Plane. To expose the Customer API endpoint we must make it public.
 
 
@@ -802,10 +823,12 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ### Task 9 - Observability
 
+> [!NOTE]  
 > Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides 'at-a-glance' information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
 
 ### Task 10 - View Application Logs
 
+> [!NOTE]  
 > Objective: The TIBCO Platform integrates log forwarding to internal logging services provided to the TIBCO Platform via Elastic Stack. 
 > The TIBCO Platforms Control Plane allows you to quickly access your TIBCO Application logs to quickly find any log records written by any Log Activities added to your application logic.
 
@@ -823,6 +846,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ### Task 11 - View Application Traces 
 
+> [!NOTE]  
 > Objective: To observe application telemetry information for distributed traces in order to identify performance issues.
 
 1. TIBCO Platform uses Open Telemetry tooling built in to provide observability of any TIBCO applications deployed to your TIBCO Dataplanes. By default this is disabled on newly deployed applications so we will need to enable it using the Environmental Controls settings.
@@ -855,6 +879,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ### Task 12 - Scaling Applications
 
+> [!NOTE]  
 > Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
 
 1. Scaling the Customer application to 2 by toggling the up-arrow above the [1]. Click the **Scale** button.
