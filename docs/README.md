@@ -4,7 +4,7 @@ Version 1.0
 
 ## Objectives
 
-The objective of this workshop is to give customers a taster of the new TIBCO Platform capabilities available today (platform version 1.3.0)
+The objective of this workshop is to give customers a taster of the new TIBCO Platform capabilities available today (platform version 1.4.0)
 
 This workbook provides a use-case for customers to follow using the provided lab environment. The environment consists of:
 
@@ -31,54 +31,22 @@ This workbook provides a use-case for customers to follow using the provided lab
 >The database has been created for you and there's some test rows in the customer table ready for you to use.
 
 
-### Task 1 - Starting the Postgres Database
+### Task 1 - Connect the Postgres Database
 
 > Objective: A containerised PostgreSQL database has been provided and must be started on the server machine before starting the workshop development activity.
 
-![](./images/Image_3.gif)
-
-1. Open a Windows command prompt.
-
-2. SSH into the server machine using the following command
-
+1. The Postgres Database connection details are:
 ```
-ssh -i .\.ssh\UK_IRL_Shared.pem ubuntu@uk-tp-server
+postgresql://neondb_owner:************@ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech/neondb?sslmode=require
 ```
-
-3. Change directory to **postgres-on-docker**
-
-```
-cd postgres-on-docker
-```
-
-4. Run the command ./start.sh
-
-```sh
-./start.sh
-```
-5. When the Postgres database has started, you can exit from the ssh connection on the machine.
-
-```
-exit
-```
-
-6. The Postgres Database connection details are:
 
 Name | Value
 --|--   
-Host|postgres-on-docker
+Host|ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech
 Port|5432
-Database Name|demo
-Username|postgres
-Password|postgres
-
-> NOTE : 
-> 
-> pgAdmin has been provided and can be accessed via the developer desktop. The customer table can be found in the public schema of the database. On the remote desktop, pgAdmin sometimes loads "off screen", so you may need to Maximise the window to bring it into focus. You may also find that the connection that is already set up is using an IP address that can change. If this is the case, update the connection properties in pgAdmin to use the hostname "postgres-on-docker" as above.
-
-
-![](./images/Image_4.png)
-
+Database Name|neondb
+Username|neondb_owner
+Password|**********
 
 ### Task 2 - Implement the getCustomerById operation
 
@@ -128,11 +96,11 @@ In this section, we will perform the following:
 - From your Command Window change directory into the spec folder and run the following command to retrieve the OAS resource from the remote GIT server:
 
 ```
-wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/main/spec/openapi3_0.json
+wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Workshop/refs/heads/main/src/flogo-customer-api/spec/openapi3_0.json
 ```
 - If you are using PowerShell - the command to retrieve the OAS resource is slightly different:
 ```
-wget https://raw.githubusercontent.com/mmussett/flogo-customer-api/refs/heads/main/spec/openapi3_0.json -OutFile openapi3_0.json
+wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Workshop/refs/heads/main/src/flogo-customer-api/spec/openapi3_0.json -OutFile openapi3_0.json
 ```
 
 - In Visual Studio Code Explorer, use the Explorer Refresh action to refresh.
@@ -196,11 +164,14 @@ In this section, we will perform the following:
 |---|---|
 | Connection Name | postgres |
 | Description | postgres |
-| Host | postgres-on-docker |
+| Host | ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech |
 | Port | 5432 |
-| Database Name | demo |
-| User | postgres |
-| Password | postgres |
+| Database Name | neondb |
+| User | neondb_owner |
+| Password | ************ |
+| Secure Connection | true |
+| TLS | VerifyCA |
+| CA Certificate | ISRG_Root_X1.pem |
 
 4. Click **Connect**
 
