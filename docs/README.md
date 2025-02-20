@@ -2,6 +2,8 @@
 
 Version 1.0
 
+![](./images/TIBCO_Platform.png)
+
 ## Objectives
 
 The objective of this workshop is to give customers a taster of the new TIBCO Platform capabilities available today (platform version 1.4.0)
