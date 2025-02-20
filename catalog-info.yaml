@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-platform-workshop
+  description: TIBCO Platform Workshop
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO Platform Workshop
+    email: info@tibco.com
+  children: []
