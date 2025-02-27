@@ -99,6 +99,8 @@ In this section, we will perform the following:
 - From your Command Window change directory into the spec folder and run the following command to retrieve the OAS resource from the remote GIT server:
 
 ```
+cd spec
+
 wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Workshop/refs/heads/main/src/flogo-customer-api/spec/openapi3_0.json
 ```
 - If you are using PowerShell - the command to retrieve the OAS resource is slightly different:
@@ -112,6 +114,9 @@ wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Worksho
 #### Step 3 - Review the Open API Specification
 
 1. Open the newly imported openapi3_0.json specification from the Explorer View. From within the editor window, press the **SHIFT+ALT+P** key combination to bring up Swagger Preview window.
+
+> [!TIP]  
+> If it does not work, please install the extension "OpenAPI (Swagger) Editor"
 
 ![](./images/Image_1.png)
 
@@ -157,11 +162,24 @@ In this section, we will perform the following:
 
 ![](./images/Image_14.png)
 
-2. Select a Connection Type of **PostgreSQL Connector**
+2. Select a Connection Type of **SQLServer Connector**
 
 ![](./images/Image_15.png)
 
-3. Configure the PostgreSQL connector with the following:
+3. Configure the SQL Server connector with the following:
+
+| Database Type | SQLServer |
+|---|---|
+| Connection Name | tibco-sqlserver |
+| Description | tibco-sqlserver |
+| Host | tibco-sqlserver.database.windows.net |
+| Port | 1433 |
+| Database Name | tibco-sqlserver |
+| User | tibco |
+| Password | ************ |
+
+
+3. OPTION Configure the PostgreSQL connector with the following:
 
 | Database Type | PostgreSQL |
 |---|---|

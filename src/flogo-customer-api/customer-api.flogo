@@ -3,16 +3,14 @@
     "github.com/project-flogo/flow",
     "github.com/project-flogo/contrib/activity/noop",
     "github.com/tibco/flogo-general/src/app/General/activity/log",
-    "github.com/tibco/wi-postgres/src/app/PostgreSQL/activity/query",
-    "github.com/tibco/flogo-general/src/app/General/activity/mapper",
+    "github.com/tibco/flogo-general/src/app/General/activity/rest",
     "github.com/project-flogo/contrib/activity/actreturn",
-    "github.com/tibco/flogo-general/src/app/General/trigger/rest",
+    "github.com/tibco/flogo-general/src/app/General/activity/mapper",
+    "rest_1 github.com/tibco/flogo-general/src/app/General/trigger/rest",
     "github.com/project-flogo/contrib/function/coerce",
-    "github.com/project-flogo/contrib/function/string",
-    "github.com/project-flogo/contrib/function/array",
-    "github.com/tibco/wi-postgres/src/app/PostgreSQL/connector/connection"
+    "github.com/project-flogo/contrib/function/string"
   ],
-  "name": "customer-api",
+  "name": "customer-HELG",
   "description": "Customer API",
   "version": "1.0.0",
   "type": "flogo:app",
@@ -20,7 +18,7 @@
   "tags": [],
   "triggers": [
     {
-      "ref": "#rest",
+      "ref": "#rest_1",
       "name": "tibco-wi-rest",
       "description": "Simple REST Trigger",
       "settings": {
@@ -101,71 +99,6 @@
             }
           },
           "name": "getCustomerById"
-        },
-        {
-          "description": "Create a customer object",
-          "settings": {
-            "APISpecPath": "/customer",
-            "Method": "POST",
-            "reqType": "application/json",
-            "Path": "/customer",
-            "OutputValidation": false
-          },
-          "action": {
-            "ref": "github.com/project-flogo/flow",
-            "settings": {
-              "flowURI": "res://flow:createCustomer"
-            },
-            "input": {
-              "body": "=$.body"
-            },
-            "output": {
-              "code": "=$.code",
-              "responseBody": "=$.responseBody"
-            }
-          },
-          "reply": {
-            "code": 200,
-            "configureResponseCodes": true,
-            "message": ""
-          },
-          "schemas": {
-            "reply": {
-              "responseBody": {
-                "type": "json",
-                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
-                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
-                "feSchemaMap": {}
-              },
-              "responseCodesSchema": {
-                "type": "json",
-                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"responseType\":{\"type\":\"string\"},\"responseSchema\":{\"type\":\"string\"}}}}",
-                "fe_metadata": "[{\"code\":201,\"responseType\":\"object\",\"responseSchema\":\"{\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"id\\\":{\\\"type\\\":\\\"integer\\\",\\\"description\\\":\\\"identifier\\\",\\\"example\\\":1},\\\"name\\\":{\\\"type\\\":\\\"string\\\",\\\"description\\\":\\\"name\\\",\\\"example\\\":\\\"John Doe\\\"},\\\"email\\\":{\\\"type\\\":\\\"string\\\",\\\"description\\\":\\\"email\\\",\\\"example\\\":\\\"john.doe@example.com\\\"},\\\"age\\\":{\\\"type\\\":\\\"integer\\\",\\\"description\\\":\\\"age\\\",\\\"example\\\":30},\\\"city\\\":{\\\"type\\\":\\\"string\\\",\\\"description\\\":\\\"city\\\",\\\"example\\\":\\\"New York\\\"}}}\"}]",
-                "feSchemaMap": {}
-              }
-            },
-            "output": {
-              "body": {
-                "type": "json",
-                "value": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"identifier\",\"example\":1},\"name\":{\"type\":\"string\",\"description\":\"name\",\"example\":\"John Doe\"},\"email\":{\"type\":\"string\",\"description\":\"email\",\"example\":\"john.doe@example.com\"},\"age\":{\"type\":\"integer\",\"description\":\"age\",\"example\":30},\"city\":{\"type\":\"string\",\"description\":\"city\",\"example\":\"New York\"}}}",
-                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"identifier\",\"example\":1},\"name\":{\"type\":\"string\",\"description\":\"name\",\"example\":\"John Doe\"},\"email\":{\"type\":\"string\",\"description\":\"email\",\"example\":\"john.doe@example.com\"},\"age\":{\"type\":\"integer\",\"description\":\"age\",\"example\":30},\"city\":{\"type\":\"string\",\"description\":\"city\",\"example\":\"New York\"}}}",
-                "feSchemaMap": {}
-              },
-              "multipartFormData": {
-                "type": "json",
-                "value": "{\"type\":\"object\",\"properties\":{}}",
-                "fe_metadata": "{\"type\":\"object\",\"properties\":{}}",
-                "feSchemaMap": {}
-              },
-              "multipartForm": {
-                "type": "json",
-                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{}}",
-                "fe_metadata": "[]",
-                "feSchemaMap": {}
-              }
-            }
-          },
-          "name": "createCustomer"
         }
       ]
     }
@@ -187,38 +120,45 @@
           {
             "id": 2,
             "from": "LogMessage",
-            "to": "FetchCustomerRow",
+            "to": "InvokeRESTService",
             "type": "label",
-            "label": "LogMessage to PostgreSQLQuery"
+            "label": "LogMessage to InvokeRESTService"
           },
           {
             "id": 3,
-            "from": "FetchCustomerRow",
-            "to": "MapperCustomer",
-            "type": "expression",
-            "label": "FetchCustomerRow to Mapper",
-            "value": "array.count($activity[FetchCustomerRow].Output.records) > 0\r\n"
+            "from": "InvokeRESTService",
+            "to": "LogMessage1",
+            "type": "label",
+            "label": "InvokeRESTService to LogMessage1"
           },
           {
             "id": 4,
+            "from": "LogMessage1",
+            "to": "LogMessageWarnNotFound",
+            "type": "exprOtherwise",
+            "label": "LogMessage1 to LogMessageWarnNotFound"
+          },
+          {
+            "id": 5,
+            "from": "LogMessageWarnNotFound",
+            "to": "Return400",
+            "type": "label",
+            "label": "LogMessageWarnNotFound to Return1"
+          },
+          {
+            "id": 6,
+            "from": "LogMessage1",
+            "to": "MapperCustomer",
+            "type": "expression",
+            "label": "LogMessage1 to MapperCustomer",
+            "value": "$activity[InvokeRESTService].statusCode==200"
+          },
+          {
+            "id": 7,
             "from": "MapperCustomer",
             "to": "Return200",
             "type": "label",
             "label": "MapperCustomer to Return"
-          },
-          {
-            "id": 5,
-            "from": "FetchCustomerRow",
-            "to": "LogMessageWarnNotFound",
-            "type": "exprOtherwise",
-            "label": "FetchCustomerRow to LogMessage1"
-          },
-          {
-            "id": 6,
-            "from": "LogMessageWarnNotFound",
-            "to": "Return404",
-            "type": "label",
-            "label": "LogMessageWarnNotFound to Return1"
           }
         ],
         "tasks": [
@@ -245,85 +185,132 @@
             }
           },
           {
-            "id": "FetchCustomerRow",
-            "name": "FetchCustomerRow",
-            "description": "This activity executes query on a PostgreSQL database",
+            "id": "InvokeRESTService",
+            "name": "InvokeRESTService",
+            "description": "Simple REST Activity",
             "settings": {
               "retryOnError": {
-                "count": 0,
-                "interval": 0
+                "count": 5,
+                "interval": 1000
               }
             },
             "activity": {
-              "ref": "#query",
+              "ref": "#rest",
               "input": {
-                "Connection": "conn://2cfd2a40-4a4e-4fd0-a8ec-c3a644ec82bb",
-                "QueryName": "",
-                "Schema": "public",
-                "Query": "SELECT * FROM customer WHERE id=?id;",
-                "manualmode": false,
-                "Fields": [
-                  {
-                    "FieldName": "id",
-                    "Type": "INTEGER",
-                    "Selected": true,
-                    "Parameter": true,
-                    "isEditable": false
-                  },
-                  {
-                    "FieldName": "name",
-                    "Type": "VARCHAR",
-                    "Selected": true,
-                    "Parameter": false,
-                    "isEditable": false
-                  },
-                  {
-                    "FieldName": "email",
-                    "Type": "VARCHAR",
-                    "Selected": true,
-                    "Parameter": false,
-                    "isEditable": false
-                  },
-                  {
-                    "FieldName": "age",
-                    "Type": "INTEGER",
-                    "Selected": true,
-                    "Parameter": false,
-                    "isEditable": false
-                  },
-                  {
-                    "FieldName": "city",
-                    "Type": "VARCHAR",
-                    "Selected": true,
-                    "Parameter": false,
-                    "isEditable": false
-                  }
-                ],
-                "RuntimeQuery": "",
-                "State": "1ccae101-9a2c-4f8f-97ad-552ce00a1bc1SELECT * FROM customer WHERE id=?id;",
-                "input": {
+                "enableASR": false,
+                "swagger": {
+                  "filename": "customer-backend.json",
+                  "content": "data:application/json;base64,ewogICJvcGVuYXBpIjogIjMuMC4zIiwKICAiaW5mbyI6IHsKICAgICJ0aXRsZSI6ICJTd2FnZ2VyIEN1c3RvbWVyIEJhY2tlbmQtIE9wZW5BUEkgMy4wIiwKICAgICJkZXNjcmlwdGlvbiI6ICJUaGlzIGlzIGEgQ3VzdG9tZXIgQVBJIGJhc2VkIG9uIHRoZSBPcGVuQVBJIDMuMCBzcGVjaWZpY2F0aW9uLiAgIiwKICAgICJsaWNlbnNlIjogewogICAgICAibmFtZSI6ICJBcGFjaGUgMi4wIiwKICAgICAgInVybCI6ICJodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvTElDRU5TRS0yLjAuaHRtbCIKICAgIH0sCiAgICAidmVyc2lvbiI6ICIxLjAuMCIKICB9LAogICJleHRlcm5hbERvY3MiOiB7CiAgICAiZGVzY3JpcHRpb24iOiAiRmluZCBvdXQgbW9yZSBhYm91dCBTd2FnZ2VyIiwKICAgICJ1cmwiOiAiaHR0cDovL3N3YWdnZXIuaW8iCiAgfSwKICAic2VydmVycyI6IFsKICAgIHsKICAgICAgInVybCI6ICJodHRwczovL2Zsb2dvLmRwMS5hdHNmci1lbWVhLmF6dXJlLmRhdGFwbGFuZXMucHJvL3RpYmNvL2FwcHMvY3VzdG9tZXItYmFja2VuZCIKICAgIH0KICBdLAogICJ0YWdzIjogWwogICAgewogICAgICAibmFtZSI6ICJjdXN0b21lciIsCiAgICAgICJkZXNjcmlwdGlvbiI6ICJPcGVyYXRpb25zIGFib3V0IGN1c3RvbWVyIgogICAgfQogIF0sCiAgInBhdGhzIjogewogICAgIi9jdXN0b21lci1iYWNrZW5kL3tjdXN0b21lcklkfSI6IHsKICAgICAgImdldCI6IHsKICAgICAgICAidGFncyI6IFsKICAgICAgICAgICJjdXN0b21lciIKICAgICAgICBdLAogICAgICAgICJzdW1tYXJ5IjogIkZpbmQgY3VzdG9tZXIgYnkgSUQiLAogICAgICAgICJkZXNjcmlwdGlvbiI6ICJSZXR1cm5zIGEgc2luZ2xlIGN1c3RvbWVyIiwKICAgICAgICAib3BlcmF0aW9uSWQiOiAiZ2V0Q3VzdG9tZXJCeUlkIiwKICAgICAgICAicGFyYW1ldGVycyI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAiY3VzdG9tZXJJZCIsCiAgICAgICAgICAgICJpbiI6ICJwYXRoIiwKICAgICAgICAgICAgImRlc2NyaXB0aW9uIjogIklEIG9mIGN1c3RvbWVyIHRvIHJldHVybiIsCiAgICAgICAgICAgICJyZXF1aXJlZCI6IHRydWUsCiAgICAgICAgICAgICJzY2hlbWEiOiB7CiAgICAgICAgICAgICAgInR5cGUiOiAiaW50ZWdlciIsCiAgICAgICAgICAgICAgImZvcm1hdCI6ICJpbnQ2NCIKICAgICAgICAgICAgfQogICAgICAgICAgfQogICAgICAgIF0sCiAgICAgICAgInJlc3BvbnNlcyI6IHsKICAgICAgICAgICIyMDAiOiB7CiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJzdWNjZXNzZnVsIG9wZXJhdGlvbiIsCiAgICAgICAgICAgICJjb250ZW50IjogewogICAgICAgICAgICAgICJhcHBsaWNhdGlvbi9qc29uIjogewogICAgICAgICAgICAgICAgInNjaGVtYSI6IHsKICAgICAgICAgICAgICAgICAgIiRyZWYiOiAiIy9jb21wb25lbnRzL3NjaGVtYXMvY3VzdG9tZXItYmFja2VuZCIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJhcHBsaWNhdGlvbi94bWwiOiB7CiAgICAgICAgICAgICAgICAic2NoZW1hIjogewogICAgICAgICAgICAgICAgICAiJHJlZiI6ICIjL2NvbXBvbmVudHMvc2NoZW1hcy9jdXN0b21lci1iYWNrZW5kIgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgfSwKICAgICAgICAgICI0MDAiOiB7CiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJJbnZhbGlkIElEIHN1cHBsaWVkIgogICAgICAgICAgfSwKICAgICAgICAgICI0MDQiOiB7CiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJDdXN0b21lciBub3QgZm91bmQiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfSwKICAiY29tcG9uZW50cyI6IHsKICAgICJzY2hlbWFzIjogewogICAgICAKICAgICAgImN1c3RvbWVyLWJhY2tlbmQiOiB7CiAgICAgICAgInR5cGUiOiAib2JqZWN0IiwKICAgICAgICAicHJvcGVydGllcyI6IHsKICAgICAgICAgICJpZCI6IHsKICAgICAgICAgICAgInR5cGUiOiAiaW50ZWdlciIsCiAgICAgICAgICAgICJmb3JtYXQiOiAiaW50NjQiLAogICAgICAgICAgICAiZXhhbXBsZSI6IDEwMDAwMAogICAgICAgICAgfSwKICAgICAgICAgICJuYW1lIjogewogICAgICAgICAgICAidHlwZSI6ICJzdHJpbmciLAogICAgICAgICAgICAiZXhhbXBsZSI6ICJmZWhndXkiCiAgICAgICAgICB9LAogICAgICAgICAgImVtYWlsIjogewogICAgICAgICAgICAidHlwZSI6ICJzdHJpbmciLAogICAgICAgICAgICAiZXhhbXBsZSI6ICJmZWhndXlAbWFpbC5jb20iCiAgICAgICAgICB9LAogICAgICAgICAgImFnZSI6IHsKICAgICAgICAgICAgInR5cGUiOiAiaW50ZWdlciIsCiAgICAgICAgICAgICJmb3JtYXQiOiAiaW50NjQiLAogICAgICAgICAgICAiZXhhbXBsZSI6IDMyCiAgICAgICAgICB9LAogICAgICAgICAgImNpdHkiOiB7CiAgICAgICAgICAgICJ0eXBlIjogInN0cmluZyIsCiAgICAgICAgICAgICJleGFtcGxlIjogIlBhcmlzIgogICAgICAgICAgfQogICAgICAgIH0sCiAgICAgICAgInhtbCI6IHsKICAgICAgICAgICJuYW1lIjogImN1c3RvbWVyIgogICAgICAgIH0KICAgICAgfQogICAgfQogIH0KfQ=="
+                },
+                "authorization": false,
+                "authorizationConn": "",
+                "serviceName": "",
+                "resourcePath": "/customer-backend/{customerId}",
+                "Method": "GET",
+                "Uri": "https://flogo.dp1.atsfr-emea.azure.dataplanes.pro/tibco/apps/customer-backend",
+                "requestType": "application/json",
+                "Use certificate for verification": false,
+                "mutualAuth": false,
+                "Client Certificate": "",
+                "Client Key": "",
+                "Server Certificate": "",
+                "disableKeepAlives": false,
+                "Timeout": 0,
+                "proxy": "",
+                "host": "",
+                "pathParams": {
                   "mapping": {
-                    "parameters": {
-                      "id": "=coerce.toInt($flow.pathParams.id)"
-                    }
+                    "customerId": "=$flow.pathParams.id"
                   }
                 }
               },
+              "output": {
+                "configureResponseCodes": true,
+                "responseType": "application/json",
+                "responseOutput": "JSON Object"
+              },
               "schemas": {
                 "input": {
-                  "input": {
+                  "serviceMetadata": {
                     "type": "json",
-                    "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"parameters\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"}}}}}",
-                    "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"parameters\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"}}}}}",
+                    "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"openapi\":{\"type\":\"string\"},\"info\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"license\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"}}},\"version\":{\"type\":\"string\"}}},\"externalDocs\":{\"type\":\"object\",\"properties\":{\"description\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"}}},\"servers\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"url\":{\"type\":\"string\"}}}},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"}}}},\"paths\":{\"type\":\"object\",\"properties\":{\"/customer-backend/{customerId}\":{\"type\":\"object\",\"properties\":{\"get\":{\"type\":\"object\",\"properties\":{\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"summary\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"operationId\":{\"type\":\"string\"},\"parameters\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"in\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"required\":{\"type\":\"boolean\"},\"schema\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"}}}}}},\"responses\":{\"type\":\"object\",\"properties\":{\"200\":{\"type\":\"object\",\"properties\":{\"description\":{\"type\":\"string\"},\"content\":{\"type\":\"object\",\"properties\":{\"application/json\":{\"type\":\"object\",\"properties\":{\"schema\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"properties\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"},\"example\":{\"type\":\"number\"}}},\"name\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}},\"email\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}},\"age\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"},\"example\":{\"type\":\"number\"}}},\"city\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}}}},\"xml\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"}}}}}}},\"application/xml\":{\"type\":\"object\",\"properties\":{\"schema\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"properties\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"},\"example\":{\"type\":\"number\"}}},\"name\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}},\"email\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}},\"age\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"},\"example\":{\"type\":\"number\"}}},\"city\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}}}},\"xml\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"}}}}}}}}}}},\"400\":{\"type\":\"object\",\"properties\":{\"description\":{\"type\":\"string\"}}},\"404\":{\"type\":\"object\",\"properties\":{\"description\":{\"type\":\"string\"}}}}}}}}}}},\"components\":{\"type\":\"object\",\"properties\":{\"schemas\":{\"type\":\"object\",\"properties\":{\"customer-backend\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"properties\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"},\"example\":{\"type\":\"number\"}}},\"name\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}},\"email\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}},\"age\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"},\"example\":{\"type\":\"number\"}}},\"city\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"},\"example\":{\"type\":\"string\"}}}}},\"xml\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"}}}}}}}}}}}",
+                    "fe_metadata": "{\"openapi\":\"3.0.3\",\"info\":{\"title\":\"Swagger Customer Backend- OpenAPI 3.0\",\"description\":\"This is a Customer API based on the OpenAPI 3.0 specification.  \",\"license\":{\"name\":\"Apache 2.0\",\"url\":\"http://www.apache.org/licenses/LICENSE-2.0.html\"},\"version\":\"1.0.0\"},\"externalDocs\":{\"description\":\"Find out more about Swagger\",\"url\":\"http://swagger.io\"},\"servers\":[{\"url\":\"https://flogo.dp1.atsfr-emea.azure.dataplanes.pro/tibco/apps/customer-backend\"}],\"tags\":[{\"name\":\"customer\",\"description\":\"Operations about customer\"}],\"paths\":{\"/customer-backend/{customerId}\":{\"get\":{\"tags\":[\"customer\"],\"summary\":\"Find customer by ID\",\"description\":\"Returns a single customer\",\"operationId\":\"getCustomerById\",\"parameters\":[{\"name\":\"customerId\",\"in\":\"path\",\"description\":\"ID of customer to return\",\"required\":true,\"schema\":{\"type\":\"integer\",\"format\":\"int64\"}}],\"responses\":{\"200\":{\"description\":\"successful operation\",\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":100000},\"name\":{\"type\":\"string\",\"example\":\"fehguy\"},\"email\":{\"type\":\"string\",\"example\":\"fehguy@mail.com\"},\"age\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":32},\"city\":{\"type\":\"string\",\"example\":\"Paris\"}},\"xml\":{\"name\":\"customer\"}}},\"application/xml\":{\"schema\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":100000},\"name\":{\"type\":\"string\",\"example\":\"fehguy\"},\"email\":{\"type\":\"string\",\"example\":\"fehguy@mail.com\"},\"age\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":32},\"city\":{\"type\":\"string\",\"example\":\"Paris\"}},\"xml\":{\"name\":\"customer\"}}}}},\"400\":{\"description\":\"Invalid ID supplied\"},\"404\":{\"description\":\"Customer not found\"}}}}},\"components\":{\"schemas\":{\"customer-backend\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":100000},\"name\":{\"type\":\"string\",\"example\":\"fehguy\"},\"email\":{\"type\":\"string\",\"example\":\"fehguy@mail.com\"},\"age\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":32},\"city\":{\"type\":\"string\",\"example\":\"Paris\"}},\"xml\":{\"name\":\"customer\"}}}}}",
                     "feSchemaMap": {}
+                  },
+                  "pathParams": {
+                    "type": "json",
+                    "value": "{\"type\":\"object\",\"properties\":{\"customerId\":{\"type\":\"number\"}},\"required\":[\"customerId\"]}",
+                    "fe_metadata": "[{\"parameterName\":\"customerId\",\"type\":\"number\",\"required\":true}]"
+                  },
+                  "headers": {
+                    "type": "json",
+                    "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                    "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
                   }
                 },
                 "output": {
-                  "Output": {
+                  "responseCodes": {
                     "type": "json",
-                    "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"age\":{\"type\":\"integer\"},\"city\":{\"type\":\"string\"}}}}}}",
-                    "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"age\":{\"type\":\"integer\"},\"city\":{\"type\":\"string\"}}}}}}",
+                    "value": "{\"type\":\"object\",\"properties\":{\"200\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":100000},\"name\":{\"type\":\"string\",\"example\":\"fehguy\"},\"email\":{\"type\":\"string\",\"example\":\"fehguy@mail.com\"},\"age\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":32},\"city\":{\"type\":\"string\",\"example\":\"Paris\"}},\"xml\":{\"name\":\"customer\"}},\"400\":{\"type\":\"string\"},\"404\":{\"type\":\"string\"}}}",
+                    "fe_metadata": "{\"type\":\"object\",\"properties\":{\"200\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":100000},\"name\":{\"type\":\"string\",\"example\":\"fehguy\"},\"email\":{\"type\":\"string\",\"example\":\"fehguy@mail.com\"},\"age\":{\"type\":\"integer\",\"format\":\"int64\",\"example\":32},\"city\":{\"type\":\"string\",\"example\":\"Paris\"}},\"xml\":{\"name\":\"customer\"}},\"400\":{\"type\":\"string\"},\"404\":{\"type\":\"string\"}}}",
                     "feSchemaMap": {}
+                  },
+                  "responseCodesSchema": {
+                    "type": "json",
+                    "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"responseType\":{\"type\":\"string\"},\"responseSchema\":{\"type\":\"string\"}},\"required\":[\"code\",\"responseType\"]}}",
+                    "fe_metadata": "[{\"code\":200,\"responseType\":\"object\",\"responseSchema\":\"{\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"id\\\":{\\\"type\\\":\\\"integer\\\",\\\"format\\\":\\\"int64\\\",\\\"example\\\":100000},\\\"name\\\":{\\\"type\\\":\\\"string\\\",\\\"example\\\":\\\"fehguy\\\"},\\\"email\\\":{\\\"type\\\":\\\"string\\\",\\\"example\\\":\\\"fehguy@mail.com\\\"},\\\"age\\\":{\\\"type\\\":\\\"integer\\\",\\\"format\\\":\\\"int64\\\",\\\"example\\\":32},\\\"city\\\":{\\\"type\\\":\\\"string\\\",\\\"example\\\":\\\"Paris\\\"}},\\\"xml\\\":{\\\"name\\\":\\\"customer\\\"}}\"},{\"code\":400,\"responseType\":\"string\"},{\"code\":404,\"responseType\":\"string\"}]",
+                    "feSchemaMap": {}
+                  },
+                  "headers": {
+                    "type": "json",
+                    "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false},\"Set-Cookie\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                    "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Set-Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "LogMessage1",
+            "name": "LogMessage1",
+            "description": "Simple Log Message Activity",
+            "activity": {
+              "ref": "#log",
+              "input": {
+                "Log Level": "INFO",
+                "flowInfo": true,
+                "message": "=string.tostring($activity[InvokeRESTService].responseCodes)",
+                "logLevel": ""
+              }
+            }
+          },
+          {
+            "id": "LogMessageWarnNotFound",
+            "name": "LogMessageWarnNotFound",
+            "description": "Simple Log Message Activity",
+            "activity": {
+              "ref": "#log",
+              "input": {
+                "Log Level": "WARN",
+                "flowInfo": false,
+                "message": "=string.concat('No records returned for customer id: ',coerce.toString($flow.pathParams.id))",
+                "logLevel": ""
+              }
+            }
+          },
+          {
+            "id": "Return400",
+            "name": "Return400",
+            "description": "Simple Return Activity",
+            "activity": {
+              "ref": "#actreturn",
+              "settings": {
+                "mappings": {
+                  "code": 400,
+                  "responseBody": {
+                    "mapping": {
+                      "body": "{\"message\":\"Customer Not found\"}"
+                    }
                   }
                 }
               }
@@ -338,11 +325,11 @@
               "input": {
                 "input": {
                   "mapping": {
-                    "id": "=$activity[FetchCustomerRow].Output.records[0].id",
-                    "name": "=$activity[FetchCustomerRow].Output.records[0].name",
-                    "email": "=$activity[FetchCustomerRow].Output.records[0].email",
-                    "age": "=$activity[FetchCustomerRow].Output.records[0].age",
-                    "city": "=$activity[FetchCustomerRow].Output.records[0].city"
+                    "id": "=$activity[InvokeRESTService].responseCodes[\"200\"].id",
+                    "name": "=$activity[InvokeRESTService].responseCodes[\"200\"].name",
+                    "email": "=$activity[InvokeRESTService].responseCodes[\"200\"].email",
+                    "age": "=$activity[InvokeRESTService].responseCodes[\"200\"].age",
+                    "city": "=$activity[InvokeRESTService].responseCodes[\"200\"].city"
                   }
                 }
               },
@@ -383,41 +370,9 @@
                 }
               }
             }
-          },
-          {
-            "id": "LogMessageWarnNotFound",
-            "name": "LogMessageWarnNotFound",
-            "description": "Simple Log Message Activity",
-            "activity": {
-              "ref": "#log",
-              "input": {
-                "Log Level": "WARN",
-                "flowInfo": false,
-                "message": "=string.concat('No records returned for customer id: ',coerce.toString($flow.pathParams.id))",
-                "logLevel": ""
-              }
-            }
-          },
-          {
-            "id": "Return404",
-            "name": "Return404",
-            "description": "Simple Return Activity",
-            "activity": {
-              "ref": "#actreturn",
-              "settings": {
-                "mappings": {
-                  "code": 404,
-                  "responseBody": {
-                    "mapping": {
-                      "body": ""
-                    }
-                  }
-                }
-              }
-            }
           }
         ],
-        "fe_metadata": "eyJTdGFydEFjdGl2aXR5Ijp7IngiOjEyLCJ5IjoxMDF9LCJMb2dNZXNzYWdlIjp7IngiOjEzNiwieSI6OTF9LCJGZXRjaEN1c3RvbWVyUm93Ijp7IngiOjMzNywieSI6OTV9LCJNYXBwZXJDdXN0b21lciI6eyJ4Ijo1NDksInkiOjk0fSwiUmV0dXJuMjAwIjp7IngiOjczMSwieSI6OTV9LCJMb2dNZXNzYWdlV2Fybk5vdEZvdW5kIjp7IngiOjU0OCwieSI6MjIwfSwiUmV0dXJuNDA0Ijp7IngiOjczMiwieSI6MjIwfX0=",
+        "fe_metadata": "eyJTdGFydEFjdGl2aXR5Ijp7IngiOjEyLCJ5IjoxMDF9LCJMb2dNZXNzYWdlIjp7IngiOjEzNiwieSI6OTF9LCJJbnZva2VSRVNUU2VydmljZSI6eyJ4IjozNDMsInkiOjkzfSwiTG9nTWVzc2FnZTEiOnsieCI6NTQ1LCJ5Ijo5Mn0sIkxvZ01lc3NhZ2VXYXJuTm90Rm91bmQiOnsieCI6ODA0LCJ5IjoyMDd9LCJSZXR1cm40MDAiOnsieCI6MTAzNCwieSI6MjIzfSwiTWFwcGVyQ3VzdG9tZXIiOnsieCI6Nzk5LCJ5Ijo5Mn0sIlJldHVybjIwMCI6eyJ4IjoxMDM5LCJ5Ijo5Mn19",
         "metadata": {
           "input": [
             {
@@ -425,7 +380,7 @@
               "type": "object",
               "schema": {
                 "type": "json",
-                "value": "{\"id\":{\"type\":\"string\"}}"
+                "value": "{\"id\":{\"type\":\"number\"}}"
               }
             },
             {
@@ -452,65 +407,7 @@
             }
           ],
           "fe_metadata": {
-            "input": "{\"type\":\"object\",\"title\":\"CustomerAPI\",\"properties\":{\"pathParams\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"}},\"required\":[]},\"requestURI\":{\"type\":\"string\",\"required\":false},\"method\":{\"type\":\"string\",\"required\":false}}}",
-            "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"responseBody\":{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}},\"required\":[]}"
-          }
-        },
-        "explicitReply": true
-      }
-    },
-    {
-      "id": "flow:createCustomer",
-      "data": {
-        "name": "createCustomer",
-        "description": "Create a customer object",
-        "links": [],
-        "tasks": [
-          {
-            "id": "StartActivity",
-            "name": "StartActivity",
-            "description": "NoOp Activity",
-            "activity": {
-              "ref": "#noop"
-            }
-          }
-        ],
-        "fe_metadata": "eyJTdGFydEFjdGl2aXR5Ijp7IngiOjEwMCwieSI6MTAwfX0=",
-        "metadata": {
-          "input": [
-            {
-              "name": "body",
-              "type": "object",
-              "schema": {
-                "type": "json",
-                "value": "{\"id\":{\"type\":\"integer\",\"description\":\"identifier\",\"example\":1},\"name\":{\"type\":\"string\",\"description\":\"name\",\"example\":\"John Doe\"},\"email\":{\"type\":\"string\",\"description\":\"email\",\"example\":\"john.doe@example.com\"},\"age\":{\"type\":\"integer\",\"description\":\"age\",\"example\":30},\"city\":{\"type\":\"string\",\"description\":\"city\",\"example\":\"New York\"}}"
-              }
-            },
-            {
-              "name": "requestURI",
-              "type": "string"
-            },
-            {
-              "name": "method",
-              "type": "string"
-            }
-          ],
-          "output": [
-            {
-              "name": "code",
-              "type": "integer"
-            },
-            {
-              "name": "responseBody",
-              "type": "object",
-              "schema": {
-                "type": "json",
-                "value": "{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}"
-              }
-            }
-          ],
-          "fe_metadata": {
-            "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"body\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"identifier\",\"example\":1},\"name\":{\"type\":\"string\",\"description\":\"name\",\"example\":\"John Doe\"},\"email\":{\"type\":\"string\",\"description\":\"email\",\"example\":\"john.doe@example.com\"},\"age\":{\"type\":\"integer\",\"description\":\"age\",\"example\":30},\"city\":{\"type\":\"string\",\"description\":\"city\",\"example\":\"New York\"}}},\"requestURI\":{\"type\":\"string\",\"required\":false},\"method\":{\"type\":\"string\",\"required\":false}}}",
+            "input": "{\"type\":\"object\",\"title\":\"CustomerAPI\",\"properties\":{\"pathParams\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"}},\"required\":[\"id\"]},\"requestURI\":{\"type\":\"string\",\"required\":false},\"method\":{\"type\":\"string\",\"required\":false}}}",
             "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"responseBody\":{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}},\"required\":[]}"
           }
         },
@@ -518,126 +415,23 @@
       }
     }
   ],
-  "properties": [
-    {
-      "name": "PostgreSQL.postgres.Host",
-      "type": "string",
-      "value": "ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech"
-    },
-    {
-      "name": "PostgreSQL.postgres.Port",
-      "type": "float64",
-      "value": 5432
-    },
-    {
-      "name": "PostgreSQL.postgres.Database_Name",
-      "type": "string",
-      "value": "neondb"
-    },
-    {
-      "name": "PostgreSQL.postgres.User",
-      "type": "string",
-      "value": "neondb_owner"
-    },
-    {
-      "name": "PostgreSQL.postgres.Password",
-      "type": "string",
-      "value": "SECRET:iogpf+kg8V75pv88OZ8cnLBA9jLns+B/bDxFeVhslkA="
-    },
-    {
-      "name": "PostgreSQL.postgres.Maximum_Open_Connections",
-      "type": "float64",
-      "value": 0
-    },
-    {
-      "name": "PostgreSQL.postgres.Maximum_Idle_Connections",
-      "type": "float64",
-      "value": 2
-    },
-    {
-      "name": "PostgreSQL.postgres.Maximum_Connection_Lifetime",
-      "type": "string",
-      "value": 0
-    },
-    {
-      "name": "PostgreSQL.postgres.Maximum_Connection_Retry_Attempts",
-      "type": "float64",
-      "value": 3
-    },
-    {
-      "name": "PostgreSQL.postgres.Connection_Retry_Delay",
-      "type": "float64",
-      "value": 5
-    },
-    {
-      "name": "PostgreSQL.postgres.Connection_Timeout",
-      "type": "float64",
-      "value": 20
-    },
-    {
-      "name": "PostgreSQL.postgres.CA_Certificate",
-      "type": "string",
-      "value": {
-        "filename": "ISRG_Root_X1.pem",
-        "content": "data:application/x-x509-ca-cert;base64,LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZhekNDQTFPZ0F3SUJBZ0lSQUlJUXo3RFNRT05aUkdQZ3UyT0Npd0F3RFFZSktvWklodmNOQVFFTEJRQXcKVHpFTE1Ba0dBMVVFQmhNQ1ZWTXhLVEFuQmdOVkJBb1RJRWx1ZEdWeWJtVjBJRk5sWTNWeWFYUjVJRkpsYzJWaApjbU5vSUVkeWIzVndNUlV3RXdZRFZRUURFd3hKVTFKSElGSnZiM1FnV0RFd0hoY05NVFV3TmpBME1URXdORE00CldoY05NelV3TmpBME1URXdORE00V2pCUE1Rc3dDUVlEVlFRR0V3SlZVekVwTUNjR0ExVUVDaE1nU1c1MFpYSnUKWlhRZ1UyVmpkWEpwZEhrZ1VtVnpaV0Z5WTJnZ1IzSnZkWEF4RlRBVEJnTlZCQU1UREVsVFVrY2dVbTl2ZENCWQpNVENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFLM29KSFAwRkRmem01NHJWeWdjCmg3N2N0OTg0a0l4dVBPWlhvSGozZGNLaS92VnFidllBVHlqYjNtaUdiRVNUdHJGai9SUVNhNzhmMHVveG15RisKMFRNOHVrajEzWG5mczdqL0V2RWhta3ZCaW9aeGFVcG1abXlQZmp4d3Y2MHBJZ2J6NU1EbWdLN2lTNCszbVg2VQpBNS9UUjVkOG1VZ2pVK2c0cms4S2I0TXUwVWxYaklCMHR0b3YwRGlOZXdOd0lSdDE4akE4K28rdTNkcGpxK3NXClQ4S09FVXQrend2by83VjNMdlN5ZTByZ1RCSWxESENOQXltZzRWTWs3QlBaN2htL0VMTktqRCtKbzJGUjNxeUgKQjVUMFkzSHNMdUp2VzVpQjRZbGNOSGxzZHU4N2tHSjU1dHVrbWk4bXhkQVE0UTdlMlJDT0Z2dTM5NmozeCtVQwpCNWlQTmdpVjUrSTNsZzAyZFo3N0RuS3hIWnU4QS9sSkJkaUIzUVcwS3RaQjZhd0JkcFVLRDlqZjFiMFNIelV2CktCZHMwcGpCcUFsa2QyNUhON3JPckZsZWFKMS9jdGFKeFFaQktUNVpQdDBtOVNUSkVhZGFvMHhBSDBhaG1iV24KT2xGdWhqdWVmWEtuRWdWNFdlMCtVWGdWQ3dPUGpkQXZCYkkrZTBvY1MzTUZFdnpHNnVCUUUzeERrM1N6eW5UbgpqaDhCQ05BdzFGdHhOclFIdXNFd01GeEl0NEk3bUtaOVlJcWlveW1DekxxOWd3UWJvb01EUWFIV0JmRWJ3cmJ3CnFIeUdPMGFvU0NxSTNIYWFkcjhmYXFVOUdZL3JPUE5rM3NnckRRb28vL2ZiNGhWQzFDTFFKMTNoZWY0WTUzQ0kKclU3bTJZczZ4dDBuVVc3L3ZHVDFNME5QQWdNQkFBR2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUJCakFQQmdOVgpIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSNXRGbm1lN2JsNUFGemdBaUl5QnBZOXVtYmJqQU5CZ2txCmhraUc5dzBCQVFzRkFBT0NBZ0VBVlI5WXFieXlxRkRRRExIWUdta2dKeWtJckdGMVhJcHUrSUxsYVMvVjlsWkwKdWJoekVGblRJWmQrNTB4eCs3TFNZSzA1cUF2cUZ5RldoZkZRRGxucnp1Qlo2YnJKRmUrR25ZK0VnUGJrNlpHUQozQmViWWh0RjhHYVYwbnh2d3VvNzd4L1B5OWF1Si9HcHNNaXUvWDErbXZvaUJPdi8yWC9xa1NzaXNSY09qL0tLCk5GdFkyUHdCeVZTNXVDYk1pb2d6aVV3dGhEeUMzKzZXVndXNkxMdjN4TGZIVGp1Q3ZqSElJbk56a3RIQ2dLUTUKT1JBekk0Sk1QSitHc2xXWUhiNHBob3dpbTU3aWF6dFhPb0p3VGR3Sng0bkxDZ2ROYk9oZGpzbnZ6cXZIdTdVcgpUa1hXU3RBbXpPVnl5Z2hxcFpYakZhSDNwTzNKTEYrbCsvK3NLQUl1dnRkN3UrTnhlNUFXMHdkZVJsTjhOd2RDCmpOUEVscHpWbWJVcTRKVWFnRWl1VERrSHpzeEhwRktWSzdxNCs2M1NNMU45NVIxTmJkV2hzY2RDYitaQUp6VmMKb3lpM0I0M25qVE9RNXlPZisxQ2NlV3hHMWJRVnM1WnVmcHNNbGpxNFVpMC8xbHZoK3dqQ2hQNGtxS09KMnF4cQo0Umdxc2FoRFlWdlRIOXc3alhieUxlaU5kZDhYTTJ3OVUvdDd5MEZmLzl5aTBHRTQ0WmE0ckYyTE45ZDExVFBBCm1SR3VuVUhCY25XRXZnSkJRbDluSkVpVTBac252Z2MvdWJoUGdYUlI0WHEzN1owajRyN2cxU2dFRXp3eEE1N2QKZW15UHhnY1l4bi9lUjQ0L0tKNEVCcytsVkRSM3ZleUptK2tYUTk5YjIxLytqaDVYb3MxQW5YNWlJdHJlR0NjPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
-      }
-    },
-    {
-      "name": "PostgreSQL.postgres.Client_Certificate",
-      "type": "string",
-      "value": ""
-    },
-    {
-      "name": "PostgreSQL.postgres.Client_Key",
-      "type": "string",
-      "value": ""
-    }
-  ],
-  "connections": {
-    "2cfd2a40-4a4e-4fd0-a8ec-c3a644ec82bb": {
-      "id": "2cfd2a40-4a4e-4fd0-a8ec-c3a644ec82bb",
-      "name": "postgres",
-      "ref": "#connection",
-      "isGlobal": false,
-      "settings": {
-        "databaseType": "PostgreSQL",
-        "name": "postgres",
-        "description": "postgres",
-        "host": "=$property[\"PostgreSQL.postgres.Host\"]",
-        "port": "=$property[\"PostgreSQL.postgres.Port\"]",
-        "databaseName": "=$property[\"PostgreSQL.postgres.Database_Name\"]",
-        "user": "=$property[\"PostgreSQL.postgres.User\"]",
-        "password": "=$property[\"PostgreSQL.postgres.Password\"]",
-        "maxopenconnection": "=$property[\"PostgreSQL.postgres.Maximum_Open_Connections\"]",
-        "maxidleconnection": "=$property[\"PostgreSQL.postgres.Maximum_Idle_Connections\"]",
-        "connmaxlifetime": "=$property[\"PostgreSQL.postgres.Maximum_Connection_Lifetime\"]",
-        "maxconnectattempts": "=$property[\"PostgreSQL.postgres.Maximum_Connection_Retry_Attempts\"]",
-        "connectionretrydelay": "=$property[\"PostgreSQL.postgres.Connection_Retry_Delay\"]",
-        "connectiontimeout": "=$property[\"PostgreSQL.postgres.Connection_Timeout\"]",
-        "onprem": false,
-        "tlsconfig": true,
-        "tlsparam": "VerifyCA",
-        "cacert": "=$property[\"PostgreSQL.postgres.CA_Certificate\"]",
-        "clientcert": "=$property[\"PostgreSQL.postgres.Client_Certificate\"]",
-        "clientkey": "=$property[\"PostgreSQL.postgres.Client_Key\"]"
-      }
-    }
-  },
-  "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS90aWJjby9mbG9nby1nZW5lcmFsL3NyYy9hcHAvR2VuZXJhbCIsImlkIjoiR2VuZXJhbCIsInZlcnNpb24iOiIxLjYuMyIsInRhZyI6IjEuNi4zLWIwMSIsIm5hbWUiOiJHZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwiLCJpc1VzZXJFeHRlbnNpb24iOmZhbHNlfSx7InJlZiI6ImdpdGh1Yi5jb20vdGliY28vd2ktcG9zdGdyZXMvc3JjL2FwcC9Qb3N0Z3JlU1FMIiwiaWQiOiJQb3N0Z3JlU1FMIiwidmVyc2lvbiI6IjIuNy4xIiwidGFnIjoiMi43LjEtYjAxIiwibmFtZSI6IlBvc3RncmVTUUwiLCJzM2xvY2F0aW9uIjoiVGliY28vUG9zdGdyZVNRTCIsImlzVXNlckV4dGVuc2lvbiI6ZmFsc2V9XQ==",
+  "properties": [],
+  "connections": {},
+  "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS90aWJjby9mbG9nby1nZW5lcmFsL3NyYy9hcHAvR2VuZXJhbCIsImlkIjoiR2VuZXJhbCIsInZlcnNpb24iOiIxLjYuMyIsInRhZyI6IjEuNi4zLWIwMSIsIm5hbWUiOiJHZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwiLCJpc1VzZXJFeHRlbnNpb24iOmZhbHNlfV0=",
   "metadata": {
     "endpoints": [
       {
         "protocol": "http",
         "port": "9999",
         "spec": {
-          "name": "customer-api",
+          "name": "customer-HELG",
           "version": "1.0.0"
         },
         "title": "CustomerAPI",
         "swagger": {
           "openapi": "3.0.0",
           "info": {
-            "title": "customer-api",
+            "title": "customer-HELG",
             "version": "1.0.0",
             "description": "Simple REST Trigger"
           },
@@ -680,37 +474,6 @@
                   }
                 },
                 "description": "Returns a customer object by Id"
-              }
-            },
-            "/customer": {
-              "post": {
-                "summary": "createCustomer",
-                "operationId": "post_customer",
-                "parameters": [],
-                "responses": {
-                  "201": {
-                    "description": "",
-                    "content": {
-                      "application/json": {
-                        "schema": {
-                          "$ref": "#/components/schemas/schema1"
-                        }
-                      }
-                    }
-                  }
-                },
-                "description": "Create a customer object",
-                "requestBody": {
-                  "description": "",
-                  "required": false,
-                  "content": {
-                    "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/schema1"
-                      }
-                    }
-                  }
-                }
               }
             }
           },
