@@ -33,87 +33,53 @@ This workbook provides a use-case for customers to follow using the provided lab
 >The database has been created for you and there's some test rows in the customer table ready for you to use.
 
 
-### Task 1 - Connect the Postgres Database
+### Task 1 - Create your project
 
-> Objective: A PostgreSQL database publicly available is used during this workshop.
+> Objective: Create a new project from a Flogo template in the Developer Hub
 
-1. The Postgres Database connection details are:
-```
-postgresql://neondb_owner:************@ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech/neondb?sslmode=require
-```
+1. Connect to the TIBCO Platform and select Developer Hub
+
+![](./images/DevHubLink.png)
+
+2. On the right menu, click on Develop... and select the template Customer API Template
+
+![](./images/CustomerTemplate.png)
+
+3. Fill in the form values as following - Replace YourName by you name :
 
 Name | Value
 --|--   
-Host|ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech
-Port|5432
-Database Name|neondb
-Username|neondb_owner
-Password|**********
+Name|CustomerAPI-YourName
+Description|A service that calls a backend customer service using Flogo - developped by YourName
+HTTP port to expose|neondb
+Owner|group:default/tibco-platform-workshop
+
+4. Click on Review button, review all the details then click on Create
+
+![](./images/CreateProject.png)
+
+5. A new Github repository has been created, click on Repository link to view the source code
+![](./images/ProjectCreated.png)
+
+6. Copy the link from github, then download the project on your laptop. Open a Command Prompt, and run the following commands:
+
+```
+git clone <Github repo url>
+cd customerAPI-YourName
+code .
+````
+![](./images/gitClone.png)
+
 
 ### Task 2 - Implement the getCustomerById operation
 
 > [!NOTE]  
-> Objective: The getCustomerById operation should retrieve a row from the Customer Table using the {id} path parameter and return a Customer JSON object.
-
-#### Step 1 - Create project repository folder and launch Visual Studio Code
-
-In this section, we will perform the following:
-
-- Open a command prompt
-- Create a repository folder
-- Launch Visual Studio Code.
-
-1. Open a Command Prompt, and run the following commands:
-
-```
-mkdir src
-cd src
-mkdir flogo-customer-api
-cd flogo-customer-api
-code .
-```
+> Objective: The getCustomerById operation should retrieve a customer from tha bzckend service using the {id} path parameter and return a Customer JSON object.
 
 
-*Leave the window open, we will come back to this shortly.*
+#### Step 1 - Review the Open API Specification
 
-![](./images/Image_6.png)
-
-3. Your VSC workspace should look something like this:
-
-![](./images/Image_7.png)
-
-#### Step 2- Import the Open API Specifications (OAS) Files from Github Repository
-
-In this section, we will perform the following:
-
-- Create a Folder called **spec**
-- Import API Specification files from Github
-- From the Explorer View, select **New Folder**
-
-![](./images/Image_8.png)
-
-- Name the new folder **spec**. This is where we will place our OAS resources needed for the API implementation.
-
-![](./images/Image_9.png)
-
-- From your Command Window change directory into the spec folder and run the following command to retrieve the OAS resource from the remote GIT server:
-
-```
-cd spec
-
-wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Workshop/refs/heads/main/src/flogo-customer-api/spec/openapi3_0.json
-```
-- If you are using PowerShell - the command to retrieve the OAS resource is slightly different:
-```
-wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Workshop/refs/heads/main/src/flogo-customer-api/spec/openapi3_0.json -OutFile openapi3_0.json
-```
-
-- In Visual Studio Code Explorer, use the Explorer Refresh action to refresh.
-
-
-#### Step 3 - Review the Open API Specification
-
-1. Open the newly imported openapi3_0.json specification from the Explorer View. From within the editor window, press the **SHIFT+ALT+P** key combination to bring up Swagger Preview window.
+1. Open the newly imported customer.json specification from the Explorer View in the folder spec. From within the editor window, press the **SHIFT+ALT+P** key combination to bring up Swagger Preview window.
 
 > [!TIP]  
 > If it does not work, please install the extension "OpenAPI (Swagger) Editor"
@@ -124,81 +90,19 @@ wget https://raw.githubusercontent.com/atsfr-tibco-devhub/TIBCO-Platform-Worksho
    
 * It uses the HTTP GET method with a path of /customer/{id} and returns two HTTP response codes of 200 or 404.  
 * A response code 200 should return a JSON object of the customer that matches the id parameter. 
-* If no customer object exists then the API must return a 404 response code.
+* If no customer object exists then the API must return a 400 response code.
    
 ![](./images/Image_2.png)
 
-1. Once you have familiarised yourself with the specification then go ahead and close the Swagger Preview and the Editor windows.
+3. Once you have familiarised yourself with the specification then go ahead and close the Swagger Preview and the Editor windows.
 
-#### Step 4 - Create the Flogo Application
+#### Step 2 - Open the Flogo Application
 
-In this section, we will perform the following:
-
-- Create a Flogo Application
-
-1. Hover over the **FLOGO-CUSTOMER-API** in the Explorer view. Click the **Create New Flogo App** action
-
-![](./images/Image_10.png)
-
-2. A dialog box will be displayed for you to enter the name of the new Flogo application. Enter **customer-api** and hit return.
-
-![](./images/Image_11.png)
-
-3. We will skip creating Unit Tests for this application, go ahead and select **Create App Only.**
-
-![](./images/Image_12.png)
-
-4. The Flogo Plugin will launch to show the following viewport.
+1. Open the file src/customer-api.flogo. The Flogo Plugin will launch to show the following viewport.
 
 ![](./images/Image_13.png)
 
-#### Step 5 - Create the Postgres Database Connection
-
-In this section, we will perform the following:
-
-- create a connection to the PostgreSQL database. The connection will be used by the Flogo Flows in order to interact with the database.
-
-1. Click **CONNECTIONS** option on the screen to create a new connection, then click **Create connection**
-
-![](./images/Image_14.png)
-
-2. Select a Connection Type of **SQLServer Connector**
-
-![](./images/Image_15.png)
-
-3. Configure the SQL Server connector with the following:
-
-| Database Type | SQLServer |
-|---|---|
-| Connection Name | tibco-sqlserver |
-| Description | tibco-sqlserver |
-| Host | tibco-sqlserver.database.windows.net |
-| Port | 1433 |
-| Database Name | tibco-sqlserver |
-| User | tibco |
-| Password | ************ |
-
-
-3. OPTION Configure the PostgreSQL connector with the following:
-
-| Database Type | PostgreSQL |
-|---|---|
-| Connection Name | postgres |
-| Description | postgres |
-| Host | ep-mute-fire-a9qqz3hw-pooler.gwc.azure.neon.tech |
-| Port | 5432 |
-| Database Name | neondb |
-| User | neondb_owner |
-| Password | ************ |
-| Secure Connection | true |
-| TLS | VerifyCA |
-| CA Certificate | ISRG_Root_X1.pem |
-
-4. Click **Connect**
-
-![](./images/Image_16.png)
-
-#### Step 6 - Create Flogo App Trigger
+#### Step 3 - Create Flogo App Trigger
 
 In this section, we will perform the following:
 
@@ -223,7 +127,7 @@ The following dialog will be shown:
 
 ![](./images/Image_20.png)
 
-5. An Open dialog box will appear, now navigate to your API specification file saved earlier under the **spec** folder. Select the file **openapi3_0.json** and click **Open**
+5. An Open dialog box will appear, now navigate to your API specification file saved earlier under the **spec** folder. Select the file **customer.json** and click **Open**
 
 ![](./images/Image_21.png)
 
@@ -243,7 +147,7 @@ The following dialog will be shown:
 
 11. Nice work so far, you're well on your way to finishing your first API in Flogo. The Trigger has now been configured for the **GET /customer/{id}** operation ready for you to implement the API logic.
 
-#### Step 7 - Develop the getCustomerById Flow
+#### Step 4 - Develop the getCustomerById Flow
 
 In this section, we will perform the following:
 
@@ -258,11 +162,11 @@ The complete flow will look like this:
 |---|---|---|
 |  |  |  |
 | LogMessage | Log | Log a message containing the customer identifier passed into the operation |
-| FetchCustomerRow | PostgreSQL Query | Retrieve a row from the customer table that matches its primary key |
-| MapperCustomer | Mapper | Create a JSON Customer object and populate with values returned from the database |
+| CallBackendService | Invoke REST Service | Retrieve customer data from the customer backend service that matches its primary key |
+| MapperCustomer | Mapper | Create a JSON Customer object and populate with values returned from the backend service |
 | Return200 | Return | Return a 200 HTTP response code with a Customer JSON response body |
 | LogMessageWarnNotFound | Log | Log a warning message if the record is not found in the database |
-| Return404 | Return | Return a 404 HTTP response code and an empty response body when no customer record exists in the database |
+| Return400 | Return | Return a 400 HTTP response code and an empty response body when no customer record exists in the database |
 
 **LogMessage Activity**
 
@@ -290,37 +194,25 @@ The LogMessage activity Input should look like this:
 > [!NOTE]  
 > Objective: Retrieve a row from the customer table that matches its primary key.
 
-1. Drag a **PostgreSQL Query** activity from the Activity Bar -> PostgreSQL onto the canvas and connect to LogMessage activity. Rename the activity to **FetchCustomerRow**.
+1. Drag a **Invoke REST Service** activity from the Activity Bar -> General onto the canvas and connect to LogMessage activity. Rename the activity to **CallBackendService**.
 
 ![](./images/Image_29.gif)
 
-2. Configure the PostgreSQLQuery activity Settings to use the connector **postgres** and the schema **public**:
+2. Configure the CallBackendService activity Settings to use OpenAPI specification **customer-backend.json** in the **spec** folder:
 
 ![](./images/Image_30.gif)
 
-The PostgreSQLQuery activity Settings should look like this:
+The CallBackendService activity Settings should look like this:
 
 ![](./images/Image_31.png)
 
-3. Configure the PostgreSQLQuery activity Input Settings. Set the Query Statement to retrieve a row from the customer table where the id attribute equals the bounded parameter value of ?id:
-
-| Query Statement |
-|---|
-| SELECT * FROM customer WHERE id=?id; |
-
-![](./images/Image_32.gif)
-
-The PostgreSQLQuery activity Input Settings should look like this:
-
-![](./images/Image_33.png)
-
-4. Configure the PostgreSQLQuery activity Input. Map the flow path parameter value (passed from the Trigger URL Path /customer/{id} to the Flow) to the bounded parameter ?id:
+3. Configure the CallBackendService activity Input. Map the flow path parameter value (passed from the Trigger URL Path /customer/{id} to the Flow) to the bounded parameter ?id:
 
 ![](./images/Image_34.gif)
 
 5. Modify the expression to coerce the id field from a String to an Integer using the coerce.toInt() function
 
-The PostgreSQLQuery activity Input should look like this:
+The CallBackendService activity Input should look like this:
 
 ![](./images/Image_35.png)
 
@@ -329,7 +221,7 @@ The PostgreSQLQuery activity Input should look like this:
 > [!NOTE]  
 > Objective: Create a JSON Customer object and populate with values returned from the database.
 
-1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **MapperCustomer**.
+1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to CallBackendService activity. Rename the activity to **MapperCustomer**.
 
 ![](./images/Image_36.gif)
 
@@ -352,11 +244,11 @@ The PostgreSQLQuery activity Input should look like this:
 
 | Field | Expression |
 |---|---|
-| id | $activity[FetchCustomerRow].Output.records[0].id |
-| name | $activity[FetchCustomerRow].Output.records[0].name |
-| email | $activity[FetchCustomerRow].Output.records[0].email |
-| age | $activity[FetchCustomerRow].Output.records[0].age |
-| city | $activity[FetchCustomerRow].Output.records[0].city |
+| id | $activity[CallBackendService].responseCodes["200"].id |
+| name | $activity[CallBackendService].responseCodes["200"].name |
+| email | $activity[CallBackendService].responseCodes["200"].email |
+| age | $activity[CallBackendService].responseCodes["200"].age |
+| city | $activity[CallBackendService].responseCodes["200"].city |
 
 
 ![](./images/Image_38.gif)
@@ -400,16 +292,16 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](./images/Image_42.gif)
 
-**Return404 Activity**
+**Return400 Activity**
 
 > [!NOTE]  
-> Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
+> Objective: Return a 400 HTTP response code and an empty response body when no customer record exists in the database.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return404**.
 
 ![](./images/Image_43.gif)
 
-3. Map the Outputs of the Return404 activity. Set the **code** field to 404. Set the responseBody->body to **''**. Click Save.
+3. Map the Outputs of the Return404 activity. Set the **code** field to 400. Set the responseBody->body to **'Customer not found'**. Click Save.
 
 | Field | Expression |
 |---|---|
