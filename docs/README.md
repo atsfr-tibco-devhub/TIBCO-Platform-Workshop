@@ -334,7 +334,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](./images/Image_47.gif)
 
-##### Step 7 - Rename the Flow to getCustomerById
+#### Step 5 - Rename the Flow to getCustomerById
 
 Finally, now we have finished implementing the flow, let's give it a proper name to match the API specification operationID.
 
@@ -451,201 +451,14 @@ The Flogo Application will be compiled and the unit test will be executed. The t
 > Please Note: If the test suite above did not start - please make sure that the application is not already running, if it is running - just exit the application using "ctrl-c" and try re-running the unit test.
 
 
-### Task 5 - OPTIONAL - Implement the createCustomer operation
-
-> [!WARNING]
-> If you have enough time, you can implement another operation to create additional customers. Otherwise, please continue to 
-[Build and Deploy to TIBCO Platform](#task-6---build--deploy-to-tibco-platform)
-
-
-> [!NOTE]  
-> Objective: The createCustomer operation should insert a row in the customer table using the JSON request body provided. The response should contain the newly created customer identifier for the customer record.
-
-
-#### Step 1 - Add the createCustomer flow to the Trigger
-
-In this section, we will perform the following:
-
-- Add a new Flow to the Customer.
-
-1. To add the createCustomer Flow to the existing Trigger, use the top-left hand navigation link to the customer-api.
-
-![](./images/Image_49.png)
-
-2. Hover on the Customer Trigger until you see the '+ New flow** pop-up dialog appear. Click on it.
-
-3. On the Path drop-down choose the **/customer** path option.
-
-4. On the Method drop-down choose the **POST** option. Click Continue.
-
-5. Click **Copy schema** on the **Do you want to copy this triggers Output Schema into the Flows Inputs** prompt window.
-
-![](./images/Image_50.gif)
-
-6. Rename the flow **createCustomer** and the description to **Create a customer object**.
-
-![](./images/Image_51.gif)
-
-#### Step 2 - Develop the createCustomer Flow
-
-In this section, we will perform the following:
-
-- Implement logic to insert a row into the PostgreSQL database and return the Customer JSON reply with a 201 response code.
-
-The complete flow will look like this:
-
-![](./images/Image_52.png)
-
-| Activity Name | Type | Purpose |
-|---|---|---|
-|  |  |  |
-| LogDebugRequestBodyMessage | Log | Log a message containing the request Post Body passed into the operation |
-| GetNextSeqId | PostgreSQL Query | Retrieve the next value identity sequence from 'customer_id_seq' |
-| InsertCustomer | PostgreSQL Insert | Insert a row into the customer table with identity value. |
-| LogDebugInsertMessage |  | Log a debug message containing the new record identity used. |
-| MapperCustomer | Mapper | Create a JSON Customer object and populate with identity value and post body values. |
-| Return201 | Return | Return a 201 HTTP response code with a Customer JSON response body |
-
-**LogDebugRequestBodyMessage Activity**
-
-> [!NOTE]  
-> Objective: Log a message containing the HTTP request body passed into the operation..
-
-1. Drag a **Log Message** from the Activity Bar -> General onto the canvas.
-
-2. Rename the activity to **LogDebugRequestBodyMessage**.
-
-3. Configure the LogMessage activity, set the Log Level to **DEBUG**. Set the Activity inputs->message field to the following expression:
-
-| Field | Expression |
-|---|---|
-| message | utility.renderJSON($flow.body,boolean.true()) |
-
-**GetNextSeqId Activity**
-
-> [!NOTE]  
-> Objective: Retrieve the next value from the customer_id_seq sequence that will be used for the customer id.
-
-1. Drag a **PostgreSQL Query** from the Activity Bar -> PostgreSQL and connect to LogDebugRequestBodyMessage activity. Rename the activity to **GetNextSeqId**.
-
-2. Configure the PostgreSQLQuery activity Settings to use the connector **postgres** and the schema **public**:
-
-3. Configure the Input Settings. Set the Query Statement to:
-
-```
-SELECT nextval('customer_id_seq');
-```
-4. Verify that the Fields Table has been automatically populated with the field **nextval**.
-
-**InsertCustomer Activity**
-
-> [!NOTE]  
-> Objective: To insert a new row into the customer table with fields mapped from the POST request body and the **nextval** fields.
-
-1. Drag a **PostgreSQL Insert** from the Activity Bar -> PostgreSQL and connect to GetNextValue activity. Rename the activity to **InsertCustomer**.
-
-2. Configure the PostgreSQLQuery activity Settings to use the connector **postgres** and the schema **public**:
-
-3. Configure the Input Settings. Set the Insert Statement to:
-
-```
-INSERT INTO public.customer(id, name, email, age, city) VALUES (?id, ?name, ?email, ?age, ?city);
-```
-
-4. Verify that the Fields Table has been automatically populated. It should look like this:
-
-![](./images/Image_53.png)
-
-5. Map the Input of the activity from the $flow/body and GetNextSeqId output .
-
-| Field | Expression |
-|---|---|
-| id | $activity[GetNextSeqId].Output.records[0].nextval |
-| name | $flow.body.name |
-| email | $flow.body.email |
-| age | $flow.body.age |
-| city | $flow.body.city |
-
-6. The Activity Inputs for the InsertCustomer activity is expecting an Array. The icon to the left of the field denotes its type. In this case "Arr" for Array:
-![](./images/Image_53.1.png)
-
-7. As this is an array field, we need to either "Iterate" through a set of inputs, or create at least 1 entry in the array so that we can map our values. To insert 1 entry, click on the 3 dots next to the "values" field and choose "Add-Item". You will then be able to map the values from the GetNextSeqId activity (remembering to change the Index value to 0 from the placeholder), and the Flow data for the rest of the objects:
-
-![](./images/Image_53.2.gif)
-
-The mapping should look like this:
-
-![](./images/Image_54.png)
-
-**LogDebugInsertMessage Activity**
-
-> [!NOTE]  
-> Objective: Log a debug message containing the customer identity information..
-
-1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to InsertCustomer activity. Rename the activity to **LogDebugInsertMessage**.
-
-2. On the activity settings panel change the Log Level to Debug.
-
-3. On the activity Input panel set Activity input -> message to the following expression:
-
-| Field | Expression |
-|---|---|
-| message | string.concat("Inserted customer into table with Id: ",coerce.toString($activity[GetNextSeqId].Output.records[0].nextval))
- |
-
-**MapperCustomer Activity**
-
-> [!NOTE]  
-> Objective: Create a JSON Customer object and populate with values to be returned.
-
-1. Drag a **Mapper** activity from the Activity Bar -> General -> Mapper onto the canvas and connect to LogDebugInsertMessage activity. Rename the activity to **MapperCustomer**.
-
-2. Add the following JSON representation to the MapperCustomers' Input Settings. This will form the response object we reply back with. Click Save.
-
-```
-{
-  "id":1,
-  "name":"John Doe",
-  "email":"john.doe@example.com",
-  "age": 30,
-  "city":"New York"
-}
-```
-
-3. Map the Input of the MapperCustomer activity from the Output of the FetchCustomerRow activity.
-
-| Field | Expression |
-|---|---|
-| id | $activity[GetNextSeqId].Output.records[0].nextval |
-| name | $flow.body.name |
-| email | $flow.body.email |
-| age | $flow.body.age |
-| city | $flow.body.city |
-
-
-**Return201 Activity**
-
-> [!NOTE]  
-> Objective: Return a 201 HTTP response code with a Customer JSON response body.
-
-1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to MapperCustomer activity. Rename the activity to **Return201**.
-
-2. Map the Outputs of the Return201 activity. Set the **code** field to 201 and responseBody->body to the MapperCustomer->output. Click Save.
-
-| Field | Expression |
-|---|---|
-| code | 201 |
-| responseBody/body | $activity[MapperCustomer].output |
-
-
-## Task 6 - Build & Deploy to TIBCO Platform
+## Section 2 - Build & Deploy to TIBCO Platform
 
 > [!NOTE]  
 > Objective: To deploy the Customer API to a Dataplane on the TIBCO Platform from Visual Studio Code.
 
 Before we start deploying to the TIBCO Platform, we first need to make sure that Visual Studio Code and the Flogo plugin is authenticated against the platform, otherwise our deploy steps will fail.
 
-#### Re-Authenticate against the TIBCO Control Plane
+### Task 1 - Re-Authenticate against the TIBCO Control Plane
 
 1. Find the Flogo icon in the project explorer on the left hand side of Visual Studio Code and click on it:
 
@@ -666,7 +479,7 @@ Before we start deploying to the TIBCO Platform, we first need to make sure that
 5. We can now go back to our Flogo Application to continue the steps below to deploy it to the Data Plane. To return to our application - click on the Folder button in the left hand toolbar:
 
 
-#### Task 6 - Build & Deploy to TIBCO Platform
+### Task 2 - Build & Deploy to TIBCO Platform
 
 1. Configure Flogo to use Platform Runtime Profile by clicking on the configuration icon:
 
@@ -686,9 +499,9 @@ A pop-up box will be shown during the deployment run action.
 
 Once the pop-up disappears your Customer API will be deployed to your TIBCO Platform Dataplane. Let's now login to TIBCO Control Plane to see your newly deployed Customer API.
 
-## Section 2 - Managing your Applications using TIBCO Platform
+## Section 3 - Managing your Applications using TIBCO Platform
 
-### Task 7 - Login to TIBCO Control Plane
+### Task 1 - Login to TIBCO Control Plane
 
 > [!NOTE]  
 > Objective: To familiarise users of the TIBCO Control Plane
@@ -697,13 +510,13 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 
 ![](./images/Image_78.png)
 
-2. On the Home landing page you can see your newly deployed application **customer-api** has been deployed to a Kubernetes-based Data Plane **atspa-dp-ec2mk** and that its Status is **Running**.
+2. On the Home landing page you can see your newly deployed application **customer-api-[YOUR NAME]** has been deployed to a Kubernetes-based Data Plane **atsfr-dp-aks** and that its Status is **Running**.
 
 ![](./images/Image_79.png)
 
 4. By default your application has been deployed with a private endpoint, so in order for the API to be consumed externally it must have its endpoint visibility set to public.
 
-### Task 8 - Expose Customer API endpoint to public traffic
+### Task 2 - Expose Customer API endpoint to public traffic
 
 > [!NOTE]  
 > Objective: Any newly deployed application is configured with a private endpoint on a designated TIBCO Data Plane. To expose the Customer API endpoint we must make it public.
@@ -733,12 +546,12 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 ![](./images/Image_83.png)
 
 
-### Task 9 - Observability
+### Task 3 - Observability
 
 > [!NOTE]  
 > Objective: TIBCO Platform provides comprehensive observability data for applications deployed. A health dashboard of each Dataplane provides 'at-a-glance' information. Flows/Activities measurements, Machine Resource for CPU & Memory utilisation, and Success/Failure Counters of Applications deployed to the Platform.
 
-### Task 10 - View Application Logs
+### Task 4 - View Application Logs
 
 > [!NOTE]  
 > Objective: The TIBCO Platform integrates log forwarding to internal logging services provided to the TIBCO Platform via Elastic Stack. 
@@ -756,7 +569,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ![](./images/Image_87.png)
 
-### Task 11 - View Application Traces 
+### Task 5 - View Application Traces 
 
 > [!NOTE]  
 > Objective: To observe application telemetry information for distributed traces in order to identify performance issues.
@@ -789,7 +602,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ![](./images/Image_93.png)
 
-### Task 12 - Scaling Applications
+### Task 6 - Scaling Applications
 
 > [!NOTE]  
 > Objective: TIBCO Platform utilises Kubernetes for FT/HA thus ensuring your applications remain running at all times. When demand requires, any application can be scaled up or down through the TIBCO Control Plane.
