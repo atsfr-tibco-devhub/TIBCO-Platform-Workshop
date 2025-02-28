@@ -51,7 +51,7 @@ Name | Value
 --|--   
 Name|CustomerAPI-YourName
 Description|A service that calls a backend customer service using Flogo - developped by YourName
-HTTP port to expose|neondb
+HTTP port to expose|10000
 Owner|group:default/tibco-platform-workshop
 
 4. Click on Review button, review all the details then click on Create
