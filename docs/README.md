@@ -16,28 +16,28 @@ This workbook provides a use-case for customers to follow using the provided lab
 
 ## Section 1 - Build an API using Flogo and deploy to TIBCO Platform
 
-> Dave works for a small telecommunications company as the TIBCO expert. You take the place of Dave who has years of experience in TIBCO and is 'itching' to use the new TIBCO Platform his company has available. He has years of BusinessWorks 5 experience, but is fairly new to TIBCO Flogo.
+> Dave works for a small company as the TIBCO expert. You take the place of Dave who has years of experience in TIBCO and is 'itching' to use the new TIBCO Platform his company has available. He has years of BusinessWorks 5 experience, but is fairly new to TIBCO Flogo.
 >
->His manager Steve bursts into his office one morning?
+>His manager Steve bursts into his office one morning.
 >
 >"Dave, look we're up against the clock; the Spring development team is struggling to get the new Customer API built in time for the launch of the new DXP platform. The front-end development squad are blocked waiting for a working API to call and have asked me if you can build something quickly using TIBCO?"
 >
 >"Sure you reply, I have just the right tools for the job. Exactly what do I need to build? Has the API Product Owner got the specification?"
 >
->"Yes, and the DBA has created the database too!" Steve replied anxiously.
+>"Yes, and the backend service is already available too!" Steve replied anxiously.
 >
 >What you need to do...
 >
 >Your first task is to create the new Customer API using TIBCO Flogo and get it deployed to the TIBCO Platform Integration environment.
 >
->The database has been created for you and there's some test rows in the customer table ready for you to use.
+>The customer backend service is here for you and there's some data ready for you to use.
 
 
 ### Task 1 - Create your project
 
 > Objective: Create a new project from a Flogo template in the Developer Hub
 
-1. Connect to the TIBCO Platform and select Developer Hub
+1. Connect to the TIBCO Platform using the following URL https://tibcoatseuwe4.eu-west.my.tibco.com/cp/app/dashboard and select Developer Hub
 
 ![](./images/DevHubLink.png)
 
