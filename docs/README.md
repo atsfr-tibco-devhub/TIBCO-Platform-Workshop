@@ -67,7 +67,7 @@ Owner|group:default/tibco-platform-workshop
 git clone <Github repo url>
 cd customerAPI-YourName
 code .
-````
+```
 ![](./images/gitClone.png)
 
 
