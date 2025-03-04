@@ -45,11 +45,11 @@ This workbook provides a use-case for customers to follow using the provided lab
 
 ![](./images/CustomerTemplate.png)
 
-3. Fill in the form values as following - Replace YourName by you name :
+3. Fill in the form values as following - Replace YourName by your name, ideally in lower case :
 
 Name | Value
 --|--   
-Name|CustomerAPI-YourName
+Name|customer-api-YourName
 Description|A service that calls a backend customer service using Flogo - developped by YourName
 HTTP port to expose|10000
 Owner|group:default/tibco-platform-workshop
@@ -65,7 +65,7 @@ Owner|group:default/tibco-platform-workshop
 
 ```
 git clone <Github repo url>
-cd customerAPI-YourName
+cd customer-api-YourName
 code .
 ```
 ![](./images/gitClone.png)
@@ -189,28 +189,20 @@ The LogMessage activity Input should look like this:
 
 ![](./images/Image_28.png)
 
-**FetchCustomerRow Activity**
+**CallBackendService Activity**
 
 > [!NOTE]  
 > Objective: Retrieve a row from the customer table that matches its primary key.
 
-1. Drag a **Invoke REST Service** activity from the Activity Bar -> General onto the canvas and connect to LogMessage activity. Rename the activity to **CallBackendService**.
+1. Drag a ***Invoke REST Service*** activity from the Activity Bar -> General onto the canvas and connect to LogMessage activity. Rename the activity to **CallBackendService**.
 
 ![](./images/Image_29.gif)
 
-2. Configure the CallBackendService activity Settings to use OpenAPI specification **customer-backend.json** in the **spec** folder:
-
-![](./images/Image_30.gif)
-
-The CallBackendService activity Settings should look like this:
+2. Configure the CallBackendService activity Settings to use OpenAPI specification **customer-backend.json** in the **spec** folder. The CallBackendService activity Settings should look like this:
 
 ![](./images/Image_31.png)
 
 3. Configure the CallBackendService activity Input. Map the flow path parameter value (passed from the Trigger URL Path /customer/{id} to the Flow) to the bounded parameter ?id:
-
-![](./images/Image_34.gif)
-
-5. Modify the expression to coerce the id field from a String to an Integer using the coerce.toInt() function
 
 The CallBackendService activity Input should look like this:
 
@@ -272,6 +264,8 @@ The CallBackendService activity Input should look like this:
 
 ![](./images/Image_40.gif)
 
+### Task 3 - Optional - Implement the Not Found path
+
 **LogMessageWarnNotFound Activity**
 
 > [!NOTE]  
@@ -292,16 +286,16 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](./images/Image_42.gif)
 
-**Return400 Activity**
+**Return404 Activity**
 
 > [!NOTE]  
-> Objective: Return a 400 HTTP response code and an empty response body when no customer record exists in the database.
+> Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
 
 1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return404**.
 
 ![](./images/Image_43.gif)
 
-3. Map the Outputs of the Return404 activity. Set the **code** field to 400. Set the responseBody->body to **'Customer not found'**. Click Save.
+3. Map the Outputs of the Return404 activity. Set the **code** field to 404. Set the responseBody->body to **'Customer not found'**. Click Save.
 
 | Field | Expression |
 |---|---|
@@ -310,7 +304,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](./images/Image_44.gif)
 
-**FetchCustomerRow to MapperCustomer Branch**
+**CallBackendService to MapperCustomer Branch**
 
 > [!NOTE]  
 > Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
@@ -325,7 +319,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](./images/Image_46.gif)
 
-**FetchCustomerRow to LogMessageWarnNotFound Branch**
+**CallBackendService to LogMessageWarnNotFound Branch**
 
 > [!NOTE]  
 > Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
