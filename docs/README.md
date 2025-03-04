@@ -88,7 +88,7 @@ code .
 
 2. Review the ‘Retrieve a customer object’ API. 
    
-* It uses the HTTP GET method with a path of /customer/{id} and returns two HTTP response codes of 200 or 404.  
+* It uses the HTTP GET method with a path of /customer/{id} and returns two HTTP response codes of 200 or 400.  
 * A response code 200 should return a JSON object of the customer that matches the id parameter. 
 * If no customer object exists then the API must return a 400 response code.
    
@@ -151,8 +151,8 @@ The following dialog will be shown:
 
 In this section, we will perform the following:
 
-- Implement logic to retrieve a row from the PostgreSQL database and return the Customer JSON reply with a 200 response code.
-- Handle logic if no row is returned from the PostgreSQL database and return a 404 response code.
+- Implement logic to retrieve customer data from the REST backend service and return the Customer JSON reply with a 200 response code.
+- Handle logic if no row is returned from the REST backend service and return a 400 response code.
   
 The complete flow will look like this:
 
@@ -232,7 +232,7 @@ The CallBackendService activity Input should look like this:
 ![](./images/Image_37.gif)
 
 
-3. Map the Input of the MapperCustomer activity from the Output of the FetchCustomerRow activity.
+3. Map the Input of the MapperCustomer activity from the Output of the CallBackendService activity.
 
 | Field | Expression |
 |---|---|
@@ -271,7 +271,7 @@ The CallBackendService activity Input should look like this:
 > [!NOTE]  
 Objective: Log a warning message if the record is not found in the database.
 
-1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to FetchCustomerRow activity. Rename the activity to **LogMessageWarnNotFound**.
+1. Drag a **Log** activity from the Activity Bar -> General-> Log onto the canvas and connect to CallBackendService activity. Rename the activity to **LogMessageWarnNotFound**.
 
 ![](./images/Image_41.gif)
 
@@ -286,20 +286,20 @@ Objective: Log a warning message if the record is not found in the database.
 
 ![](./images/Image_42.gif)
 
-**Return404 Activity**
+**Return400 Activity**
 
 > [!NOTE]  
-> Objective: Return a 404 HTTP response code and an empty response body when no customer record exists in the database.
+> Objective: Return a 400 HTTP response code and an empty response body when no customer record exists in the database.
 
-1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return404**.
+1. Drag a **Return** activity from the Activity Bar -> Default-> Return onto the canvas and connect to LogMessageWarnNotFound activity. Rename the activity to **Return400**.
 
 ![](./images/Image_43.gif)
 
-3. Map the Outputs of the Return404 activity. Set the **code** field to 404. Set the responseBody->body to **'Customer not found'**. Click Save.
+3. Map the Outputs of the Return400 activity. Set the **code** field to 400. Set the responseBody->body to **'Customer not found'**. Click Save.
 
 | Field | Expression |
 |---|---|
-| code | 404 |
+| code | 400 |
 | responseBody/body | '' |
 
 ![](./images/Image_44.gif)
@@ -307,28 +307,28 @@ Objective: Log a warning message if the record is not found in the database.
 **CallBackendService to MapperCustomer Branch**
 
 > [!NOTE]  
-> Objective: Conditional branch logic is required from FetchCustomerRow and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
+> Objective: Conditional branch logic is required from CallBackendService and MapperCustomer activities so that when a row is found the flow executes our 200-OK response scenario.
 
 ![](./images/Image_45.png)
 
-1. Click the **Green** condition between FetchCustomerRow and MapperCustomer to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with condition**. Set the conditional expression. Click Save.
+1. Click the **Green** condition between CallBackendService and MapperCustomer to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with condition**. Set the conditional expression. Click Save.
 
 | Expression |
 |---|
-| array.count($activity[FetchCustomerRow].Output.records) > 0 |
+| $activity[InvokeRESTService].statusCode==200 |
 
 ![](./images/Image_46.gif)
 
 **CallBackendService to LogMessageWarnNotFound Branch**
 
 > [!NOTE]  
-> Objective: Conditional branch logic is required from FetchCustomerRow to LogMessageWarnNotFound activities so that when no row is found the flow executes our 404-NotFound response scenario.
+> Objective: Conditional branch logic is required from CallBackendService to LogMessageWarnNotFound activities so that when no row is found the flow executes our 400-NotFound response scenario.
 
-1. Click the **Green** condition between FetchCustomerRow and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with no matching Condition**. Click **Save**.
+1. Click the **Green** condition between CallBackendService and LogMessageWarnNotFound to open the dialog box for Branch Mapping Settings. Change the branch type to **Success with no matching Condition**. Click **Save**.
 
 ![](./images/Image_47.gif)
 
-#### Step 5 - Rename the Flow to getCustomerById
+**Rename the Flow to getCustomerById**
 
 Finally, now we have finished implementing the flow, let's give it a proper name to match the API specification operationID.
 
@@ -344,7 +344,7 @@ Finally, now we have finished implementing the flow, let's give it a proper name
 
 
 
-### Task 3 - Build the Application Locally
+### Task 4 - Build the Application Locally
 
 > [!NOTE]  
 > Objective: Now you have implemented your Customer API let's go ahead and build an executable that we can then use to test it locally through curl.
@@ -383,13 +383,13 @@ curl -i http://localhost:9999/customer/1
 
 ![](./images/Image_61.png)
 
-8. Now try and use an Id value that does not exist in the database (e.g. 9), the Customer API should return a 404 response.
+8. Now try and use an Id value that does not exist in the database (e.g. 9), the Customer API should return a 400 response.
 
 ![](./images/Image_62.png)
 
 9. As we have now tested our application, you can go back to running application and press "ctrl-c" to exit the application, before we move onto creating Unit Tests below.
 
-### Task 4 - Create Unit Tests
+### Task 5 - Create Unit Tests
 
 > [!NOTE]  
 > Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
@@ -586,7 +586,7 @@ https://flogoapps.localhost.dataplanes.pro/customer-api/v1/customer/1
 
 ![](./images/Image_90.gif)
 
-7. In this trace we can see that the FetchCustomerRow activity took a proportionally long time of 3.16ms to execute compared to the overall execution time of 3.26ms for the entire API call.
+7. In this trace we can see that the CallBackendService activity took a proportionally long time of 3.16ms to execute compared to the overall execution time of 3.26ms for the entire API call.
 
 ![](./images/Image_91.png)
 
