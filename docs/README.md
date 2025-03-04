@@ -129,8 +129,6 @@ The following dialog will be shown:
 
 5. An Open dialog box will appear, now navigate to your API specification file saved earlier under the **spec** folder. Select the file **customer.json** and click **Open**
 
-![](./images/Image_21.png)
-
 6. Configure **Path** by selecting the drop-down menu, select the **/customer/{id}** option:
 
 ![](./images/Image_22.png)
@@ -181,7 +179,7 @@ The complete flow will look like this:
 
 | Field | Expression |
 |---|---|
-| message | string.concat('Retrieving customer object for id: ',coerce.toString($flow.pathParams.id)) |
+| message | ``string.concat('Retrieving customer object for id: ',coerce.toString($flow.pathParams.id)`` |
 
 ![](./images/Image_27.gif)
 
@@ -315,7 +313,7 @@ Objective: Log a warning message if the record is not found in the database.
 
 | Expression |
 |---|
-| $activity[InvokeRESTService].statusCode==200 |
+| `$activity[InvokeRESTService].statusCode==200` |
 
 ![](./images/Image_46.gif)
 
@@ -389,7 +387,7 @@ curl -i http://localhost:9999/customer/1
 
 9. As we have now tested our application, you can go back to running application and press "ctrl-c" to exit the application, before we move onto creating Unit Tests below.
 
-### Task 5 - Create Unit Tests
+### Task 5 - OPTIONAL - Create Unit Tests
 
 > [!NOTE]  
 > Objective: Flogo supports the ability to create unit tests that can be used to verify the functionality of your applications flow logic through a test case/suite model. We will write a test case to verify that the getCustomerById flow correctly returns the correct customer for Id=1.
