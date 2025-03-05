@@ -229,6 +229,10 @@ The CallBackendService activity Input should look like this:
 
 ![](./images/Image_37.gif)
 
+> [!TIP]  
+> You can also use pre defined schemas, using the button on top of the box "
+> ![](./images/Image_140.png)
+
 
 3. Map the Input of the MapperCustomer activity from the Output of the CallBackendService activity.
 
