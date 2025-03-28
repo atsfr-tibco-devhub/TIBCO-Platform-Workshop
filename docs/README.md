@@ -179,7 +179,7 @@ The complete flow will look like this:
 
 | Field | Expression |
 |---|---|
-| message | ``string.concat('Retrieving customer object for id: ',coerce.toString($flow.pathParams.id)`` |
+| message | ``string.concat('Retrieving customer object for id: ',coerce.toString($flow.pathParams.id))`` |
 
 ![](./images/Image_27.gif)
 
