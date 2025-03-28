@@ -524,15 +524,13 @@ Once the pop-up disappears your Customer API will be deployed to your TIBCO Plat
 
 ![](./images/Image_81.png)
 
-3. Update Endpoint visibility to Public by selecting the **Flogo Ingress** and setting the Service Path Prefix to /customer-api/v1. Click **Update Endpoint visibility to Public**.
+3. Update Endpoint visibility to Public by selecting the resource starting with **Flogo** and setting the Service Path Prefix to /customer-api/v1. Click **Update Endpoint visibility to Public**.
 
 ![](./images/Image_82.png)
 
-4. Your API will now be exposed publicly at the following endpoint of:
+4. Your API will now be exposed publicly at the endpoint. You can access it by hitting the button "Public URL"
 
-```
-https://flogoapps.localhost.dataplanes.pro/customer-api/
-```
+
 5. Paste the following URL into a browser window to check your API is running correctly. This will invoke the Get Customer By ID operation you have just implemented.
 
 ```
