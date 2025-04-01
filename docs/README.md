@@ -58,10 +58,16 @@ Owner|group:default/tibco-platform-workshop
 
 ![](./images/CreateProject.png)
 
-5. A new Github repository has been created, click on Repository link to view the source code
+5. A new Github repository has been created. You have several links to access the source code on Github, to open it on the Developer Hubn or open the source code in VS Code.
 ![](./images/ProjectCreated.png)
 
-6. Copy the link from github, then download the project on your laptop. Open a Command Prompt, and run the following commands:
+6. You can clone the project directly in VS Code. Click on the link "Clone in VSCode Editor", it will open a VSCode windows. Then select the folder to clone this project, for example /user/git.
+![](./images/selectFolder.png)
+![](./images/openNewWindow.png)
+![](./images/newVSCode.png)
+
+
+7. Alternatively, you can copy the link from github, then download the project on your laptop. Open a Command Prompt, and run the following commands:
 
 ```
 git clone <Github repo url>
@@ -121,9 +127,12 @@ The following dialog will be shown:
 
 ![](./images/Image_19.png)
 
-3. Change the **Configure Using API Specs** from False to True.
+3. Change the port using the application property. Click on the switch icon, and select the property HTTP_PORT already defined in the application.
+![](./images/BindAppProperty.png)
 
-4. Click the **Browse...** button now highlighted
+4. Then change the **Configure Using API Specs** from False to True.
+
+Click the **Browse...** button now highlighted
 
 ![](./images/Image_20.png)
 
